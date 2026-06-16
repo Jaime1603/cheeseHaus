@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Categoria {
+  id_categoria    Int        @id @default(autoincrement())
+  nombre_categoria String    @db.VarChar(50)
+  descripcion     String?   @db.VarChar(100)
+  productos       Producto[]
+}
+
+model Producto {
+  id_producto     Int       @id @default(autoincrement())
+  id_categoria    Int
+  nombre_producto String    @db.VarChar(50)
+  descripcion     String
+  precio          Float
+  ingredientes    String
+  imagen_url      String?   @db.VarChar(250)
+  tamaño          String?   @db.VarChar(50)
+  activo          Boolean   @default(true)
+  categoria       Categoria @relation(fields: [id_categoria], references: [id_categoria])
+  detalles_pedido DetallePedido[]
+}
+
+model Cliente {
+  id_cliente      Int          @id @default(autoincrement())
+  nombre          String       @db.VarChar(50)
+  apellido        String       @db.VarChar(50)
+  telefono_cliente String      @db.VarChar(10)
+  email           String       @db.VarChar(100)
+  cedula          String       @db.VarChar(50)
+  direcciones     Direccion[]
+  pedidos         Pedido[]
+  credenciales    Credencial?
+}
+
+model Credencial {
+  id_usuario      Int       @id @default(autoincrement())
+  id_cliente      Int       @unique
+  email           String    @unique @db.VarChar(100)
+  password_hash   String    @db.VarChar(200)
+  activo          Boolean   @default(true)
+  fecha_registro  DateTime  @default(now())
+  ultimo_acceso   DateTime?
+  cliente         Cliente   @relation(fields: [id_cliente], references: [id_cliente])
+}
+
+model Direccion {
+  id_direccion    Int      @id @default(autoincrement())
+  id_cliente      Int
+  direccion       String   @db.VarChar(100)
+  barrio          String   @db.VarChar(100)
+  ciudad          String   @db.VarChar(100)
+  telefono        String   @db.VarChar(10)
+  fecha_entrega   DateTime?
+  cliente         Cliente  @relation(fields: [id_cliente], references: [id_cliente])
+  pedidos         Pedido[]
+}
+
+model Pedido {
+  id_pedido       Int       @id @default(autoincrement())
+  id_cliente      Int
+  id_direccion    Int
+  fecha_pedido    DateTime  @default(now())
+  subtotal        Float
+  valor_envio     Float
+  total           Float
+  estado          String    @default("Pendiente") @db.VarChar(20)
+  cliente         Cliente   @relation(fields: [id_cliente], references: [id_cliente])
+  direccion       Direccion @relation(fields: [id_direccion], references: [id_direccion])
+  detalles        DetallePedido[]
+  pagos           Pago[]
+}
+
+model DetallePedido {
+  id_detalle      Int      @id @default(autoincrement())
+  id_pedido       Int
+  id_producto     Int
+  cantidad        Int
+  tamaño          String?  @db.VarChar(50)
+  precio_unitario Float
+  pedido          Pedido   @relation(fields: [id_pedido], references: [id_pedido])
+  producto        Producto @relation(fields: [id_producto], references: [id_producto])
+}
+
+model MetodoPago {
+  id_metodo_pago  Int     @id @default(autoincrement())
+  nombre_metodo   String  @db.VarChar(50)
+  pagos           Pago[]
+}
+
+model Pago {
+  id_pago         Int        @id @default(autoincrement())
+  id_metodo_pago  Int
+  id_pedido       Int
+  estado          String     @db.VarChar(30)
+  fecha_pago      DateTime
+  referencia      String?    @db.VarChar(100)
+  metodo_pago     MetodoPago @relation(fields: [id_metodo_pago], references: [id_metodo_pago])
+  pedido          Pedido     @relation(fields: [id_pedido], references: [id_pedido])
+}
