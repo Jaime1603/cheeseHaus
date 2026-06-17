@@ -20,7 +20,7 @@ model Producto {
   descripcion     String
   precio          Float
   ingredientes    String
-  imagen_url      String?   @db.VarChar(250)
+  imagen_url      String   @db.VarChar(250)
   tamaño          String?   @db.VarChar(50)
   activo          Boolean   @default(true)
   categoria       Categoria @relation(fields: [id_categoria], references: [id_categoria])
@@ -100,7 +100,7 @@ model Pago {
   id_pedido       Int
   estado          String     @db.VarChar(30)
   fecha_pago      DateTime
-  referencia      String?    @db.VarChar(100)
+  referencia      String    @db.VarChar(100)
   metodo_pago     MetodoPago @relation(fields: [id_metodo_pago], references: [id_metodo_pago])
   pedido          Pedido     @relation(fields: [id_pedido], references: [id_pedido])
 }

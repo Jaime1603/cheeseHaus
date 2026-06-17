@@ -1,3 +1,4 @@
+// CLIENTE DE PRISMA PARA INTERACCION CON LA BASE DE DATOS
 import { PrismaClient } from '@prisma/client'
 
 const globalForPrisma = globalThis as unknown as {
