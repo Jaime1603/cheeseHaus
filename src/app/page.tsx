@@ -1,11 +1,17 @@
 // Pagina de inicio
 
-function App() {
+import Hero from "@/components/home/hero";
+//import ProductosDestacados from "@/components/home/productosDestacados";
+//import Contacto from "@/components/home/contacto";
+
+function Home() {
   return (
     <div>
-      <h1>Hola mundo</h1>
+      <Hero />
+      {/*<ProductosDestacados />*/}
+      {/*<Contacto />*/}
     </div>
   );
 }
 
-export default App;
+export default Home;
