@@ -6,7 +6,7 @@ export default function Navbar() {
     <header className="Navbar-header">
       <div className="Navbar-topbar">Espacio para anuncios</div>
       <nav className="Navbar-container">
-        <Link href="/" className="navbar-logo">
+        <Link href="/" className="Navbar-logo">
           CheeseHaus
         </Link>
 

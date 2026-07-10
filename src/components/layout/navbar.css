@@ -10,6 +10,7 @@
 }
 
 .Navbar-header {
+  background-color: var(--color-cream);
   border-bottom: 1px solid black;
   position: sticky;
   top: 0;
@@ -23,31 +24,33 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
 }
 
-.navbar-logo {
+.Navbar-logo {
   font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-text);
   text-decoration: none;
   letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-links {
   display: flex;
-  gap: 2rem;
+  gap: 8rem;
   list-style: none;
 }
 
 .navbar-links a {
   color: var(--color-navy);
   text-decoration: none;
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-weight: 500;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   transition: color 0.3s ease;
 }
