@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./navbar.css";
+import { UserRound, Handbag } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -31,12 +32,10 @@ export default function Navbar() {
 
         <div className="navbar-icons">
           <Link className="navbar-icon" href="/carrito">
-            {" "}
-            🛒{" "}
+            <Handbag size={25} strokeWidth={1.5} color="black" />
           </Link>
           <Link className="navbar-icon" href="/login">
-            {" "}
-            👤{" "}
+            <UserRound size={25} strokeWidth={1.5} color="black" />
           </Link>
         </div>
       </nav>

@@ -1,0 +1,150 @@
+.contacto {
+  background-color: var(--color-cream);
+  padding: 3rem 2rem;
+}
+
+.contacto-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.contacto-titulo {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  border-bottom: 1px solid;
+  width: 50%;
+  margin-left: 50%;
+  padding-bottom: 0.2em;
+}
+
+.contacto-subtitulo {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text);
+  margin-bottom: 2rem;
+  margin-left: 50%;
+  padding-top: 0.5em;
+  padding-bottom: 2em;
+}
+
+.contacto-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 89%;
+}
+
+.contacto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.contacto-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 80%;
+}
+
+.contacto-campo label {
+  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.contacto-campo input,
+.contacto-campo textarea {
+  padding: 0.2rem 0.8rem;
+  border: none;
+  border-bottom: 1px solid #c4b9a8;
+  border-radius: 5px;
+  font-size: 1rem;
+  background-color: transparent;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: var(--font-display);
+  resize: none;
+}
+
+.contacto-campo input:focus,
+.contacto-campo textarea:focus {
+  border-bottom-color: black;
+}
+
+.contacto-boton {
+  background-color: var(--color-brown);
+  color: var(--color-cream);
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  width: 80%;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.3rem;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.contacto-boton:hover {
+  background-color: var(--color-brown-light);
+}
+
+.contacto-info-lado {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 9rem;
+}
+
+.contacto-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contacto-info-titulo {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+
+.contacto-info-item span {
+  font-family: var(--font-display);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.contacto-whatsapp img {
+  width: 25px;
+  height: 25px;
+}
+
+.contacto-whatsapp {
+  color: var(--color-brown);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+}
+
+.contacto-whatsapp:hover {
+  opacity: 0.5;
+}

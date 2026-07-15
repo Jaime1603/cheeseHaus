@@ -40,17 +40,14 @@ export default function Footer() {
           Todos los derechos reservados CheeseHaus © 2026
         </span>
         <div className="footer-social">
-          <a href="" target="_blank" rel="noopener noreferrer">
-            {" "}
-            link de whatsapp
+          <a href="https://wa.me/573128076425" target="_blank" rel="noopener noreferrer">
+            <img src="/whatsapp.svg" alt="link de whatsapp" />
           </a>
-          <a href="" target="_blank" rel="noopener noreferrer">
-            {" "}
-            link de instagram
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <img src="/instagram.svg" alt="link de instagram" />
           </a>
-          <a href="" target="_blank" rel="noopener noreferrer">
-            {" "}
-            link de tiktok
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <img src="/tiktok.svg" alt="link de tiktok" />
           </a>
         </div>
       </div>

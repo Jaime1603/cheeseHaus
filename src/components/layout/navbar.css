@@ -61,16 +61,19 @@
 
 .navbar-icons {
   display: flex;
-  gap: 1rem;
+  gap: 2.5rem;
   align-items: center;
+  margin-right: 2rem;
 }
 
 .navbar-icons a {
   text-decoration: none;
   font-size: 1.2rem;
   transition: color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .navbar-icons a:hover {
-  opacity: 0.5;
+  color: var(--color-brown-light);
+  transform: translateY(-4px);
 }
