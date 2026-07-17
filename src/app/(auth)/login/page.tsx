@@ -16,7 +16,7 @@ export default function LoginPage() {
             <input type="password" placeholder="Password" />
           </div>
           <div className="auth-link-texto">
-            <Link href="#">¿Olvidaste tu contraseña?</Link>
+            <Link href="/registro">¿Olvidaste tu contraseña?</Link>
           </div>
           <button className="auth-boton-principal">Iniciar Sesión</button>
           <div className="auth-link-texto">
@@ -27,11 +27,11 @@ export default function LoginPage() {
           </div>
 
           <button className="auth-boton-redes">
-            <img src="/google.svg" alt="" />
+            <img src="/google.svg" alt="Google" />
             <span>Continua con Google</span>
           </button>
           <button className="auth-boton-redes">
-            <img src="/facebook.svg" alt="" />
+            <img src="/facebook.svg" alt="Facebook" />
             <span>Continua con Facebook</span>
           </button>
         </div>
