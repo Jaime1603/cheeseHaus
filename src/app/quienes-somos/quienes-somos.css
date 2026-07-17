@@ -1,0 +1,47 @@
+.quienes-page {
+  background-image: url("/fondo_quienes_somos.png");
+  height: calc(100vh - 120px);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-margin-top: 120px;
+}
+
+.quienes-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quienes-container {
+  max-width: 750px;
+  padding: 2rem;
+  text-align: center;
+  color: #ffffff;
+}
+
+.quienes-titulo {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 400;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.quienes-texto {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 1.2rem;
+  opacity: 0.9;
+}

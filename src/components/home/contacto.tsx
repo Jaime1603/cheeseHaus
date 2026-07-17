@@ -3,7 +3,7 @@ import { PhoneCall } from "lucide-react";
 
 export default function Contacto() {
   return (
-    <section className="contacto">
+    <section className="contacto" id="contacto">
       <div className="contacto-container">
         <div className="contacto-form-lado">
           <h2 className="contacto-titulo">Contactanos</h2>

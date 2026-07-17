@@ -1,6 +1,7 @@
 .contacto {
   background-color: var(--color-cream);
   padding: 3rem 2rem;
+  scroll-margin-top: 100px;
 }
 
 .contacto-container {

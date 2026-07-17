@@ -26,7 +26,7 @@ export default function Navbar() {
 
           <li>
             {" "}
-            <Link href="/contacto">Contacto</Link>
+            <Link href="/#contacto">Contacto</Link>
           </li>
         </ul>
 
