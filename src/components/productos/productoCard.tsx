@@ -15,7 +15,7 @@ export default function ProductoCard({
   imagen,
 }: ProductoCardProps) {
   return (
-    <Link href={`/producto/${id}`} className="producto-card">
+    <Link href={`/productos/${id}`} className="producto-card">
       <div className="producto-imagen-container">
         <img src={imagen} alt={nombre} className="producto-imagen" />
       </div>

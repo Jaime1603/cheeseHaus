@@ -1,0 +1,250 @@
+.detalle-page {
+  background-color: var(--color-cream);
+  min-height: calc(100vh - 98px);
+  scroll-margin-top: 120px;
+}
+
+.detalle-breadcrumb {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: -0.5rem;
+}
+
+.detalle-breadcrumb a {
+  text-decoration: none;
+  color: var(--color-brown);
+}
+
+.detalle-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.detalle-imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.detalle-nombre {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.detalle-descripcion {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.detalle-precio {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+.detalle-separador {
+  height: 1px;
+  background-color: rgb(74, 68, 68);
+  margin-bottom: 1.5rem;
+}
+
+.detalle-tamaño-seccion,
+.detalle-cantidad-seccion {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.detalle-label {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  min-width: 100px;
+}
+
+.detalle-tamaños {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.detalle-tamaño-opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+
+.detalle-tamaño-opcion input[type="radio"] {
+  accent-color: var(--color-brown);
+}
+
+.detalle-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.detalle-cantidad-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 0.3rem;
+  transition: color 0.2s ease;
+}
+
+.detalle-cantidad-btn:hover {
+  color: var(--color-brown-light);
+}
+
+.detalle-cantidad-valor {
+  font-size: 1.2rem;
+  min-width: 20px;
+  text-align: center;
+  font-family: var(--font-display);
+}
+
+.detalle-boton-carrito {
+  width: 80%;
+  margin-top: 1.2rem;
+  margin-left: 3rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  background-color: var(--color-brown);
+  border-radius: 0.5rem;
+  border: none;
+  color: var(--color-cream);
+  padding: 0.8rem;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.detalle-boton-carrito:hover {
+  background-color: var(--color-brown-light);
+}
+
+.detalle-tabs-seccion {
+  background-color: #7e6154;
+  padding: 3rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.detalle-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+  margin-bottom: 3rem;
+}
+
+.detalle-tab {
+  font-size: 1.5rem;
+  font-family: var(--font-display);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(245, 240, 232, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+  padding-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.detalle-tab.activo {
+  color: var(--color-cream);
+  border-bottom: 2px solid var(--color-cream);
+}
+
+.detalle-tab-contenido {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5rem;
+  color: var(--color-cream);
+  font-style: italic;
+  letter-spacing: 0.15rem;
+}
+
+.detalle-relacionados {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.detalle-relacionados-titulo {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 400;
+
+  margin-bottom: 3rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.detalle-carrusel {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detalle-carrusel-ventana {
+  flex: 1;
+  overflow: hidden;
+}
+
+.detalle-carrusel-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.6s ease;
+}
+
+.detalle-carrusel-item {
+  flex: 0 0 calc(100% / 3 - 0.995rem);
+}
+
+.detalle-flecha {
+  font-size: 1.8rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-brown);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+
+  margin-bottom: 1.2rem;
+
+  transition: all 0.2s ease;
+}
+
+.detalle-flecha:hover:not(:disabled) {
+  transform: scale(1.3);
+  color: var(--color-brown-light);
+}
+
+.detalle-flecha:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}

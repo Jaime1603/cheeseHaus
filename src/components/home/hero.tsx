@@ -11,7 +11,7 @@ export default function Hero() {
             <span>Hecha con amor</span>
           </h1>
 
-          <Link href="/" className="hero-button">
+          <Link href="/productos" className="hero-button">
             Descubre Mas...
           </Link>
         </div>
