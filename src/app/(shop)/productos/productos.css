@@ -65,12 +65,13 @@
   max-width: 1500px;
   margin: 0 auto;
   padding: 0 2rem 2.5rem;
+  position: relative;
 }
 
 .productos-toolbar::after {
   content: "";
   position: absolute;
-  bottom: -4rem;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 94.5%;
