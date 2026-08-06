@@ -102,7 +102,7 @@ export default function Carrito() {
     <div className="carrito-page">
       <div className="carrito-banner">
         <div className="carrito-banner-overlay">
-          <h1 className="carrito-titulo">Carrito</h1>
+          <h1 className="carrito-banner-titulo">Carrito</h1>
         </div>
       </div>
 
@@ -146,7 +146,7 @@ export default function Carrito() {
                     className="carrito-cantidad-btn"
                     onClick={() => cambiarCantidad(item.id, -1)}
                   >
-                    −
+                    -
                   </button>
                   <span>{item.cantidad}</span>
                   <button
@@ -203,6 +203,9 @@ export default function Carrito() {
             Verificar
           </Link>
         </div>
+      </div>
+
+      <div className="carrito-separador">
       </div>
 
       {/* Carrusel de productos relacionados */}
