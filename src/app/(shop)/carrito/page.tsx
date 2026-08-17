@@ -219,7 +219,7 @@ export default function Carrito() {
             className={`carrito-flecha ${!puedeRetroceder ? "desactivado" : ""}`}
             onClick={retroceder}
           >
-            ‹
+            ←
           </button>
 
           <div className="carrito-carrusel-ventana">
@@ -246,7 +246,7 @@ export default function Carrito() {
             className={`carrito-flecha ${!puedeAvanzar ? "desactivado" : ""}`}
             onClick={avanzar}
           >
-            ›
+            →
           </button>
         </div>
       </div>

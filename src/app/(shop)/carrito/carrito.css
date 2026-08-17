@@ -51,18 +51,19 @@
 .carrito-tabla-header {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    padding: 0.8rem 1rem;
+    padding: 0.8rem 2rem;
     background-color: #d3bfaa;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
     font-family: var(--font-display);
     letter-spacing: 0.15rem;
+    
 }
 
 .carrito-item {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    padding: 1rem;
+    padding: 1.2rem;
     align-items: center;
     border: 1px solid #ccc;
 }
@@ -70,7 +71,7 @@
 .carrito-item-producto {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .carrito-item-producto img {
@@ -159,6 +160,7 @@
     padding: 1.5rem;
     background-color: #ede8df;
     border-radius: 10px;
+    /*border: 1px solid black;*/
 }
 
 .carrito-resumen-titulo{
