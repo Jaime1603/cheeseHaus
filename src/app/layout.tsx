@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/navbar";
-import Footer from "@/components/layout/footer";
 
 export const metadata: Metadata = {
-  title: "CheeseHaus | Reposteria Artesanal", //titulo que aparece en la pestaña del navegador
-  description: "Reposteria artesanal hecha con amor en Cali, Colombia", // Descripción para motores de búsqueda (SEO)
+  title: "CheeseHaus | Repostería Artesanal",
+  description: "Repostería artesanal hecha con amor en Cali, Colombia",
 };
 
 export default function RootLayout({
@@ -14,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" data-scroll-behavior="smooth">
+    <html lang="es">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -23,17 +21,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.google.com/specimen/Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body>
-        <Navbar />
-        {/* Envolvemos children en main, etiqueta semántica
-            para el contenido principal de la página */}
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

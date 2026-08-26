@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "./footer.css";
+import "./Footer.css";
 
 export default function Footer() {
   return (
@@ -40,7 +40,11 @@ export default function Footer() {
           Todos los derechos reservados CheeseHaus © 2026
         </span>
         <div className="footer-social">
-          <a href="https://wa.me/573128076425" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://wa.me/573128076425"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src="/whatsapp.svg" alt="link de whatsapp" />
           </a>
           <a href="#" target="_blank" rel="noopener noreferrer">
