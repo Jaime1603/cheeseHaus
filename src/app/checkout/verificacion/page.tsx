@@ -154,7 +154,9 @@ export default function VerificacionPage() {
               ← Atras
             </button>
 
-            <button className="boton-pagar">Pagar</button>
+            <Link href="/checkout/pago" className="pagar">
+              Pagar
+            </Link>
           </div>
         </div>
       </div>

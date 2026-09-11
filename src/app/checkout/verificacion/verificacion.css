@@ -284,24 +284,21 @@
   transform: scale(1.02);
 }
 
-.boton-pagar {
-  width: 50%;
-  height: 45px;
+.pagar {
+  text-decoration: none;
+  padding: 0.8rem 3.2rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  transition: all 0.3s ease;
+  border-radius: 5px;
+  font-family: var(--font-display);
   background-color: var(--color-brown);
   color: var(--color-cream);
-  border-radius: 8px;
-  border: none;
-  margin-left: 140px;
-  font-size: 1.2rem;
-  font-family: var(--font-display);
-  letter-spacing: 0.2rem;
-  text-transform: uppercase;
-  font-weight: 500;
-  margin-top: 2rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  margin-left: 180;
 }
 
-.boton-pagar:hover {
+.pagar:hover {
   background-color: var(--color-brown-light);
 }
