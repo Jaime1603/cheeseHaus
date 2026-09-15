@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CheeseHaus
 
-## Getting Started
+<p align="center">
+  <img src="./public/cheesehaus_logo_sin_fondo.png" alt="Logo de CheeseHaus" width="220" />
+</p>
 
-First, run the development server:
+<p align="center">
+  Una tienda en línea de postres para descubrir productos, gestionar un carrito y recorrer el proceso de compra.
+</p>
+
+## Acerca del proyecto
+
+**CheeseHaus** es una aplicación web de comercio electrónico enfocada en postres como cheesecakes, tortas Red Velvet, brookies y brownies. El proyecto está en desarrollo y busca ofrecer una experiencia de compra clara, desde el catálogo de productos hasta la confirmación del pedido.
+
+## Funcionalidades
+
+- Catálogo de productos con opciones de ordenamiento.
+- Vista de detalle de producto.
+- Carrito de compras.
+- Flujo de checkout con verificación, selección de método de pago y confirmación.
+- Pantallas de inicio de sesión y registro.
+- Secciones de inicio, productos, contacto y «Quiénes somos».
+- Estructura preparada para autenticación y persistencia de datos.
+
+> Algunas funciones, como la integración efectiva de pagos y ciertas rutas de API, aún están en construcción.
+
+## Tecnologías
+
+- [Next.js](https://nextjs.org/) 16 con App Router
+- [React](https://react.dev/) 19 y TypeScript
+- [Prisma](https://www.prisma.io/) con Neon PostgreSQL
+- [NextAuth](https://next-auth.js.org/) para autenticación
+- Tailwind CSS y CSS modular por página/componente
+- Lucide React para iconos
+
+## Primeros pasos
+
+### 1. Clona el repositorio
+
+```bash
+git clone https://github.com/Jaime1603/cheeseHaus.git
+cd cheeseHaus
+```
+
+### 2. Instala las dependencias
+
+```bash
+npm ci
+```
+
+### 3. Configura las variables de entorno
+
+Crea un archivo `.env` a partir de `.env.example` y completa los valores necesarios:
+
+```bash
+cp .env.example .env
+```
+
+Las variables incluyen la conexión a la base de datos, configuración de NextAuth, proveedores de autenticación y claves de Wompi.
+
+### 4. Inicia el entorno de desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en el navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estructura principal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+src/
+├── app/          # Rutas, páginas y endpoints de la aplicación
+├── components/   # Componentes reutilizables y de interfaz
+├── hooks/        # Hooks personalizados
+├── lib/          # Configuración de autenticación, Prisma y utilidades
+└── types/        # Tipos compartidos
 
-## Learn More
+prisma/
+└── schema.prisma # Modelo de datos y migraciones
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Estado del proyecto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+El diseño y las pantallas principales del catálogo, carrito y checkout ya están implementados. La integración de pagos, algunos endpoints y componentes reutilizables se encuentran pendientes de desarrollo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scripts disponibles
 
-## Deploy on Vercel
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Inicia el servidor de desarrollo. |
+| `npm run build` | Genera la compilación de producción. |
+| `npm run start` | Ejecuta la compilación de producción. |
+| `npm run lint` | Ejecuta ESLint. |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Autoría
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proyecto desarrollado como parte del aprendizaje y práctica de desarrollo web con Next.js.
