@@ -3,8 +3,8 @@ import { defineConfig } from 'prisma/config'
 import * as dotenv from 'dotenv'
 // Importa la librería que lee archivos .env
 
-dotenv.config({ path: '.env.local' })
-// Le dice a dotenv que lea específicamente tu archivo .env.local
+dotenv.config({ path: '.env' })
+// Le dice a dotenv que lea específicamente tu archivo .env
 // Sin esta línea, process.env.DATABASE_URL estaría vacío
 
 export default defineConfig({

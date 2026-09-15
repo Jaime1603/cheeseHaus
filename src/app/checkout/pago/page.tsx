@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-//import "../verificacion/verificacion.css";
+import "../verificacion/verificacion.css";
 import "./pago.css";
 
 const pedido = {
@@ -35,7 +35,7 @@ export default function PagoPage() {
 
         <div className="checkout-stepper">
           <div className="checkout-step completado">
-            <div className="checkout-step-numero">1</div>
+            <div className="checkout-step-numero">✓</div>
             <span className="checkout-step-label">Carrito</span>
           </div>
 
@@ -55,11 +55,14 @@ export default function PagoPage() {
         </div>
       </div>
 
-      <div className="checkout-container">
-        <h1 className="checkout-titulo">Metodo De Pago</h1>
+      <div className="checkout-separador-titulo"></div>
 
+      <div className="pago-container">
         <div>
-          <h1 className="pago-titulo">Seleccione el metodo de pago</h1>
+          <h1 className="pago-titulo">Metodo De Pago</h1>
+          <h2 className="checkout-seccion-titulo">
+            Seleccione el metodo de pago
+          </h2>
           <div
             className={`pago-opcion ${metodoPago === "tarjeta" ? "activo" : ""}`}
             onClick={() => setMetodoPago("tarjeta")}
@@ -67,8 +70,8 @@ export default function PagoPage() {
             <div className="pago-opcion-header">
               <span>Tarjeta debito o credito</span>
               <div className="pago-logos">
-                <img src="/visa.png" alt="" />
-                <img src="/visa.png" alt="" />
+                <img src="/mastercard.svg" alt="Mastercard" />
+                <img src="/visa.svg" alt="Visa" />
               </div>
               <input
                 type="radio"
@@ -92,7 +95,7 @@ export default function PagoPage() {
                     placeholder="Ingrese el nombre del propietario"
                   />
                 </div>
-                <div className="checkout-fila">
+                <div className="pago-fila">
                   <div className="checkout-campo">
                     <label>Fecha de expiración</label>
                     <input type="date" />
@@ -113,6 +116,9 @@ export default function PagoPage() {
           >
             <div className="pago-opcion-header">
               <span>Pago PSE</span>
+              <div className="pago-logos">
+                <img src="/pse.png" alt="" />
+              </div>
               <input
                 type="radio"
                 name="metodo"
@@ -130,6 +136,9 @@ export default function PagoPage() {
           >
             <div className="pago-opcion-header">
               <span>Pago Contra Entrega</span>
+              <div className="pago-logos">
+                <img src="/contraentrega.png" alt="" />
+              </div>
               <input
                 type="radio"
                 name="metodo"
@@ -138,14 +147,55 @@ export default function PagoPage() {
               />
             </div>
           </div>
+        </div>
 
-          <div className="checkout-botones">
-            <Link href="/checkout/verificacion" className="boton-atras">
+        <div className="checkout-resumen">
+          <div className="checkout-resumen-inner">
+            {pedido.items.map((item) => (
+              <div className="checkout-resumen-item" key={item.id}>
+                <div className="checkout-resumen-imagen">
+                  <img src={item.imagen} alt={item.nombre} />
+                </div>
+                <div className="checkout-resumen-info">
+                  <span className="checkout-resumen-nombre">{item.nombre}</span>
+                  <span className="checkout-resumen-cantidad">
+                    {item.tamaño}
+                  </span>
+                </div>
+                <span className="checkout-resumen-precio">
+                  ${item.precio.toLocaleString("es-CO")}
+                </span>
+              </div>
+            ))}
+
+            <div className="checkout-resumen-fila">
+              <span>Subtotal</span>
+              <span>${pedido.subTotal.toLocaleString("es-CO")}</span>
+            </div>
+
+            <div className="checkout-resumen-fila">
+              <span>Envio</span>
+              <span>${pedido.envio.toLocaleString("es-CO")}</span>
+            </div>
+
+            <div className="checkout-resumen-separador" />
+
+            <div className="checkout-resumen-fila">
+              <span className="checkout-resumen-total">Total</span>
+              <span className="checkout-resumen-total">
+                ${pedido.total.toLocaleString("es-CO")}
+              </span>
+            </div>
+
+            <button
+              className="boton-atras"
+              onClick={() => window.history.back()}
+            >
               ← Atras
-            </Link>
+            </button>
 
-            <Link href="/checkout/confirmacion" className="boton-pagar">
-              Pagar
+            <Link href="/checkout/confirmacion" className="btn-pagar">
+              Confirmar Pago
             </Link>
           </div>
         </div>

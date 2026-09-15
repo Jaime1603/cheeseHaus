@@ -2,11 +2,12 @@
   background-color: var(--color-cream);
   min-height: calc(100vh - 98px);
   padding: 2rem;
+  overflow-x: clip;
 }
 
 .checkout-header {
-  max-width: 1400px;
-  margin: 2rem auto 4rem;
+  max-width: 1300px;
+  margin: 1.5rem auto 3.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -99,7 +100,7 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 6rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 .checkout-contenido {
@@ -126,8 +127,8 @@
   letter-spacing: 0.1rem;
   text-transform: uppercase;
   color: var(--color-navy);
-  margin-bottom: 1.5rem;
-  margin-top: 3rem;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
 }
 
 .checkout-fila {
@@ -181,17 +182,19 @@
 .checkout-resumen {
   background-color: #ede8df;
   border-left: 1px solid black;
-  /* Conectar con el separador horizontal (margin-bottom del separador = 2.5rem) */
+  /* Conectar con el separador horizontal */
   margin-top: -2.5rem;
-  /* Extender hasta el borde derecho (cancela el padding: 2rem del checkout-page) */
-  margin-right: -21.6rem;
-  margin-bottom: -1.8rem;
+  /* Extender hasta el borde derecho */
+  margin-right: -21rem;
+  /* Sticky: se queda fijo mientras el usuario hace scroll */
+  position: sticky;
+  top: 0;
+  /* Extiende el fondo visualmente sin agregar scroll */
+  padding-bottom: 28vh;
+  margin-bottom: -28vh;
 }
 
-/* Contenido sticky dentro del panel gris */
 .checkout-resumen-inner {
-  position: sticky;
-  top: 2rem;
   padding: 4rem 4rem 2rem 6rem;
 }
 
