@@ -1,21 +1,8 @@
-.pago-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 6rem;
-  align-items: start;
-}
-
-.pago-container > div:first-child {
-  margin-left: -6rem;
-}
-
 .pago-opcion {
   border: 1px solid #c4b9a8;
   border-radius: 0.8rem;
   padding: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   cursor: pointer;
   background-color: transparent;
   transition: all 0.5s ease-out;
@@ -53,21 +40,13 @@
   display: flex;
   gap: 1.2rem;
   align-items: center;
-  transform: translateX(-40px);
-}
-img[src*="pse"] {
-  transform: translateX(-30px);
-}
-img[src*="contraentrega"] {
-  transform: translateX(-30px);
 }
 
 .pago-logos img {
-  height: 45px;
+  height: 40px;
   width: auto;
   max-width: 65px;
   object-fit: contain;
-  margin-left: 0;
 }
 
 .pago-opcion-header input[type="radio"] {
@@ -108,7 +87,53 @@ img[src*="contraentrega"] {
   margin-top: 1.2rem;
   padding-top: 1.2rem;
   border-top: 1px solid #c4b9a8;
-  animation: despliegueSuave 0.6s ease-out forwards;
+  animation: despliegueSuave 0.4s ease-out forwards;
+}
+.pago-resumen-acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.8rem;
+}
+
+.boton-atras-pago {
+  margin: 0;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-navy);
+  transition: transform 0.2s ease;
+  padding: 0.5rem 2rem;
+}
+
+.boton-atras-pago:hover {
+  transform: translateX(-4px);
+}
+
+.pagar-pago {
+  margin: 0;
+  text-decoration: none;
+  padding: 0.85rem clamp(1.5rem, 2.2vw, 2.5rem);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  background-color: var(--color-brown);
+  color: var(--color-cream);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.pagar-pago:hover {
+  background-color: var(--color-brown-light);
 }
 
 @keyframes despliegueSuave {
@@ -122,45 +147,14 @@ img[src*="contraentrega"] {
   }
 }
 
-.pago-titulo {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 400;
-  letter-spacing: 0.1rem;
-  color: var(--color-navy);
-  margin-bottom: 0.5rem;
-  margin-top: -1rem;
-  text-transform: uppercase;
-}
-
 .pago-fila {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.checkout-botones {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.btn-pagar {
-  text-decoration: none;
-  padding: 0.8rem 2rem;
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  transition: all 0.3s ease;
-  border-radius: 5px;
-  font-family: var(--font-display);
-  background-color: var(--color-brown);
-  color: var(--color-cream);
-  margin-left: 8rem;
-}
-
-.btn-pagar:hover {
-  background-color: var(--color-brown-light);
+@media (min-width: 1600px) {
+  .pago-opcion {
+    transform: translateX(0px);
+  }
 }

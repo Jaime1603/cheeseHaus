@@ -147,16 +147,17 @@ export default function VerificacionPage() {
               </span>
             </div>
 
-            <button
-              className="boton-atras"
-              onClick={() => window.history.back()}
-            >
-              ← Atras
-            </button>
-
-            <Link href="/checkout/pago" className="pagar">
-              Pagar
-            </Link>
+            <div className="checkout-resumen-acciones">
+              <button
+                className="boton-atras"
+                onClick={() => window.history.back()}
+              >
+                ← Atras
+              </button>
+              <Link href="/checkout/pago" className="pagar">
+                Pagar
+              </Link>
+            </div>
           </div>
         </div>
       </div>

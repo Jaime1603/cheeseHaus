@@ -57,9 +57,9 @@ export default function PagoPage() {
 
       <div className="checkout-separador-titulo"></div>
 
-      <div className="pago-container">
-        <div>
-          <h1 className="pago-titulo">Metodo De Pago</h1>
+      <div className="checkout-container">
+        <div className="checkout-contenido">
+          <h1 className="checkout-titulo">Metodo De Pago</h1>
           <h2 className="checkout-seccion-titulo">
             Seleccione el metodo de pago
           </h2>
@@ -187,16 +187,18 @@ export default function PagoPage() {
               </span>
             </div>
 
-            <button
-              className="boton-atras"
-              onClick={() => window.history.back()}
-            >
-              ← Atras
-            </button>
+            <div className="pago-resumen-acciones">
+              <button
+                className="boton-atras-pago"
+                onClick={() => window.history.back()}
+              >
+                ← Atras
+              </button>
 
-            <Link href="/checkout/confirmacion" className="btn-pagar">
-              Confirmar Pago
-            </Link>
+              <Link href="/checkout/confirmacion" className="pagar-pago">
+                Confirmar Pago
+              </Link>
+            </div>
           </div>
         </div>
       </div>
