@@ -6,13 +6,19 @@ import "../verificacion/verificacion.css";
 
 const pedido = {
   numeroOrden: "14526523",
-  fecha: "18 Dic 2026",
+  fecha: "18 dic 2027",
   metodoPago: "Transferencia bancaria",
   cliente: {
-    nombre: "Maria Paula Hernandez",
-    correo: "hernandez.medina.maria12@gmail.com",
-    cedula: "1109543297",
-    telefono: "3128076425",
+    nombre: "Jaime Gil Londono",
+    correo: "gil.jaime03@hotmail.com",
+    cedula: "1110040007",
+    telefono: "3173142915",
+  },
+  entrega: {
+    direccion: "Calle 66 #1a-50",
+    barrio: "Villa del Sol",
+    telefono: "312 807 6425",
+    fecha_entrega: "18/12/2027",
   },
   items: [
     {
@@ -66,12 +72,72 @@ export default function ConfirmacionPage() {
         <div className="confirmacion-check">✓</div>
         <h1 className="confirmacion-info-titulo">¡Gracias por tu compra!</h1>
         <p className="confirmacion-info-orden">
-          Orden No. 14526523 | 18 Dic 2026
+          Orden N.o {pedido.numeroOrden} • {pedido.fecha}
         </p>
       </div>
 
       <div className="confirmacion-container">
-        <div className="confirmacion-resumen"></div>
+        <div className="confirmacion-info-grid">
+          <div className="confirmacion-tarjeta">
+            <span className="confirmacion-tarjeta-titulo">Tu Informacion</span>
+            <div className="confirmacion-tarjeta-info">
+              <p>{pedido.cliente.nombre}</p>
+              <p>{pedido.cliente.correo}</p>
+              <p>{pedido.cliente.cedula}</p>
+              <p>{pedido.cliente.telefono}</p>
+            </div>
+          </div>
+
+          <div className="confirmacion-tarjeta">
+            <span className="confirmacion-tarjeta-titulo">Entrega</span>
+            <div className="confirmacion-tarjeta-info">
+              <p>{pedido.entrega.direccion}</p>
+              <p>{pedido.entrega.barrio}</p>
+              <p>{pedido.entrega.telefono}</p>
+              <p>{pedido.entrega.fecha_entrega}</p>
+            </div>
+          </div>
+
+          <div className="confirmacion-metodo-pago">
+            <span className="confirmacion-tarjeta-titulo">Metodo de Pago</span>
+            <p>{pedido.metodoPago}</p>
+          </div>
+
+          <div className="confirmacion-productos">
+            {pedido.items.map((item) => (
+              <div key={item.id} className="confirmacion-item">
+                <img
+                  src={item.imagen}
+                  alt={item.nombre}
+                  className="confirmacion-item-img"
+                />
+                <div className="confirmacion-item-info">
+                  <span className="confirmacion-item-nombre">
+                    {item.nombre}
+                  </span>
+                  <span className="confirmacion-item-detalle">
+                    {item.tamaño} x {item.cantidad}
+                  </span>
+                </div>
+                <span className="confirmacion-item-precio">
+                  ${item.precio.toLocaleString("es-CO")}
+                </span>
+              </div>
+            ))}
+
+            <div className="confirmacion-separador" />
+            <div className="confirmacion-fila-resumen">
+              <span>Envio</span>
+              <span>${pedido.envio.toLocaleString("es-CO")}</span>
+            </div>
+            <div className="confirmacion-separador" />
+
+            <div className="confirmacion-fila-total">
+              <span>Total</span>
+              <span>${pedido.total.toLocaleString("es-CO")}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="confirmacion-acciones">
