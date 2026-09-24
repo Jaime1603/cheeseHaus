@@ -42,7 +42,7 @@ export default function PagoPage() {
           <div className="checkout-step-linea"></div>
 
           <div className="checkout-step completado">
-            <div className="checkout-step-numero">2</div>
+            <div className="checkout-step-numero">✓</div>
             <span className="checkout-step-label">Verificación</span>
           </div>
 
