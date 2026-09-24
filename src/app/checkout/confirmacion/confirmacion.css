@@ -1,0 +1,90 @@
+.confirmacion-header {
+  background-color: var(--color-brown);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  padding: 1.5rem clamp(2rem, 4vw, 4rem) 1.5rem clamp(6rem, 10vw, 6rem);
+}
+
+.confirmacion-info-titulo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  color: var(--color-cream);
+}
+
+.confirmacion-info-orden {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  color: var(--color-cream);
+  opacity: 0.8;
+}
+
+.confirmacion-check {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: none;
+  color: var(--color-brown);
+  background-color: #c4b9a8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.confirmacion-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3.5rem clamp(2rem, 3.5vw, 3.5rem);
+}
+
+.boton-atras-confirmacion {
+  margin: 0;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.12rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-navy);
+  transition: transform 0.2s ease;
+  padding: 0.5rem 2rem;
+  text-decoration: none;
+}
+
+.boton-atras-confirmacion:hover {
+  transform: translateX(-4px);
+}
+
+.boton-continuar-comprando {
+  margin: 0;
+  text-decoration: none;
+  padding: 0.85rem clamp(1.5rem, 2.2vw, 2.5rem);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-family: var(--font-display);
+  background-color: var(--color-brown);
+  color: var(--color-cream);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.boton-continuar-comprando:hover {
+  background-color: var(--color-brown-light);
+}

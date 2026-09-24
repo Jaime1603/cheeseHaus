@@ -74,6 +74,7 @@
 
 .checkout-step.activo .checkout-step-numero {
   color: var(--color-brown);
+  background-color: #c4b9a8;
 }
 
 .checkout-step-linea {
@@ -280,6 +281,7 @@
 .boton-atras {
   margin: 0;
   cursor: pointer;
+  text-decoration: none;
   background: transparent;
   border: none;
   font-family: var(--font-display);
