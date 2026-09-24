@@ -80,6 +80,31 @@ prisma/
 └── schema.prisma # Modelo de datos y migraciones
 ```
 
+## Flujo de trabajo Git
+
+El equipo trabaja con una rama de integración y ramas de funcionalidad para mantener `main` estable.
+
+```text
+main                         → código estable y probado; no recibe cambios directos
+└── develop                  → rama de integración
+    ├── feature/auth         → inicio de sesión y registro
+    ├── feature/productos    → catálogo y detalle de producto
+    ├── feature/carrito      → carrito de compras
+    ├── feature/checkout     → verificación, pago y confirmación
+    ├── feature/productos-api → API y conexión a la base de datos de productos
+    ├── feature/carrito-api  → lógica del carrito con Context API
+    ├── feature/pedidos-api  → creación y gestión de pedidos
+    └── feature/pagos-api    → integración con Wompi
+```
+
+### Reglas de integración
+
+1. Cada integrante desarrolla su tarea únicamente en la rama asignada.
+2. Los cambios se integran mediante un Pull Request desde `feature/*` hacia `develop`.
+3. Antes de fusionar, el Pull Request debe revisarse y comprobarse localmente.
+4. Cuando `develop` sea estable y esté probado, sus cambios se integran a `main` mediante un Pull Request.
+5. No se realizan commits ni merges directos a `main`.
+
 ## Estado del proyecto
 
 El diseño y las pantallas principales del catálogo, carrito y checkout ya están implementados. La integración de pagos, algunos endpoints y componentes reutilizables se encuentran pendientes de desarrollo.
