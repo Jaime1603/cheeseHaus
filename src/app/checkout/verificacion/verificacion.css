@@ -3,11 +3,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .checkout-header {
   width: 100%;
-  margin: 2.5rem 0 2.5rem 0;
+  margin: 2rem 0 2rem 0;
   padding: 0 clamp(6rem, 10vw, 6rem);
   display: flex;
   align-items: center;
@@ -105,7 +106,7 @@
 }
 
 .checkout-contenido {
-  padding: 3.5rem clamp(2rem, 4vw, 4rem) 1rem clamp(6rem, 10vw, 6rem);
+  padding: 3rem clamp(2rem, 4vw, 4rem) 1rem clamp(6rem, 10vw, 6rem);
   max-width: 840px;
   width: 100%;
 }
@@ -159,6 +160,7 @@
 
 .checkout-campo input,
 .checkout-campo select {
+  width: 100%;
   padding: 0.5rem 1rem;
   border: none;
   border: 1px solid #c4b9a8;
@@ -320,40 +322,160 @@
 }
 
 /* ==========================================================================
-   1. MEDIA QUERY PARA TABLETS Y MÓVILES (<= 1024px)
-   Enfocado a: iPads, tablets, pantallas táctiles y laptops muy pequeñas.
-   Comportamiento: Convierte el diseño de 2 columnas a 1 sola columna vertical,
-   apilando el resumen debajo del formulario para evitar que todo se comprima.
-   ========================================================================== */
-@media (max-width: 1024px) {
+   1. MEDIA QUERY PARA TABLETS(<=768px)
+ */
+@media (max-width: 768px) {
+  .checkout-header {
+    padding: 0 clamp(1rem, 4vw, 2.5rem);
+  }
+
   .checkout-container {
     grid-template-columns: 1fr;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   .checkout-contenido {
     margin: 0 auto;
     padding: 2rem 1.5rem;
+    max-width: 740px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .checkout-resumen {
     border-left: none;
     border-top: 1px solid black;
+    width: 100%;
+    background-color: #ede8df;
+    transform: none;
   }
 
   .checkout-resumen-inner {
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     padding: 2.5rem 1.5rem;
   }
+
+  .checkout-stepper {
+    gap: 0.25rem;
+  }
+
+  .checkout-step-numero {
+    width: 25px;
+    height: 25px;
+  }
+
+  .checkout-step-linea {
+    width: 35px;
+  }
+
+  .checkout-logo {
+    font-size: 1.3rem;
+    transform: none;
+  }
 }
 
-/* ==========================================================================
-   2. MEDIA QUERY PARA MONITORES DE ESCRITORIO GRANDES (>= 1600px)
-   Enfocado a: Monitores externos de PC, resoluciones Full HD (1920x1080) al 100%,
-   pantallas 2K, 4K y Ultrawide.
-   Comportamiento: Aprovecha el espacio extra en pantallas grandes sin afectar
-   a los portátiles (cuyo ancho efectivo suele rondar entre 1280px y 1536px).
-   ========================================================================== */
+/* Moviles <= 480px*/
+
+@media (max-width: 480px) {
+  .checkout-header {
+    padding: 0 1.5rem;
+    margin: 1.2rem 0;
+  }
+
+  .checkout-logo {
+    font-size: 1.15rem;
+  }
+
+  .checkout-stepper {
+    gap: 0.25rem;
+  }
+
+  .checkout-step-label {
+    display: none;
+  }
+
+  .checkout-container {
+    grid-template-columns: 1fr;
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+  }
+
+  .checkout-contenido {
+    padding: 1.5rem 1.5rem;
+    max-width: 100%;
+  }
+
+  .checkout-fila {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .checkout-campo {
+    padding-right: 0;
+    margin: 0;
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
+
+  .checkout-resumen {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid black;
+    background-color: #ede8df;
+  }
+
+  .checkout-resumen-inner {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 2rem 1.5rem;
+  }
+
+  .checkout-resumen-item {
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .checkout-resumen-item img {
+    width: 75px;
+    height: 75px;
+    flex-shrink: 0;
+  }
+
+  .checkout-resumen-nombre {
+    font-size: 1.05rem;
+  }
+
+  .checkout-resumen-precio {
+    font-size: 1.15rem;
+  }
+
+  .checkout-resumen-separador {
+    width: 100%;
+    margin: 1.5rem 0;
+  }
+
+  .checkout-resumen-fila {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .checkout-resumen-acciones {
+    margin-top: 2rem;
+  }
+
+  .pagar {
+    padding: 0.85rem 2rem;
+  }
+}
+
+/* MEDIA QUERY PARA MONITORES DE ESCRITORIO GRANDES (>= 1600px) */
 @media (min-width: 1600px) {
   .checkout-contenido {
     max-width: 950px;

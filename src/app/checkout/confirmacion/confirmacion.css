@@ -239,6 +239,7 @@
   background-color: var(--color-brown-light);
 }
 
+/* Tablets en vertical */
 @media (max-width: 768px) {
   .confirmacion-info-grid {
     grid-template-columns: 1/1fr;
@@ -271,6 +272,7 @@
   }
 }
 
+/* Moviles */
 @media (max-width: 480px) {
   .confirmacion-info-grid {
     grid-template-columns: 1fr;
