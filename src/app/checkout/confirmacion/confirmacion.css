@@ -280,8 +280,8 @@
   }
 
   .confirmacion-container {
-    margin: 1.5rem auto 2rem auto;
-    padding: 0 1rem;
+    margin: 1.5rem auto 1rem auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
   }
 
   .confirmacion-tarjeta,

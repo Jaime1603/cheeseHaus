@@ -406,7 +406,7 @@
   }
 
   .checkout-contenido {
-    padding: 1.5rem 1.5rem;
+    padding: 3rem clamp(2rem, 2.8vw, 4rem) 2rem clamp(2rem, 6vw, 6rem);
     max-width: 100%;
   }
 
@@ -433,7 +433,7 @@
     width: 100%;
     max-width: 100%;
     margin: 0;
-    padding: 2rem 1.5rem;
+    padding: 2rem clamp(1.2rem, 1.5vw, 4rem);
   }
 
   .checkout-resumen-item {

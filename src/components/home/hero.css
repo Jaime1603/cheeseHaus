@@ -52,3 +52,19 @@
   background-color: var(--color-navy);
   color: #ffff;
 }
+
+/*Moviles*/
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+}
+
+/*TABLETS EN VERTICAL*/
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .hero-title {
+    font-size: 4rem;
+  }
+}

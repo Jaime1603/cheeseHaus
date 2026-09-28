@@ -31,4 +31,32 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8rem;
+  align-items: start;
+}
+
+/* MOVILES */
+
+@media (max-width: 480px) {
+  .destacados-titulo {
+    font-size: 1.05rem;
+  }
+
+  .destacados-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .destacados-grid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    margin: 0 auto;
+  }
+}
+
+/*TABLETS EN VERTICAL*/
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .destacados-grid {
+    gap: 2rem;
+  }
 }

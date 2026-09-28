@@ -9,6 +9,17 @@
   width: 100%;
 }
 
+.navbar-hamburger {
+  display: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
 .Navbar-header {
   background-color: var(--color-cream);
   border-bottom: 1px solid black;
@@ -24,7 +35,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem clamp(1.5rem, 2.8vw, 4rem);
 }
 
 .Navbar-logo {
@@ -76,4 +87,103 @@
 .navbar-icons a:hover {
   color: var(--color-brown-light);
   transform: translateY(-4px);
+}
+
+/* MOVILES */
+
+@media (max-width: 480px) {
+  .Navbar-container {
+    padding: 1rem 1.2rem;
+    position: relative;
+  }
+
+  .Navbar-logo {
+    order: 2;
+    font-size: 1.35rem;
+    margin-right: 3.5rem;
+  }
+  .navbar-icons {
+    order: 3;
+    gap: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: min(80vw, 300px);
+    background-color: var(--color-cream);
+    flex-direction: column;
+    gap: 2rem;
+    padding: 6rem 2rem 2rem 2rem;
+    box-shadow: 6px 0 20px rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .navbar-links.activo {
+    transform: translateX(0);
+  }
+
+  .navbar-hamburger {
+    display: flex;
+    order: 1;
+  }
+
+  .navbar-links a {
+    font-size: 1.2rem;
+    display: block;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
+/*TABLETS EN VERTICAL*/
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .Navbar-container {
+    padding: 1.5rem clamp(1.5rem, 2.8vw, 4rem);
+    display: flex;
+    align-items: center;
+  }
+  .Navbar-logo {
+    flex: 1;
+    font-size: 1.35rem;
+  }
+  .navbar-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 1.5rem;
+    list-style: none;
+  }
+  .navbar-links a {
+    font-size: 1.1rem;
+  }
+  .navbar-icons {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.8rem;
+    margin-right: 0;
+  }
+}
+
+/* MONITORES GRANDES */
+
+@media (min-width: 1600px) {
+  .Navbar-container {
+    max-width: 1600px;
+  }
+
+  .navbar-links {
+    gap: 10rem;
+  }
+
+  .navbar-icons {
+    gap: 4rem;
+  }
 }
