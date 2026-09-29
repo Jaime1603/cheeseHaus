@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductoCard from "@/components/productos/productoCard";
 import "./detalle.css";
 import Link from "next/link";
@@ -46,27 +46,25 @@ const relacionados = [
 
   {
     id: 4,
-    nombre: "Brownie con helado",
+    nombre: "Brownie",
     precio: 20000,
     imagen: "/brookie.png",
   },
 
   {
     id: 5,
-    nombre: "Cheesecake de Maracuya",
+    nombre: "Cheesecake de Milo ",
     precio: 20000,
     imagen: "/cheesecakes.png",
   },
 
   {
     id: 6,
-    nombre: "Brownie con helado",
+    nombre: "Brownie con chips",
     precio: 20000,
     imagen: "/brookie.png",
   },
 ];
-
-const visibles = 3;
 
 export default function DetalleProducto() {
   const [tabActivo, setTabActivo] = useState<
@@ -78,6 +76,26 @@ export default function DetalleProducto() {
   const [cantidad, setCantidad] = useState(1);
 
   const [tamaño, setTamaño] = useState(producto.tamaños[0]);
+
+  const [visibles, setVisibles] = useState(3);
+
+  useEffect(() => {
+    function actualizarVisibles() {
+      if (window.innerWidth <= 480) {
+        setVisibles(2);
+      } else {
+        setVisibles(3);
+      }
+    }
+
+    actualizarVisibles();
+
+    window.addEventListener("resize", actualizarVisibles);
+
+    return () => {
+      window.removeEventListener("resize", actualizarVisibles);
+    };
+  }, []);
 
   const puedeRetroceder = posicion > 0;
   const puedeAvanzar = posicion < relacionados.length - visibles;
@@ -120,7 +138,7 @@ export default function DetalleProducto() {
           <div className="detalle-separador"></div>
 
           <div className="detalle-tamaño-seccion">
-            <span className="detalle-label">Tamaño</span>
+            <span className="detalle-label">Tamaño: </span>
             <div className="detalle-tamaños">
               {producto.tamaños.map((t) => (
                 <label key={t} className="detalle-tamaño-opcion">

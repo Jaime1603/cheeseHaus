@@ -76,7 +76,7 @@
   background-color: transparent;
   outline: none;
   transition: border-color 0.2s ease;
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   resize: none;
 }
 
@@ -202,4 +202,53 @@
 
 .auth-boton-redes:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* MOVILES */
+
+@media (max-width: 480px) {
+  .auth-card,
+  .auth-card-registro {
+    width: 90%;
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-campo input {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .auth-fila {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .auth-titulo {
+    font-size: 1.5rem;
+  }
+
+  .auth-boton-principal {
+    width: 80%;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .auth-boton-principal-registro {
+    width: 80%;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .auth-fila-boton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .auth-boton-redes {
+    width: 90%;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
 }

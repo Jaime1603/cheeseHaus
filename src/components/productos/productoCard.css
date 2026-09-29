@@ -93,4 +93,11 @@
   .producto-precio {
     font-size: 0.9rem;
   }
+
+  .producto-info {
+    min-height: 80px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+  }
 }
