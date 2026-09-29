@@ -27,7 +27,7 @@ export default function PagoPage() {
   >("tarjeta");
 
   return (
-    <div className="checkout-page">
+    <div className="checkout-page pago-page">
       <div className="checkout-header">
         <Link href="/" className="checkout-logo">
           CheeseHaus

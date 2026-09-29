@@ -109,3 +109,36 @@
   font-size: 1rem;
   opacity: 0.6;
 }
+
+/* MOVILES */
+
+@media (max-width: 480px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+  }
+
+  .footer-copyright {
+    order: 2;
+    width: 100%;
+    margin-top: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-bottom span {
+    font-size: 1.1rem;
+  }
+
+  .footer-social {
+    gap: 2rem;
+    margin-top: 0.8rem;
+  }
+}

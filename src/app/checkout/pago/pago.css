@@ -34,6 +34,19 @@
   margin-right: auto;
   letter-spacing: 0.08rem;
   font-weight: 500;
+  text-transform: uppercase;
+}
+
+.checkout-campo label,
+.checkout-campo input::placeholder {
+  text-transform: capitalize;
+  font-size: 1.5rem;
+}
+
+.checkout-campo input,
+.checkout-campo input::placeholder {
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 .pago-logos {
@@ -156,5 +169,54 @@
 @media (min-width: 1600px) {
   .pago-opcion {
     transform: translateX(0px);
+  }
+}
+
+/* Moviles <= 480px*/
+@media (max-width: 480px) {
+  .pago-opcion {
+    max-width: 100%;
+  }
+  .checkout-titulo {
+    font-size: 1.5rem;
+  }
+
+  .checkout-seccion-titulo {
+    font-size: 1.2rem;
+  }
+
+  .pago-opcion-header span {
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  .checkout-campo label,
+  .checkout-campo input::placeholder {
+    font-size: 0.95rem;
+    text-transform: capitalize;
+  }
+
+  .pago-logos {
+    gap: 0.5rem;
+  }
+
+  .pago-logos img[src*="mastercard"] {
+    height: 32px;
+  }
+  .pago-logos img[src*="visa"] {
+    height: 43px;
+  }
+
+  .pago-resumen-acciones {
+    margin-top: 2rem;
+    margin-right: 1rem;
+  }
+
+  .pagar-pago {
+    padding: 0.85rem clamp(0.5rem, 2.2vw, 2.5rem);
+  }
+
+  .pago-page .checkout-resumen-inner {
+    padding-left: 2rem clamp(1.5rem, 1.5vw, 4rem);
   }
 }
