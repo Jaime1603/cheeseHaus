@@ -1,8 +1,14 @@
+.pago-contenido {
+  padding: 3rem clamp(8rem, 4vw, 4rem) 2rem clamp(8rem, 10vw, 6rem);
+  max-width: 100%;
+}
+
 .pago-opcion {
   border: 1px solid #c4b9a8;
   border-radius: 0.8rem;
   padding: 1.2rem;
-  margin-bottom: 1.2rem;
+  margin-top: 1.5rem;
+
   cursor: pointer;
   background-color: transparent;
   transition: all 0.5s ease-out;
@@ -172,10 +178,32 @@
   }
 }
 
+/* TABLETS */
+
+@media (max-width: 768px) {
+  .pago-contenido {
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    max-width: 740px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pago-opcion {
+    margin-bottom: 1.5rem;
+  }
+}
+
 /* Moviles <= 480px*/
 @media (max-width: 480px) {
+  .pago-contenido {
+    padding: 2rem clamp(2rem, 2.8vw, 4rem) 2rem clamp(1.5rem, 6vw, 6rem);
+    max-width: 100%;
+  }
+
   .pago-opcion {
     max-width: 100%;
+    margin-bottom: 1.2rem;
   }
   .checkout-titulo {
     font-size: 1.5rem;

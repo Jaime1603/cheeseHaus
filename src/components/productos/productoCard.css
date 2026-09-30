@@ -64,7 +64,8 @@
   }
 
   .producto-info {
-    min-height: 75px;
+    min-height: 80px;
+    max-height: 80px;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
