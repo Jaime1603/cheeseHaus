@@ -2,7 +2,7 @@
 
 import "./carrito.css";
 import ProductoCard from "@/components/productos/productoCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const itemsIniciales = [
@@ -85,9 +85,30 @@ export default function Carrito() {
     0,
   );
 
+  const [visibles, setVisibles] = useState(3);
+
+  useEffect(() => {
+    function actualizarVisibles() {
+      if (window.innerWidth <= 480) {
+        setVisibles(2);
+      } else {
+        setVisibles(3);
+      }
+    }
+
+    actualizarVisibles();
+
+    window.addEventListener("resize", actualizarVisibles);
+
+    return () => {
+      window.removeEventListener("resize", actualizarVisibles);
+    };
+  }, []);
+
   const total = subTotal + costo_envio;
 
   const puedeRetroceder = posicion > 0;
+
   const puedeAvanzar = posicion < relacionados.length - visibles;
 
   function avanzar() {
@@ -205,8 +226,7 @@ export default function Carrito() {
         </div>
       </div>
 
-      <div className="carrito-separador">
-      </div>
+      <div className="carrito-separador"></div>
 
       {/* Carrusel de productos relacionados */}
       <div className="carrito-relacionados">

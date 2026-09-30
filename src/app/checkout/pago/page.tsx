@@ -58,7 +58,7 @@ export default function PagoPage() {
       <div className="checkout-separador-titulo"></div>
 
       <div className="checkout-container">
-        <div className="checkout-contenido">
+        <div className="pago-contenido">
           <h1 className="checkout-titulo">Metodo De Pago</h1>
           <h2 className="checkout-seccion-titulo">
             Seleccione el metodo de pago

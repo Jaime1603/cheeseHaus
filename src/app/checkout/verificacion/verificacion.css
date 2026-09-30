@@ -433,7 +433,7 @@
     width: 100%;
     max-width: 100%;
     margin: 0;
-    padding: 2rem clamp(1.2rem, 1.5vw, 4rem);
+    padding: 2rem clamp(1.8rem, 1.5vw, 4rem);
   }
 
   .checkout-resumen-item {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import "./navbar.css";
-import { UserRound, Handbag } from "lucide-react";
+import { UserRound, Handbag, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
