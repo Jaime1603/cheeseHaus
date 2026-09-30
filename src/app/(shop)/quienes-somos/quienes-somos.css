@@ -21,7 +21,7 @@
 }
 
 .quienes-container {
-  max-width: 750px;
+  max-width: 850px;
   padding: 2rem;
   text-align: center;
   color: #ffffff;
@@ -33,15 +33,27 @@
   font-weight: 400;
   letter-spacing: 0.3rem;
   text-transform: uppercase;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .quienes-texto {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  line-height: 1.8rem;
+  line-height: 2rem;
   font-weight: 400;
+  letter-spacing: 0.1rem;
   margin-bottom: 1.2rem;
   opacity: 0.9;
+}
+
+@media (max-width: 480px) {
+  .quienes-titulo {
+    font-size: 1.8rem;
+  }
+
+  .quienes-texto {
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    line-height: 1.6rem;
+  }
 }
