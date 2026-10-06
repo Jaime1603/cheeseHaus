@@ -1,0 +1,2 @@
+ALTER TABLE "Credencial"
+ADD COLUMN "rol" VARCHAR(20) NOT NULL DEFAULT 'Cliente';
