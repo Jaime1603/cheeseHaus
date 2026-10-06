@@ -48,6 +48,7 @@ model Credencial {
   activo          Boolean   @default(true)
   fecha_registro  DateTime  @default(now())
   ultimo_acceso   DateTime?
+  rol             String    @default("Cliente") @db.VarChar(20)
   cliente         Cliente   @relation(fields: [id_cliente], references: [id_cliente])
 }
 
