@@ -65,6 +65,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           id: credencial.id_cliente.toString(),
           email: credencial.email,
           name: `${credencial.cliente.nombre} ${credencial.cliente.apellido}`,
+          rol: credencial.rol,
         };
       },
     }),
@@ -79,8 +80,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       if (user) {
         token.id = user.id;
-        // Agregamos el id del cliente al token
-        // para poder identificar al usuario en cualquier parte de la app
+        token.rol = (user as any).rol;
+        // Agregamos el id del cliente y el rol al token
+        // para poder identificar al usuario y su rol en cualquier parte de la app
       }
       return token;
       // Retornamos el token modificado
@@ -89,7 +91,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id as string;
-        // Hacemos disponible el id del cliente en session.user.id
+        session.user.rol = token.rol as string;
+        // Hacemos disponible el id del cliente y su rol en session.user.id y session.user.rol
       }
       return session;
       // Retornamos la sesión modificada
