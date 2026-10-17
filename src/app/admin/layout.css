@@ -46,7 +46,7 @@
   flex: 1;
   /* Ocupa todo el espacio disponible entre
      el header y el footer del sidebar */
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   display: flex;
   flex-direction: column;
 }
