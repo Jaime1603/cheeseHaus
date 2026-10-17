@@ -1,0 +1,307 @@
+/* Estilos compartidos de todas las páginas admin */
+.admin-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.admin-titulo {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 0.3rem;
+  letter-spacing: 0.05em;
+}
+
+.admin-subtitulo {
+  font-size: 1rem;
+  color: var(--color-text-light);
+  margin-bottom: 2rem;
+}
+
+.admin-cargando {
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ── Formulario ── */
+.admin-form-card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.admin-form-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-bottom: 1.2rem;
+}
+
+.admin-form-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.admin-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.admin-campo label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-campo input,
+.admin-campo select,
+.admin-campo textarea {
+  border: 1px solid #e0d8cc;
+  background: #fafafa;
+  padding: 0.7rem 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  outline: none;
+  border-radius: 4px;
+  transition: border-color 0.2s ease;
+}
+
+.admin-campo input:focus,
+.admin-campo select:focus,
+.admin-campo textarea:focus {
+  border-color: var(--color-brown);
+}
+
+.admin-campo textarea {
+  resize: vertical;
+  /* El usuario puede redimensionar verticalmente */
+}
+
+.admin-campo-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.admin-form-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.admin-error {
+  background-color: #fde8e8;
+  border: 1px solid #f5c0c0;
+  color: #c0392b;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+/* ── Tabla ── */
+.admin-tabla-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.admin-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  /* Elimina el espacio entre celdas */
+}
+
+.admin-tabla th {
+  background-color: #f5f5f5;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  border-bottom: 1px solid #e0d8cc;
+}
+
+.admin-tabla td {
+  padding: 0.9rem 1rem;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  border-bottom: 1px solid #f0ebe3;
+  vertical-align: middle;
+}
+
+.admin-tabla tr:last-child td {
+  border-bottom: none;
+  /* Sin borde en la última fila */
+}
+
+.admin-tabla-imagen {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.admin-tabla-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-tabla-vacia {
+  text-align: center;
+  color: var(--color-text-light);
+  padding: 2rem !important;
+  font-size: 0.5rem;
+  font-family: var(--font-body);
+}
+
+/* ── Botones ── */
+.admin-boton-principal {
+  background-color: var(--color-brown);
+  color: #ffffff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+.admin-boton-principal:hover {
+  background-color: var(--color-brown-light);
+}
+
+.admin-boton-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-boton-secundario {
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid #c4b9a8;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+.admin-boton-secundario:hover {
+  background-color: #f0ebe3;
+}
+
+.admin-boton-editar {
+  background-color: #e8f4fd;
+  color: #2980b9;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+.admin-boton-editar:hover {
+  background-color: #d0e8f8;
+}
+
+.admin-boton-eliminar {
+  background-color: #fde8e8;
+  color: #c0392b;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-boton-eliminar:hover {
+  background-color: #f5c0c0;
+}
+
+.admin-toggle {
+  padding: 0.3rem 0.8rem;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-toggle.activo {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.admin-toggle.inactivo {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* ── Estados de pedidos ── */
+.admin-estado {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.estado-pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.estado-pagado {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.estado-enviado {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.estado-entregado {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.estado-cancelado {
+  background-color: #f8d7da;
+  color: #721c24;
+}

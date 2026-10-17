@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 
 import Link from "next/link";
 import "../auth.css";
@@ -38,8 +38,14 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/");
       router.refresh();
+
+      const session = await getSession();
+      if (session?.user?.rol === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
       console.log("Error al iniciar sesión", error);
       setError("Error de conexión");
