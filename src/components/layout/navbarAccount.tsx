@@ -7,8 +7,10 @@ import { ChevronDown, UserRound } from "lucide-react";
 
 export default function NavbarAccount({
   userName,
+  isAdmin,
 }: {
   userName: string | null;
+  isAdmin: boolean;
 }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
 
@@ -41,6 +43,11 @@ export default function NavbarAccount({
           <Link href="/mis-pedidos" onClick={() => setMenuAbierto(false)}>
             Mis pedidos
           </Link>
+          {isAdmin && (
+            <Link href="/admin" onClick={() => setMenuAbierto(false)}>
+              Regresar al panel
+            </Link>
+          )}
           <button
             type="button"
             onClick={() => signOut({ redirectTo: "/" })}

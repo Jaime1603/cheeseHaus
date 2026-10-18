@@ -25,7 +25,10 @@ export default async function Navbar() {
           <Link className="navbar-icon" href="/carrito" aria-label="Carrito">
             <Handbag size={25} strokeWidth={1.5} color="black" />
           </Link>
-          <NavbarAccount userName={userName} />
+          <NavbarAccount
+            userName={userName}
+            isAdmin={session?.user?.rol === "ADMIN"}
+          />
         </div>
       </nav>
     </header>

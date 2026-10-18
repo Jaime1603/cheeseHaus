@@ -3,20 +3,10 @@
 import Hero from "@/components/home/hero";
 import ProductosDestacados from "@/components/home/productosDestacados";
 import Contacto from "@/components/home/contacto";
-import Link from "next/link";
-import { auth } from "@/lib/auth";
-import "./home.css";
 
-async function Home() {
-  const session = await auth();
-
+function Home() {
   return (
-    <div className="home-page">
-      {session?.user?.rol === "ADMIN" && (
-        <div className="home-admin-actions">
-          <Link href="/admin">Regresar al panel</Link>
-        </div>
-      )}
+    <div>
       <Hero />
       <ProductosDestacados />
       <Contacto />
