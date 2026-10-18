@@ -31,7 +31,7 @@ export default function AdminLayout({
         </nav>
 
         <div className="admin-sidebar-footer">
-          <Link href="/" className="admin-nav-link">
+          <Link href="/" className="admin-back-site">
             Volver al sitio
           </Link>
         </div>
