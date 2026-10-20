@@ -1,0 +1,84 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  /* Sidebar fijo de 250px y contenido ocupa el resto */
+  min-height: 100vh;
+  /* Ocupa toda la altura de la pantalla */
+}
+
+/* ── Sidebar ── */
+.admin-sidebar {
+  background-color: var(--color-navy);
+  /* Fondo azul marino oscuro */
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  /* Se queda fijo mientras el contenido hace scroll */
+}
+
+.admin-sidebar-header {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.admin-sidebar-logo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.admin-sidebar-subtitulo {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.admin-nav {
+  flex: 1;
+  /* Ocupa todo el espacio disponible entre
+     el header y el footer del sidebar */
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+.admin-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  /* Al pasar el mouse el link se ilumina */
+}
+
+.admin-sidebar-footer {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Contenido principal ── */
+.admin-contenido {
+  background-color: #f5f5f5;
+  /* Gris muy claro para diferenciar del sidebar */
+  padding: 2rem;
+  overflow-y: auto;
+  /* Scroll solo en el contenido, no en el sidebar */
+}
