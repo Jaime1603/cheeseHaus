@@ -1,63 +1,34 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
+import NavbarAccount from "./navbarAccount";
+import NavbarNavigation from "./navbarNavigation";
 import "./navbar.css";
-import { UserRound, Handbag, Menu, X } from "lucide-react";
+import { Handbag } from "lucide-react";
 
-export default function Navbar() {
-  const [menuAbierto, setMenuAbierto] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuAbierto(!menuAbierto);
-  };
-
-  const cerrarMenu = () => {
-    setMenuAbierto(false);
-  };
+export default async function Navbar() {
+  const session = await auth();
+  const userName = session?.user
+    ? session.user.name?.trim() || session.user.email || "Usuario"
+    : null;
 
   return (
     <header className="Navbar-header">
       <div className="Navbar-topbar">Espacio para anuncios</div>
-      <nav className="Navbar-container">
-        <Link href="/" className="Navbar-logo" onClick={cerrarMenu}>
+      <nav className="Navbar-container" aria-label="Navegación principal">
+        <Link href="/" className="Navbar-logo">
           CheeseHaus
         </Link>
 
-        <button className="navbar-hamburger" onClick={toggleMenu}>
-          {menuAbierto ? (
-            <X size={28} strokeWidth={1.5} color="black" />
-          ) : (
-            <Menu size={28} strokeWidth={1.5} color="black" />
-          )}
-        </button>
-
-        {/*Menu de navegacion */}
-
-        <ul className={`navbar-links ${menuAbierto ? "activo" : ""}`}>
-          <li>
-            {" "}
-            <Link href="/productos">Productos</Link>
-          </li>
-
-          <li>
-            {" "}
-            <Link href="/quienes-somos">¿Quienes somos?</Link>
-          </li>
-
-          <li>
-            {" "}
-            <Link href="/#contacto">Contacto</Link>
-          </li>
-        </ul>
+        <NavbarNavigation />
 
         <div className="navbar-icons">
-          <Link className="navbar-icon" href="/carrito">
+          <Link className="navbar-icon" href="/carrito" aria-label="Carrito">
             <Handbag size={25} strokeWidth={1.5} color="black" />
           </Link>
-          <Link className="navbar-icon" href="/login">
-            <UserRound size={25} strokeWidth={1.5} color="black" />
-          </Link>
+          <NavbarAccount
+            userName={userName}
+            isAdmin={session?.user?.rol === "ADMIN"}
+          />
         </div>
       </nav>
     </header>
