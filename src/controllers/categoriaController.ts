@@ -33,6 +33,32 @@ export async function GET(){
     }
 }
 
+//Peticion GET /api/admin/categorias/[id]
+export async function getById(req: Request, {params}: {params: Promise<{id: string}>}){
+    try {
+        const session = await verificarAdmin()
+        if(!session){
+            return NextResponse.json({error: "No Autorizado"}, {status: 401}) 
+        }
+
+        const id = parseInt((await params).id)
+
+        const resultado = await categoriaService.getById(id)
+        if(!resultado.exito) {
+            return NextResponse.json(
+                {error: resultado.error}, 
+                {status: resultado.codigo}   
+            )   
+        }
+
+        return NextResponse.json(resultado.datos, {status: 200})  
+
+    } catch (error) {
+        console.error("Error al obtener la categoria por ID", error);
+        return NextResponse.json({error: "Error interno del servidor"} , {status: 500})  
+    }
+}
+
 //Peticion POST /api/admin/categorias
 export async function POST(req: Request) {
     
@@ -58,7 +84,7 @@ export async function POST(req: Request) {
 } 
 
 //Peticion PUT /api/admin/categorias/[id]
-export async function PUT (req: Request, {params} : {params: {id: string}}){
+export async function PUT (req: Request, {params} : {params : Promise<{id: string}>}){
 
     try{ 
         const session = await verificarAdmin()
@@ -66,7 +92,7 @@ export async function PUT (req: Request, {params} : {params: {id: string}}){
             return NextResponse.json({error: "No Autorizado"}, {status: 401}) 
         }
 
-        const id = parseInt(params.id)
+        const id = parseInt((await params).id)
         const body = await req.json()
 
         const resultado = await categoriaService.update(id, body)
@@ -85,7 +111,7 @@ export async function PUT (req: Request, {params} : {params: {id: string}}){
 }
 
 //Peticion DELETE /api/admin/categorias/[id]
-export async function DELETE(req: Request, {params} : {params: {id: string}}){
+export async function DELETE(req: Request, {params} : {params: Promise<{id: string}>}){
     
     try{
         const session = await verificarAdmin()
@@ -93,7 +119,7 @@ export async function DELETE(req: Request, {params} : {params: {id: string}}){
             return NextResponse.json({error: "No Autorizado"}, {status: 401}) 
         }
 
-        const id = parseInt(params.id)
+        const id = parseInt((await params).id)
 
         const resultado = await categoriaService.delete(id)
         

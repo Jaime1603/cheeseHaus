@@ -13,6 +13,23 @@ export const categoriaService = {
         return {exito: true , datos: categorias} as const  
     },
 
+    async getById(id: number) {
+
+        if(isNaN(id)){
+            return {exito:false, error: "ID invalido", codigo: 400} as const
+        } 
+ 
+        const categoria = await categoriaRepository.getById(id)
+
+        if(!categoria){
+            return {exito: false, error: "Categoria no encontrada", codigo: 404} as const
+        }
+        
+        return {exito: true, datos: categoria} as const  
+    
+        
+    },
+
     //Creacion de una categoria
     async create(body: {nombre_categoria: string, descripcion?: string }) {
 
