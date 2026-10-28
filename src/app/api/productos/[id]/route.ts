@@ -1,3 +1,3 @@
-import {getById as GET, PUT, DELETE} from "@/controllers/productosController"
+import {getById as GET} from "@/controllers/productosController"
 
-export {GET, PUT, DELETE}
+export {GET}

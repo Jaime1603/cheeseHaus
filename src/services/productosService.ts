@@ -1,4 +1,5 @@
 import { productoRepository } from "@/repositories/productosRepository";
+import type { Prisma } from '@prisma/client'
 
 
 type RespuestaService<T> = 
@@ -7,19 +8,19 @@ type RespuestaService<T> =
 
 export const productoService = {
 
-    async getAllProductos() : Promise<RespuestaService<any>>{ 
+    async getAllProductos(){ 
         const productos = await productoRepository.getAllProductos();
         return {exito: true, datos: productos} as const; 
     },
 
     // activos para el catalogo publico
-    async getActivos(){
+    async getActivos() : Promise<RespuestaService<any>>{
         const productos = await productoRepository.getActivos()
         return {exito: true, datos: productos} as const
     },
 
     // Produtos por categoria
-    async getByCategory(id_categoria: number) {
+    async getByCategory(id_categoria: number){
         if(isNaN(id_categoria)){
             return {exito: false, error: "ID de categoria invalido", codigo: 400} as const
         }
@@ -41,7 +42,7 @@ export const productoService = {
 
         const productos = await productoRepository.getById(id)
         if(!productos){
-            return {exito: false, error: "Producto no encontrado"} as const
+            return {exito: false, error: "Producto no encontrado", codigo: 404} as const
         }
 
         return {exito: true, datos: productos} as const
@@ -81,20 +82,22 @@ export const productoService = {
         }
 
         if(!body.ingredientes || body.ingredientes.trim() === ""){
-            return {exito: false, error: "Los ingredientes es obligatorio", codigo: 400} as const
+            return {exito: false, error: "Los ingredientes son obligatorios", codigo: 400} as const
         }
 
         if (!body.id_categoria || isNaN(body.id_categoria)){
             return {exito: false, error: "El id de la categoria es obligatorio y debe ser un numero mayor a 0", codigo: 400} as const
         } 
 
-        if(body.imagen_url && body.imagen_url.trim() !== ""){
-            try {
-                new URL(body.imagen_url) //valida que sea una url valida
-
-            } catch (error) {
-                return {exito: false, error: "La URL de la imagen no es valida", codigo: 400} as const
-            }
+        
+        if (!body.imagen_url || body.imagen_url.trim() === "") {
+            return { exito: false, error: "La URL de la imagen es obligatoria", codigo: 400 } as const;
+        }
+        
+        try {
+            new URL(body.imagen_url);
+        } catch (error) {
+            return { exito: false, error: "La URL de la imagen no es valida", codigo: 400 } as const;
         }
 
         const existente = await productoRepository.getByName(
@@ -112,8 +115,8 @@ export const productoService = {
             precio: body.precio,
             ingredientes: body.ingredientes.trim(),
             imagen_url: body.imagen_url?.trim(),
-            tamaño: body.tamaño.trim(),
-            activo: body.activo,
+            tamaño: body.tamaño?.trim(),
+            activo: body.activo ?? true,
             id_categoria: body.id_categoria,
         })
         return {exito: true, datos: nuevoProducto} as const;
@@ -176,25 +179,41 @@ export const productoService = {
         }
 
         // ── Construir objeto de actualización ──
-    const datosActualizar: Record<string, unknown> = {}
+    const datosActualizar: Prisma.ProductoUncheckedUpdateInput = {}
     
 
-    if (body.nombre_producto !== undefined)
+    if (body.nombre_producto !== undefined){
       datosActualizar.nombre_producto = body.nombre_producto.trim()
-    if (body.descripcion !== undefined)
+    }
+    if (body.descripcion !== undefined){
       datosActualizar.descripcion = body.descripcion.trim()
-    if (body.precio !== undefined)
+    }
+    if (body.precio !== undefined){
       datosActualizar.precio = body.precio
-    if (body.ingredientes !== undefined)
+    }
+    if (body.ingredientes !== undefined){
       datosActualizar.ingredientes = body.ingredientes.trim()
-    if (body.imagen_url !== undefined)
-      datosActualizar.imagen_url = body.imagen_url.trim() || null
-    if (body.tamaño !== undefined)
+    }
+    if (body.imagen_url !== undefined){
+      datosActualizar.imagen_url = body.imagen_url.trim()
+    }
+    if (body.tamaño !== undefined){
       datosActualizar.tamaño = body.tamaño.trim() || null
-    if (body.id_categoria !== undefined)
+    }
+    if (body.id_categoria !== undefined){
       datosActualizar.id_categoria = body.id_categoria
-    if (body.activo !== undefined)
+    }
+    if (body.activo !== undefined){
       datosActualizar.activo = body.activo
+    }
+
+    if (Object.keys(datosActualizar).length === 0) {
+    return {
+        exito: false,
+        error: "Debes enviar al menos un campo para actualizar",
+        codigo: 400,
+    } as const;
+    }
         
     const productoActulizado = await productoRepository.update(id, datosActualizar)
 

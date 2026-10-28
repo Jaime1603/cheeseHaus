@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client"
 
 export const productoRepository = {
   // Obtener todos los productos
@@ -131,16 +132,7 @@ export const productoRepository = {
   },
 
   //Actualizar producto
-  async update( id : number, datos: Partial<{
-    id_categoria: number,
-    nombre_producto: string,
-    descripcion: string,
-    precio: number,
-    imagen_url: string,
-    ingredientes: string,
-    tamaño: string | null,
-    activo: boolean,
-  }>){
+  async update( id : number, datos: Prisma.ProductoUncheckedUpdateInput){
 
     try{
 

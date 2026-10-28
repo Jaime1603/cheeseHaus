@@ -83,9 +83,9 @@ export default function NuevoProductoPage() {
             Completa los campos para crear un producto
           </p>
         </div>
-        {/*<Link href="/admin/productos" className="admin-boton-secundario">
+        <Link href="/admin/productos" className="admin-boton-secundario">
           Volver
-        </Link>*/}
+        </Link>
       </div>
 
       <div className="admin-form-card">

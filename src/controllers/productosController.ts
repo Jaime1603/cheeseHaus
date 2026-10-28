@@ -1,7 +1,8 @@
 import { productoService } from "@/services/productosService";
 import { auth } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { error } from "console";
+
+
 
 async function verificarAdmin() {
     const session = await auth()
@@ -10,25 +11,36 @@ async function verificarAdmin() {
 }
 
 //GET /api/admin/productos
-export async function GET(req: NextRequest) {
-    try {
-        const session = verificarAdmin()
-        if(!session){
-            return NextResponse.json({error: "No Autorizado"}, {status: 401})
-        }
+export async function GET(request: Request) {
 
-        const resultado = await productoService.getAllProductos()
-        if(!resultado.exito){
-            return NextResponse.json({error: resultado.error}, {status: resultado.codigo})
-        }
-
-        return NextResponse.json(resultado.datos, {status: 200})
-        
-        
-    } catch(error) {
-        console.error("Error al obtener los productos", error);
-        return NextResponse.json({error: "Error interno del servidor"}, {status: 500})
+    const session = await verificarAdmin()
+    if(!session) {
+        return NextResponse.json({error: "No Autorizado"}, {status: 401})
     }
+
+    const {searchParams} = new URL(request.url)
+    const categoriaParam = searchParams.get("categoria")
+
+    // Sin filtro: todos los productos
+    if (!categoriaParam) {
+        const resultado = await productoService.getAllProductos()
+
+        return NextResponse.json(resultado.datos, { status: 200 })
+    }
+
+    // Con filtro: productos de una categoría
+    const resultado = await productoService.getByCategory(
+        parseInt(categoriaParam),
+    );
+
+    if (!resultado.exito) {
+        return NextResponse.json(
+      { error: resultado.error },
+      { status: resultado.codigo },
+    );
+    }
+
+    return NextResponse.json(resultado.datos, { status: 200 });
 }
 
 //POST /api/admin/productos
@@ -49,7 +61,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(resultado.datos, {status: 201})
 
     } catch(error){
-        console.error("Error al crear el producto", error);
+        console.error("Error en POST productos", error);
         return NextResponse.json({error: "Error interno del servidor"}, {status: 500})
     }
 
@@ -82,13 +94,41 @@ export async function GET(req: NextRequest) {
 
  }
 
- //GET POR CATEGORIA /api/admin/productos/
+ //GET POR CATEGORIA /api/admin/productos/categoria/[id_categoria]
+
+ export async function getByCategory(req:Request){
+
+    try {
+    const {searchParams} = new URL(req.url)
+    const id_categoria = searchParams.get("id_categoria")
+
+    const session = await verificarAdmin()
+    if (!session) {
+        return NextResponse.json({error: "No Autorizado"}, {status: 401})
+    }
+
+    if (!id_categoria){
+        return NextResponse.json({error: "Falta id de categoria"}, {status: 400})
+    }
+
+    const resultado = await productoService.getByCategory(parseInt(id_categoria))
+
+    if(!resultado.exito){
+        return NextResponse.json({error: resultado.error}, {status: resultado.codigo})
+    }
+    return NextResponse.json(resultado.datos, {status: 200})
+    }catch (error) {
+        console.error("Error al obtener productos por categoria", error);
+        return NextResponse.json({error: "Error interno del servidor"}, {status: 500})
+    }
+
+    
+ }
 
  //PUT /api/admin/productos/[id]
 
  export async function PUT(req: Request, {params} : {params : Promise<{id: string}>}){
     try{
-
         const session = await verificarAdmin()
         if(!session) {
             return NextResponse.json({error: "No Autorizado"}, {status: 401})
