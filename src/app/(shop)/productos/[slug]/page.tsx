@@ -3,81 +3,97 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import ProductoCard from "@/components/productos/productoCard";
 import "./detalle.css";
 import Link from "next/link";
 
-const producto = {
-  id: 1,
-  nombre: "Torta Red Velvet",
-  descripcion: `Un clásico que conquista corazones. Su color rojo intenso 
-    y su textura suave como terciopelo envuelven un relleno cremoso de 
-    queso que aporta el balance perfecto.`,
-  descripcion2: `Cada rebanada es una mezcla de pasión, dulzura y elegancia, 
-    pensada para celebrar el amor, la amistad y los momentos especiales.`,
-  precio: 40000,
-  imagen: "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=600",
-  ingredientes:
-    "Harina, cacao, azúcar, huevos, suero de leche, vainilla, queso crema y mantequilla.",
-  caracteristicas:
-    "Bizcocho suave y aterciopelado, ligero sabor a cacao y equilibrio perfecto con cremosa cobertura de queso. Textura húmeda y sabor delicadamente dulce.",
-  tamaños: ["6 Porciones", "8 Porciones", "12 Porciones"],
-};
+interface Producto {
+  id_producto: number;
+  nombre_producto: string;
+  descripcion: string;
+  precio: number;
+  ingredientes: string;
+  imagen_url: string;
+  tamaño: string | null;
+  categoria: {
+    nombre_categoria: string;
+  };
+}
 
-const relacionados = [
-  {
-    id: 1,
-    nombre: "Torta Red Velvet",
-    precio: 25000,
-    imagen: "/redvelvet.png",
-  },
-  {
-    id: 2,
-    nombre: "CheeseCake",
-    precio: 20000,
-    imagen: "/cheesecakes.png",
-  },
-  {
-    id: 3,
-    nombre: "Brookie",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
+interface ProductoRelacionado {
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  imagen_url: string;
+}
 
-  {
-    id: 4,
-    nombre: "Brownie",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
-
-  {
-    id: 5,
-    nombre: "Cheesecake de Milo ",
-    precio: 20000,
-    imagen: "/cheesecakes.png",
-  },
-
-  {
-    id: 6,
-    nombre: "Brownie con chips",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
-];
+const visibles = 3;
 
 export default function DetalleProducto() {
+  const params = useParams();
+
+  const id = params.slug as string;
+
+  const [producto, setProducto] = useState<Producto | null>(null);
+  // null mientras carga, después tiene el producto real
+
+  const [relacionados, setRelacionados] = useState<ProductoRelacionado[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState("");
   const [tabActivo, setTabActivo] = useState<
     "ingredientes" | "caracteristicas"
   >("ingredientes");
-
+  const [cantidad, setCantidad] = useState(1);
+  const [tamaño, setTamaño] = useState("");
   const [posicion, setPosicion] = useState(0);
 
-  const [cantidad, setCantidad] = useState(1);
+  const [visibles, setVisibles] = useState(0);
 
-  const [tamaño, setTamaño] = useState(producto.tamaños[0]);
+  useEffect(() => {
+    async function cargarProducto() {
+      try {
+        // Cargamos el producto y todos los productos
+        // en paralelo para los relacionados
+        const [resProducto, resRelacionados] = await Promise.all([
+          fetch(`/api/productos/${id}`),
+          fetch("/api/productos"),
+        ]);
 
-  const [visibles, setVisibles] = useState(3);
+        if (!resProducto.ok) {
+          setError("Producto no encontrado");
+          return;
+        }
+
+        const dataProducto = await resProducto.json();
+        const dataRelacionados = await resRelacionados.json();
+
+        setProducto(dataProducto);
+
+        if (dataProducto.tamaño) {
+          // Si el producto tiene tamaños los separamos
+          // por coma y seleccionamos el primero por defecto
+          setTamaño(dataProducto.tamaño.split(",")[0].trim());
+        }
+
+        setRelacionados(
+          dataRelacionados.filter(
+            (p: ProductoRelacionado) =>
+              p.id_producto !== dataProducto.id_producto,
+            // Excluimos el producto actual de los relacionados
+          ),
+        );
+      } catch (error) {
+        setError("Error al cargar el producto");
+      } finally {
+        setCargando(false);
+      }
+    }
+
+    cargarProducto();
+  }, [id]);
+  // El array [id] significa que este efecto se ejecuta
+  // cada vez que el id de la URL cambie
 
   useEffect(() => {
     function actualizarVisibles() {
@@ -108,6 +124,34 @@ export default function DetalleProducto() {
     if (puedeRetroceder) setPosicion(posicion - 1);
   }
 
+  if (cargando) {
+    return (
+      <div className="detalle-page">
+        <div className="detalle-cargando">
+          <p>Cargando producto...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !producto) {
+    return (
+      <div className="detalle-page">
+        <div className="detalle-error">
+          <p>{error || "Producto no encontrado"}</p>
+          <Link href="/productos">← Volver a productos</Link>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Renderizado del producto ──
+  const tamaños = producto.tamaño
+    ? producto.tamaño.split(",").map((t) => t.trim())
+    : [];
+  // Convertimos el string "6 Porciones, 8 Porciones, 12 Porciones"
+  // en un array ["6 Porciones", "8 Porciones", "12 Porciones"]
+
   return (
     <div className="detalle-page">
       <div className="detalle-breadcrumb">
@@ -115,45 +159,47 @@ export default function DetalleProducto() {
         <span>{" > "}</span>
         <Link href="/productos">Productos</Link>
         <span>{" > "} </span>
-        <span>{producto.nombre}</span>
+        <span>{producto.nombre_producto}</span>
       </div>
 
       <div className="detalle-container">
         {/* Columna izquierda */}
         <div className="detalle-imagen">
           <img
-            src={producto.imagen}
-            alt={producto.nombre}
+            src={producto.imagen_url}
+            alt={producto.nombre_producto}
             className="detalle-imagen"
           />
         </div>
 
         {/* Columna derecha */}
         <div className="detalle-info">
-          <h1 className="detalle-nombre">{producto.nombre}</h1>
+          <h1 className="detalle-nombre">{producto.nombre_producto}</h1>
           <p className="detalle-descripcion">{producto.descripcion}</p>
-          <p className="detalle-descripcion">{producto.descripcion2}</p>
+
           <p className="detalle-precio">$ {producto.precio.toLocaleString()}</p>
 
           <div className="detalle-separador"></div>
 
-          <div className="detalle-tamaño-seccion">
-            <span className="detalle-label">Tamaño: </span>
-            <div className="detalle-tamaños">
-              {producto.tamaños.map((t) => (
-                <label key={t} className="detalle-tamaño-opcion">
-                  <input
-                    type="radio"
-                    name="tamaño"
-                    value={t}
-                    checked={t === tamaño}
-                    onChange={() => setTamaño(t)}
-                  />
-                  {t}
-                </label>
-              ))}
+          {tamaños.length > 0 && (
+            <div className="detalle-tamaño-seccion">
+              <span className="detalle-label">Tamaño:</span>
+              <div className="detalle-tamaños">
+                {tamaños.map((t) => (
+                  <label key={t} className="detalle-tamaño-opcion">
+                    <input
+                      type="radio"
+                      name="tamaño"
+                      value={t}
+                      checked={tamaño === t}
+                      onChange={() => setTamaño(t)}
+                    />
+                    {t}
+                  </label>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="detalle-cantidad-seccion">
             <span className="detalle-label">Cantidad:</span>
@@ -197,7 +243,7 @@ export default function DetalleProducto() {
           {tabActivo === "ingredientes" ? (
             <p>{producto.ingredientes}</p>
           ) : (
-            <p>{producto.caracteristicas}</p>
+            <p>{producto.descripcion}</p>
           )}
         </div>
       </div>
@@ -225,12 +271,18 @@ export default function DetalleProducto() {
               }}
             >
               {relacionados.map((relacionado) => (
-                <div key={relacionado.id} className="detalle-carrusel-item">
+                <div
+                  key={relacionado.id_producto}
+                  className="detalle-carrusel-item"
+                >
                   <ProductoCard
-                    id={relacionado.id}
-                    nombre={relacionado.nombre}
+                    id={relacionado.id_producto}
+                    nombre={relacionado.nombre_producto}
                     precio={relacionado.precio}
-                    imagen={relacionado.imagen}
+                    imagen={
+                      relacionado.imagen_url ||
+                      "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=400"
+                    }
                   />
                 </div>
               ))}
