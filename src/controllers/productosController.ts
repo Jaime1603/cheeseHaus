@@ -67,16 +67,11 @@ export async function GET(request: Request) {
 
  }
 
- //GET POR ID /api/admi/productos/[id]
+ //GET publico por ID /api/productos/[id]
 
  export async function getById(req: Request, {params} : { params : Promise<{id: string}>}){
 
     try{
-        const session = await verificarAdmin()
-        if(!session) {
-            return NextResponse.json({error: "No Autorizado"}, {status: 401})
-        }
-
         const id = parseInt((await params).id)
 
         const resultado = await productoService.getById(id)
@@ -92,6 +87,22 @@ export async function GET(request: Request) {
         return NextResponse.json({error: "Error interno del servidor"}, {status: 500})
     }
 
+ }
+
+ //GET administrativo por ID /api/admin/productos/[id]
+
+ export async function getByIdAdmin(req: Request, context: { params: Promise<{id: string}> }){
+    try {
+        const session = await verificarAdmin()
+        if(!session) {
+            return NextResponse.json({error: "No Autorizado"}, {status: 401})
+        }
+
+        return getById(req, context)
+    } catch (error) {
+        console.error("Error al autorizar la consulta administrativa del producto", error);
+        return NextResponse.json({error: "Error interno del servidor"}, {status: 500})
+    }
  }
 
  //GET POR CATEGORIA /api/admin/productos/categoria/[id_categoria]

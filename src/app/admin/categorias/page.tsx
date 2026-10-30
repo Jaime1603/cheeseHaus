@@ -166,6 +166,7 @@ export default function CategoriasPage() {
                 <td>{categoria.nombre_categoria}</td>
                 <td>{categoria.descripcion}</td>
                 <td>
+                  <div className="admin-acciones">
                   <button
                     className="admin-boton-editar"
                     onClick={() => activarEdicion(categoria)}
@@ -173,11 +174,12 @@ export default function CategoriasPage() {
                     Editar
                   </button>
                   <button
-                    className="admin-tabla-boton"
+                    className="admin-boton-eliminar"
                     onClick={() => handleEliminar(categoria.id_categoria)}
                   >
                     Eliminar
                   </button>
+                  </div>
                 </td>
               </tr>
             ))}

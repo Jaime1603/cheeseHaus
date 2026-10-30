@@ -51,7 +51,7 @@
 
 .navbar-links {
   display: flex;
-  gap: 8rem;
+  gap: clamp(1.5rem, 4vw, 4rem);
   list-style: none;
 }
 
@@ -72,9 +72,8 @@
 
 .navbar-icons {
   display: flex;
-  gap: 2.5rem;
+  gap: clamp(1rem, 2vw, 2.5rem);
   align-items: center;
-  margin-right: 2rem;
 }
 
 .navbar-icons a {
@@ -251,13 +250,5 @@
 @media (min-width: 1600px) {
   .Navbar-container {
     max-width: 1600px;
-  }
-
-  .navbar-links {
-    gap: 10rem;
-  }
-
-  .navbar-icons {
-    gap: 4rem;
   }
 }

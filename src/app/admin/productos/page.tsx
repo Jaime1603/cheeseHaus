@@ -110,18 +110,20 @@ export default function ProductosAdminPage() {
                     </button>
                   </td>
                   <td className="admin-tabla-acciones">
-                    <Link
-                      href={`/admin/productos/${producto.id_producto}`}
-                      className="admin-boton-editar"
-                    >
-                      Editar
-                    </Link>
-                    <button
-                      className="admin-boton-eliminar"
-                      onClick={() => handleEliminar(producto.id_producto)}
-                    >
-                      Eliminar
-                    </button>
+                    <div className="admin-acciones">
+                      <Link
+                        href={`/admin/productos/${producto.id_producto}`}
+                        className="admin-boton-editar"
+                      >
+                        Editar
+                      </Link>
+                      <button
+                        className="admin-boton-eliminar"
+                        onClick={() => handleEliminar(producto.id_producto)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
