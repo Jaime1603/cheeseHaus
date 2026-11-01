@@ -160,4 +160,17 @@ export const pedidosRepository = {
       },
     });
   },
+
+  async deletePedido(id: number) {
+    await prisma.detallePedido.deleteMany({
+      where: { id_pedido: id },
+    });
+    await prisma.pago.deleteMany({
+      where: { id_pedido: id },
+    });
+
+    return await prisma.pedido.delete({
+      where: { id_pedido: id },
+    });
+  },
 };

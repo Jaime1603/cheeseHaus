@@ -1,4 +1,9 @@
 import { pedidosRepository } from "../repositories/pedidosRepository";
+import { productoRepository } from "../repositories/productosRepository";
+
+type RespuestaService<T> =
+  | { exito: true; datos: T }
+  | { exito: false; error: string; codigo: number };
 
 const estados_validos = [
   "Pendiente",
@@ -62,6 +67,16 @@ export const pedidosService = {
       } as const;
     }
 
+    const pedido = await pedidosRepository.getPedidoById(id);
+
+    if (!pedido) {
+      return {
+        exito: false,
+        error: "Pedido no encontrado",
+        codigo: 404,
+      } as const;
+    }
+
     if (!body.estado || body.estado.trim() === "") {
       return {
         exito: false,
@@ -77,16 +92,6 @@ export const pedidosService = {
           "Estado invalido. Los estados validos son: " +
           estados_validos.join(", "),
         codigo: 400,
-      } as const;
-    }
-
-    const pedido = await pedidosRepository.getPedidoById(id);
-
-    if (!pedido) {
-      return {
-        exito: false,
-        error: "Pedido no encontrado",
-        codigo: 404,
       } as const;
     }
 
@@ -177,6 +182,25 @@ export const pedidosService = {
       } as const;
     }
 
+    for (const item of body.items) {
+      if (!Number.isInteger(item.id_producto) || item.id_producto <= 0) {
+        return {
+          exito: false,
+          error: "ID de producto invalido",
+          codigo: 400,
+        } as const;
+      }
+
+      const producto = await productoRepository.getById(item.id_producto);
+      if (!producto) {
+        return {
+          exito: false,
+          error: `El producto con ID ${item.id_producto} no existe`,
+          codigo: 404,
+        } as const;
+      }
+    }
+
     const metodo = await pedidosRepository.getMetodoPago(body.metodoPago);
 
     if (!metodo) {
@@ -226,5 +250,31 @@ export const pedidosService = {
     });
 
     return { exito: true, datos: pedido } as const;
+  },
+
+  async deletePedido(id: number) {
+    if (isNaN(id)) {
+      return {
+        exito: false,
+        error: "ID de pedido invalido",
+        codigo: 400,
+      } as const;
+    }
+
+    const existente = await pedidosRepository.getPedidoById(id);
+
+    if (!existente) {
+      return {
+        exito: false,
+        error: "El pedido no existe",
+        codigo: 404,
+      } as const;
+    }
+
+    await pedidosRepository.deletePedido(id);
+    return {
+      exito: true,
+      datos: { message: "Pedido eliminado correctamente" },
+    } as const;
   },
 };

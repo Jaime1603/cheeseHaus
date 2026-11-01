@@ -48,9 +48,9 @@ export default function PedidosAdminPage() {
       <h1 className="admin-titulo">Pedidos</h1>
       <p className="admin-subtitulo">Historial de pedidos de CheeseHaus</p>
 
-      {/* {cargando ? (
+       {cargando ? (
         <p className="admin-cargando">Cargando Pedidos...</p>
-      ) : (     */}
+      ) : (     
       <div className="admin-tabla-card">
         <table className="admin-tabla">
           <thead>
@@ -93,7 +93,7 @@ export default function PedidosAdminPage() {
           </tbody>
         </table>
       </div>
-      {/* )}*/}
+       )}
     </div>
   );
 }
