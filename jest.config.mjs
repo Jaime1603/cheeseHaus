@@ -10,6 +10,11 @@ const config = {
         "src/services/authService.ts",
     ],
     coverageReporters: ["text", "lcov", "html"],
-    testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/", "<rootDir>/e2e/"],
+    testPathIgnorePatterns: [
+        "<rootDir>/node_modules/",
+        "<rootDir>/.next/",
+        "<rootDir>/E2E/",
+        "<rootDir>/e2e/",
+    ],
 };
 export default createJestConfig(config);
