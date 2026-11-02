@@ -162,8 +162,7 @@
 }
 
 .admin-tabla-acciones {
-  display: flex;
-  gap: 0.5rem;
+  white-space: nowrap;
 }
 
 .admin-tabla-vacia {
@@ -219,6 +218,11 @@
 
 .admin-boton-secundario:hover {
   background-color: #f0ebe3;
+}
+
+.admin-acciones{
+  display: flex;
+  gap: 0.8rem;
 }
 
 .admin-boton-editar {

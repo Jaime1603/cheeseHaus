@@ -1,28 +1,28 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import ProductoCard from "../productos/productoCard";
 import "./productosDestacados.css";
 
-const productosEjemplo = [
-  {
-    id: 1,
-    nombre: "Torta Red Velvet",
-    precio: 25000,
-    imagen: "/redvelvet.png",
-  },
-  {
-    id: 2,
-    nombre: "CheeseCake",
-    precio: 20000,
-    imagen: "/cheesecakes.png",
-  },
-  {
-    id: 3,
-    nombre: "Brookie",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
-];
+interface Producto {
+  id_producto: number;
+  nombre_producto: string;
+  precio: number;
+  imagen_url: string;
+}
 
 export default function ProductosDestacados() {
+  const [productos, setProductos] = useState<Producto[]>([]);
+
+  useEffect(() => {
+    fetch("/api/productos")
+      .then((res) => res.json())
+      .then((data) => setProductos(data.slice(0, 3)))
+      .catch(() => setProductos([]));
+  }, []);
+
+  if (productos.length === 0) return null;
+
   return (
     <section className="destacados">
       <div className="destacados-container">
@@ -37,15 +37,13 @@ export default function ProductosDestacados() {
         </h2>
 
         <div className="destacados-grid">
-          {productosEjemplo.map((producto) => (
+          {productos.map((producto) => (
             <ProductoCard
-              key={producto.id}
-              id={producto.id}
-              nombre={producto.nombre}
+              key={producto.id_producto}
+              id={producto.id_producto}
+              nombre={producto.nombre_producto}
               precio={producto.precio}
-              imagen={producto.imagen}
-              // Le pasamos los datos al componente como props
-              // ProductoCard se encarga de renderizarlos
+              imagen={producto.imagen_url}
             />
           ))}
         </div>

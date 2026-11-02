@@ -4,63 +4,20 @@ import Link from "next/link";
 import "./productos.css";
 import ProductoCard from "@/components/productos/productoCard";
 
-const productos = [
-  {
-    id: 1,
-    nombre: "Torta Red Velvet",
-    precio: 25000,
-    imagen: "/redvelvet.png",
-  },
-  {
-    id: 2,
-    nombre: "CheeseCake",
-    precio: 20000,
-    imagen: "/cheesecakes.png",
-  },
-  {
-    id: 3,
-    nombre: "Brookie",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
+async function getProductos() {
+  const res = await fetch("http:localhost:3000/api/productos", {
+    cache: "no-store",
+  });
 
-  {
-    id: 4,
-    nombre: "Brownie con helado",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
+  if (!res.ok) {
+    return [];
+  }
+  return res.json();
+}
 
-  {
-    id: 5,
-    nombre: "Cheesecake de Maracuya",
-    precio: 20000,
-    imagen: "/cheesecakes.png",
-  },
+export default async function ProductosPage() {
+  const productos = await getProductos();
 
-  {
-    id: 6,
-    nombre: "Brownie con helado",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
-
-  {
-    id: 7,
-    nombre: "Brownie con helado",
-    precio: 20000,
-    imagen: "/redvelvet.png",
-  },
-
-  {
-    id: 8,
-    nombre: "Brownie con helado",
-    precio: 20000,
-    imagen: "/brookie.png",
-  },
-];
-
-export default function ProductosPage() {
   return (
     <div className="productos-page">
       <div className="productos-banner">
@@ -104,17 +61,34 @@ export default function ProductosPage() {
       </div>
 
       <div className="productos-container">
-        <div className="productos-grid">
-          {productos.map((producto) => (
-            <ProductoCard
-              key={producto.id}
-              id={producto.id}
-              nombre={producto.nombre}
-              precio={producto.precio}
-              imagen={producto.imagen}
-            />
-          ))}
-        </div>
+        {productos.length === 0 ? (
+          <div className="productos-vacio">
+            <p> No hay productos disponibles</p>
+          </div>
+        ) : (
+          <div className="productos-grid">
+            {productos.map(
+              (producto: {
+                id_producto: number;
+                nombre_producto: string;
+                precio: number;
+                imagen_url: string | null;
+              }) => (
+                <ProductoCard
+                  key={producto.id_producto}
+                  id={producto.id_producto}
+                  nombre={producto.nombre_producto}
+                  precio={producto.precio}
+                  imagen={
+                    producto.imagen_url ||
+                    "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=400"
+                  }
+                  // Si no tiene imagen usamos una por defecto
+                />
+              ),
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

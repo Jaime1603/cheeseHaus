@@ -248,6 +248,29 @@
   cursor: not-allowed;
 }
 
+.detalle-cargando,
+.detalle-error {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--color-text-light);
+}
+
+.detalle-error a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--color-brown);
+  text-decoration: underline;
+}
+
+.detalle-categoria {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-brown);
+  margin-bottom: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .detalle-container {
     max-width: 720px;

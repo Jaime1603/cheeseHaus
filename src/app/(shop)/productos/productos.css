@@ -107,6 +107,13 @@
   padding-bottom: 2rem;
 }
 
+.productos-vacio {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+}
+
 /* MOVILES */
 
 @media (max-width: 480px) {

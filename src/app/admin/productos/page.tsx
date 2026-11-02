@@ -69,71 +69,75 @@ export default function ProductosAdminPage() {
         </Link>
       </div>
 
-      {/*{cargando ? (
+      {cargando ? (
         <p className="admin-cargando">Cargando productos... </p>
-      ) : ( */}
-      <div className="admin-tabla-card">
-        <table className="admin-tabla">
-          <thead>
-            <tr>
-              <th> Imagen </th>
-              <th> Nombre </th>
-              <th> Categoria </th>
-              <th> Precio </th>
-              <th> Activo </th>
-            </tr>
-          </thead>
-          <tbody>
-            {productos.map((producto) => (
-              <tr key={producto.id_producto}>
-                <td>{producto.id_producto}</td>
-                <td>
-                  <img
-                    src={producto.imagen_url}
-                    alt={producto.nombre_producto}
-                    className="admin-tabla-imagen"
-                  />
-                </td>
-                <td>{producto.nombre_producto}</td>
-                <td>{producto.categoria.nombre_categoria}</td>
-                <td>{producto.precio.toLocaleString("es-CO")}</td>
-                <td>
-                  <button
-                    className={`admin-toggle ${producto.activo ? "activo" : "inactivo"}`}
-                    onClick={() =>
-                      toggleActivo(producto.id_producto, !producto.activo)
-                    }
-                  >
-                    {producto.activo ? "Activo" : "Inactivo"}
-                  </button>
-                </td>
-                <td className="admin-tabla-acciones">
-                  <Link
-                    href={`/admin/productos/${producto.id_producto}`}
-                    className="admin-boton-editar"
-                  >
-                    Editar
-                  </Link>
-                  <button
-                    className="admin-boton-eliminar"
-                    onClick={() => handleEliminar(producto.id_producto)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {productos.length === 0 && (
+      ) : (
+        <div className="admin-tabla-card">
+          <table className="admin-tabla">
+            <thead>
               <tr>
-                <td colSpan={6} className="admin-tabla-vacia">
-                  No hay productos creados.
-                </td>
+                <th> ID </th>
+                <th> Imagen </th>
+                <th> Nombre </th>
+                <th> Categoria </th>
+                <th> Precio </th>
+                <th> Activo </th>
+                <th> Acciones </th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      {/* })*/}
+            </thead>
+            <tbody>
+              {productos.map((producto) => (
+                <tr key={producto.id_producto}>
+                  <td>{producto.id_producto}</td>
+                  <td>
+                    <img
+                      src={producto.imagen_url}
+                      alt={producto.nombre_producto}
+                      className="admin-tabla-imagen"
+                    />
+                  </td>
+                  <td>{producto.nombre_producto}</td>
+                  <td>{producto.categoria.nombre_categoria}</td>
+                  <td>{producto.precio.toLocaleString("es-CO")}</td>
+                  <td>
+                    <button
+                      className={`admin-toggle ${producto.activo ? "activo" : "inactivo"}`}
+                      onClick={() =>
+                        toggleActivo(producto.id_producto, !producto.activo)
+                      }
+                    >
+                      {producto.activo ? "Activo" : "Inactivo"}
+                    </button>
+                  </td>
+                  <td className="admin-tabla-acciones">
+                    <div className="admin-acciones">
+                      <Link
+                        href={`/admin/productos/${producto.id_producto}`}
+                        className="admin-boton-editar"
+                      >
+                        Editar
+                      </Link>
+                      <button
+                        className="admin-boton-eliminar"
+                        onClick={() => handleEliminar(producto.id_producto)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {productos.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="admin-tabla-vacia">
+                    No hay productos creados.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
