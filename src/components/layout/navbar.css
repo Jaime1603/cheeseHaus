@@ -51,7 +51,7 @@
 
 .navbar-links {
   display: flex;
-  gap: clamp(1.5rem, 4vw, 4rem);
+  gap: clamp(5rem, 4vw, 4rem);
   list-style: none;
 }
 

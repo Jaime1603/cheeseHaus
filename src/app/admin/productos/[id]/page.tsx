@@ -95,9 +95,7 @@ export default function EditarProductoPage() {
             Modifica la informacion de este producto
           </p>
         </div>
-        <Link href="/admin/productos" className="admin-boton-secundario">
-          Cancelar
-        </Link>
+        
       </div>
 
       <div className="admin-form-card">
@@ -194,9 +192,9 @@ export default function EditarProductoPage() {
           <button
             className="admin-boton-principal"
             onClick={handleEditar}
-            disabled={cargando}
+            
           >
-            {cargando ? "Guardando..." : "Guardar cambios"}
+            {cargando ? "Guardar Cambios" : "Guardando..."}
           </button>
         </div>
       </div>
