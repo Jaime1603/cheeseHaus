@@ -27,7 +27,7 @@ export default function PedidosAdminPage() {
   }, []);
 
   function colorEstado(estado: string) {
-    switch (estado) {
+    switch (estado.toLowerCase()) {
       case "pendiente":
         return "estado-pendiente";
       case "pagado":

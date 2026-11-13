@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { ChevronDown, UserRound } from "lucide-react";
@@ -13,6 +13,26 @@ export default function NavbarAccount({
   isAdmin: boolean;
 }) {
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const accountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuAbierto) {
+      return;
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        accountRef.current &&
+        !accountRef.current.contains(event.target)
+      ) {
+        setMenuAbierto(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [menuAbierto]);
 
   if (!userName) {
     return (
@@ -23,7 +43,7 @@ export default function NavbarAccount({
   }
 
   return (
-    <div className="navbar-account">
+    <div className="navbar-account" ref={accountRef}>
       <button
         className="navbar-account-trigger"
         type="button"
@@ -40,9 +60,11 @@ export default function NavbarAccount({
           <Link href="/mi-perfil" onClick={() => setMenuAbierto(false)}>
             Mi perfil
           </Link>
-          <Link href="/mis-pedidos" onClick={() => setMenuAbierto(false)}>
-            Mis pedidos
-          </Link>
+          {!isAdmin && (
+            <Link href="/mis-pedidos" onClick={() => setMenuAbierto(false)}>
+              Mis pedidos
+            </Link>
+          )}
           {isAdmin && (
             <Link href="/admin" onClick={() => setMenuAbierto(false)}>
               Regresar al panel
