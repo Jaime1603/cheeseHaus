@@ -7,7 +7,11 @@ const config = {
     moduleNameMapper: { "^@/(.*)$": "<rootDir>/src/$1" }, // entiende el alias @/
     collectCoverageFrom: [                            // qué archivos mide la cobertura
         "src/components/productos/productoCard.tsx",
+        "src/components/layout/navbarAccount.tsx",
         "src/services/authService.ts",
+        "src/services/categoriaService.ts",
+        "src/services/productosService.ts",
+        "src/services/pedidosService.ts",
     ],
     coverageReporters: ["text", "lcov", "html"],
     testPathIgnorePatterns: [
