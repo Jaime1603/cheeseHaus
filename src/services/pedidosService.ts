@@ -19,7 +19,7 @@ export const pedidosService = {
   },
 
   async getPedidoById(id: number) {
-    if (isNaN(id)) {
+    if (Number.isNaN(id)) {
       return {
         exito: false,
         error: "ID de pedido invalido",
@@ -41,7 +41,7 @@ export const pedidosService = {
   },
 
   async getPedidosByClienteId(clienteId: number) {
-    if (isNaN(clienteId)) {
+    if (Number.isNaN(clienteId)) {
       return {
         exito: false,
         error: "ID de cliente invalido",
@@ -59,7 +59,7 @@ export const pedidosService = {
       estado?: string;
     },
   ) {
-    if (isNaN(id)) {
+    if (Number.isNaN(id)) {
       return {
         exito: false,
         error: "ID de pedido invalido",
@@ -130,7 +130,7 @@ export const pedidosService = {
       precio_unitario: number;
     }[];
   }) {
-    if (!body.id_cliente || isNaN(body.id_cliente)) {
+    if (!body.id_cliente || Number.isNaN(Number(body.id_cliente))) {
       return { exito: false, error: "Cliente invalido", codigo: 400 } as const;
     }
 
@@ -253,7 +253,7 @@ export const pedidosService = {
   },
 
   async deletePedido(id: number) {
-    if (isNaN(id)) {
+    if (Number.isNaN(id)) {
       return {
         exito: false,
         error: "ID de pedido invalido",

@@ -122,6 +122,15 @@ describe("create", () => {
         if (!resultado.exito) expect(resultado.codigo).toBe(400);
     });
 
+    test("retorna error 400 si el precio no es un número válido (ej: 'abc')", async () => {
+        const resultado = await productoService.create({ ...bodyValido, precio: "abc" as unknown as number });
+        expect(resultado.exito).toBe(false);
+        if (!resultado.exito) {
+            expect(resultado.codigo).toBe(400);
+            expect(resultado.error).toBe("El precio es obligatorio y debe ser un numero mayor a 0");
+        }
+    });
+
     test("retorna error 400 si los ingredientes están vacíos", async () => {
         const resultado = await productoService.create({ ...bodyValido, ingredientes: "" });
         expect(resultado.exito).toBe(false);
@@ -160,6 +169,22 @@ describe("create", () => {
         const resultado = await productoService.create(bodyValido);
         expect(resultado.exito).toBe(true);
         if (resultado.exito) expect(resultado.datos).toHaveProperty("id_producto", 10);
+    });
+
+    test("crea el producto con activo en false y tamaño/imagen opcionales", async () => {
+        (productoRepository.getByName as jest.Mock).mockResolvedValue(null);
+        const productoSinActivo = {
+            ...bodyValido,
+            activo: undefined as unknown as boolean,
+            tamaño: undefined as unknown as string,
+        };
+        (productoRepository.create as jest.Mock).mockResolvedValue({ id_producto: 11, ...productoSinActivo, activo: true });
+
+        const resultado = await productoService.create(productoSinActivo);
+        expect(resultado.exito).toBe(true);
+        expect(productoRepository.create).toHaveBeenCalledWith(
+            expect.objectContaining({ activo: true })
+        );
     });
 });
 
@@ -254,6 +279,19 @@ describe("update", () => {
         const resultado = await productoService.update(1, { precio: 30000 });
         expect(resultado.exito).toBe(false);
         if (!resultado.exito) expect(resultado.codigo).toBe(500);
+    });
+
+    test("actualiza el tamaño a vacío para que se guarde como null", async () => {
+        (productoRepository.getById as jest.Mock).mockResolvedValue({ ...bodyValido, id_producto: 1 });
+        (productoRepository.getByName as jest.Mock).mockResolvedValue(null);
+        (productoRepository.update as jest.Mock).mockResolvedValue({ ...bodyValido, id_producto: 1, tamaño: null });
+
+        const resultado = await productoService.update(1, { tamaño: "   " });
+        expect(resultado.exito).toBe(true);
+        expect(productoRepository.update).toHaveBeenCalledWith(
+            1,
+            expect.objectContaining({ tamaño: null })
+        );
     });
 
     test("actualiza el producto correctamente", async () => {

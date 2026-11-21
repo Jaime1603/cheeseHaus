@@ -41,7 +41,7 @@ export async function getById(req: Request, {params}: {params: Promise<{id: stri
             return NextResponse.json({error: "No Autorizado"}, {status: 401}) 
         }
 
-        const id = parseInt((await params).id)
+        const id = Number.parseInt((await params).id, 10)
 
         const resultado = await categoriaService.getById(id)
         if(!resultado.exito) {
@@ -92,7 +92,7 @@ export async function PUT (req: Request, {params} : {params : Promise<{id: strin
             return NextResponse.json({error: "No Autorizado"}, {status: 401}) 
         }
 
-        const id = parseInt((await params).id)
+        const id = Number.parseInt((await params).id, 10)
         const body = await req.json()
 
         const resultado = await categoriaService.update(id, body)
@@ -119,7 +119,7 @@ export async function DELETE(req: Request, {params} : {params: Promise<{id: stri
             return NextResponse.json({error: "No Autorizado"}, {status: 401}) 
         }
 
-        const id = parseInt((await params).id)
+        const id = Number.parseInt((await params).id, 10)
 
         const resultado = await categoriaService.delete(id)
         

@@ -18,7 +18,7 @@ export default function CategoriasPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    cargarCategorias();
+    void cargarCategorias();
   }, []);
 
   async function cargarCategorias() {
@@ -42,7 +42,7 @@ export default function CategoriasPage() {
     });
 
     if (res.ok) {
-      cargarCategorias();
+      void cargarCategorias();
       setNombre("");
       setDescripcion("");
     } else {
@@ -59,7 +59,7 @@ export default function CategoriasPage() {
       method: "DELETE",
     });
 
-    if (res.ok) cargarCategorias();
+    if (res.ok) void cargarCategorias();
   }
 
   async function handleEditar(id: number) {
@@ -76,7 +76,7 @@ export default function CategoriasPage() {
     });
 
     if (res.ok) {
-      cargarCategorias();
+      void cargarCategorias();
       setNombre("");
       setDescripcion("");
       setEditandoId(null);
@@ -102,8 +102,9 @@ export default function CategoriasPage() {
         {error && <p className="admin-error">{error}</p>}
         <div className="admin-form-fila">
           <div className="admin-campo">
-            <label> Nombre </label>
+            <label htmlFor="nombre_categoria"> Nombre </label>
             <input
+              id="nombre_categoria"
               type="text"
               placeholder="ej: Tortas, cheesecake"
               value={nombre}
@@ -111,8 +112,9 @@ export default function CategoriasPage() {
             />
           </div>
           <div className="admin-campo">
-            <label> Descripcion (Opcional)</label>
+            <label htmlFor="descripcion_categoria"> Descripcion (Opcional)</label>
             <input
+              id="descripcion_categoria"
               type="text"
               placeholder="Descripcion breve"
               value={descripcion}

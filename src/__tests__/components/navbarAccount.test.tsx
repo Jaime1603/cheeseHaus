@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import NavbarAccount from "@/components/layout/navbarAccount";
+import { signOut } from "next-auth/react";
 
 jest.mock("next-auth/react", () => ({ signOut: jest.fn() }));
 
@@ -19,6 +20,18 @@ test("cierra el menú al hacer clic fuera de él", () => {
   expect(screen.queryByRole("link", { name: "Mi perfil" })).not.toBeInTheDocument();
 });
 
+test("no cierra el menú si se hace clic dentro del componente", () => {
+  render(<NavbarAccount userName="Ana" isAdmin={false} />);
+
+  const trigger = screen.getByRole("button", { name: /hola, ana/i });
+  fireEvent.click(trigger);
+  expect(screen.getByRole("link", { name: "Mi perfil" })).toBeInTheDocument();
+
+  // Pointerdown dentro del propio botón o menú
+  fireEvent.pointerDown(trigger);
+  expect(screen.getByRole("link", { name: "Mi perfil" })).toBeInTheDocument();
+});
+
 test("no muestra Mis pedidos a los administradores", () => {
   render(<NavbarAccount userName="Admin" isAdmin />);
 
@@ -27,15 +40,16 @@ test("no muestra Mis pedidos a los administradores", () => {
   expect(screen.queryByRole("link", { name: "Mis pedidos" })).not.toBeInTheDocument();
 });
 
-test("muestra Mis pedidos a los usuarios que no son administradores", () => {
+test("muestra Mis pedidos a los usuarios que no son administradores y lo cierra al hacer clic", () => {
   render(<NavbarAccount userName="Ana" isAdmin={false} />);
 
   fireEvent.click(screen.getByRole("button", { name: /hola, ana/i }));
 
-  expect(screen.getByRole("link", { name: "Mis pedidos" })).toHaveAttribute(
-    "href",
-    "/mis-pedidos",
-  );
+  const linkPedidos = screen.getByRole("link", { name: "Mis pedidos" });
+  expect(linkPedidos).toHaveAttribute("href", "/mis-pedidos");
+
+  fireEvent.click(linkPedidos);
+  expect(screen.queryByRole("link", { name: "Mis pedidos" })).not.toBeInTheDocument();
 });
 
 test("muestra el link Mi perfil al abrir el menú", () => {
@@ -71,7 +85,6 @@ test("muestra el link Regresar al panel al admin y lo cierra al hacer clic", () 
 });
 
 test("llama a signOut al hacer clic en Cerrar sesión", () => {
-  const { signOut } = require("next-auth/react");
   render(<NavbarAccount userName="Ana" isAdmin={false} />);
 
   fireEvent.click(screen.getByRole("button", { name: /hola, ana/i }));

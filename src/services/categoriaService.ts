@@ -8,14 +8,14 @@ type respuestaService<T> =
 export const categoriaService = {
 
 
-    async getAllCategories(): Promise<respuestaService<any>> {
+    async getAllCategories(): Promise<respuestaService<unknown>> {
         const categorias = await categoriaRepository.getAllCategories()
         return {exito: true , datos: categorias} as const  
     },
 
     async getById(id: number) {
 
-        if(isNaN(id)){
+        if(Number.isNaN(id)){
             return {exito:false, error: "ID invalido", codigo: 400} as const
         } 
  
@@ -64,7 +64,7 @@ export const categoriaService = {
     // Actualizacion de una categoria
     async update(id:number,body: {nombre_categoria: string, descripcion?: string }){
         
-        if(isNaN(id)) {
+        if(Number.isNaN(id)) {
             return {exito: false, error: "El ID es invalido", codigo: 400}   as const
         }
 
@@ -108,7 +108,7 @@ export const categoriaService = {
     //Eliminacion de una categoria
     async delete(id:number) {
 
-        if(isNaN(id)){
+        if(Number.isNaN(id)){
             return {exito:false, error:"ID invalido", codigo: 400}  as const  
         }
 

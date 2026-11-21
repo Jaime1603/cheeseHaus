@@ -14,23 +14,23 @@ export default function Contacto() {
           <div className="contacto-form">
             <div className="contacto-fila">
               <div className="contacto-campo">
-                <label>Nombres</label>
-                <input type="text" placeholder="Nombres" />
+                <label htmlFor="contacto-nombres">Nombres</label>
+                <input id="contacto-nombres" type="text" placeholder="Nombres" />
               </div>
               <div className="contacto-campo">
-                <label>Apellidos</label>
-                <input type="text" placeholder="Apellidos" />
+                <label htmlFor="contacto-apellidos">Apellidos</label>
+                <input id="contacto-apellidos" type="text" placeholder="Apellidos" />
               </div>
             </div>
 
             <div className="contacto-campo">
-              <label>Email</label>
-              <input type="email" placeholder="Ej: tunombre@gmail.com" />
+              <label htmlFor="contacto-email">Email</label>
+              <input id="contacto-email" type="email" placeholder="Ej: tunombre@gmail.com" />
             </div>
 
             <div className="contacto-campo">
-              <label>Mensaje</label>
-              <textarea placeholder="¿En qué podemos ayudarte?" rows={5} />
+              <label htmlFor="contacto-mensaje">Mensaje</label>
+              <textarea id="contacto-mensaje" placeholder="¿En qué podemos ayudarte?" rows={5} />
             </div>
             <button className="contacto-boton">Enviar</button>
           </div>

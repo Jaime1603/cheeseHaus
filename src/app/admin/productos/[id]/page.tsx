@@ -32,17 +32,19 @@ export default function EditarProductoPage() {
     Promise.all([
       fetch("/api/admin/categorias").then((res) => res.json()),
       fetch(`/api/admin/productos/${id}`).then((res) => res.json()),
-    ]).then(([categoriasData, productoData]) => {
-      setCategorias(categoriasData);
-      setNombre(productoData.nombre_producto);
-      setDescripcion(productoData.descripcion);
-      setPrecio(productoData.precio.toString());
-      setIngredientes(productoData.ingredientes);
-      setImagenUrl(productoData.imagen_url);
-      setTamaño(productoData.tamaño);
-      setCategoriaId(productoData.id_categoria.toString());
-      setActivo(productoData.activo);
-    });
+    ])
+      .then(([categoriasData, productoData]) => {
+        setCategorias(categoriasData);
+        setNombre(productoData.nombre_producto);
+        setDescripcion(productoData.descripcion);
+        setPrecio(productoData.precio.toString());
+        setIngredientes(productoData.ingredientes);
+        setImagenUrl(productoData.imagen_url);
+        setTamaño(productoData.tamaño);
+        setCategoriaId(productoData.id_categoria.toString());
+        setActivo(productoData.activo);
+      })
+      .catch((error) => console.error("Error al cargar datos del producto", error));
   }, [id]);
 
   async function handleEditar() {
@@ -68,11 +70,11 @@ export default function EditarProductoPage() {
       body: JSON.stringify({
         nombre_producto: nombre,
         descripcion,
-        precio: parseFloat(precio),
+        precio: Number.parseFloat(precio),
         ingredientes,
         imagen_url: imagenUrl || null,
         tamaño: tamaño || null,
-        id_categoria: parseInt(categoriaId),
+        id_categoria: Number.parseInt(categoriaId, 10),
         activo,
       }),
     });
@@ -102,8 +104,9 @@ export default function EditarProductoPage() {
         {error && <p className="admin-error"> {error}</p>}
         <div className="admin-form-fila">
           <div className="admin-campo">
-            <label>Nombre del producto</label>
+            <label htmlFor="edit-prod-nombre">Nombre del producto</label>
             <input
+              id="edit-prod-nombre"
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
@@ -111,8 +114,9 @@ export default function EditarProductoPage() {
           </div>
 
           <div className="admin-campo">
-            <label> Categoria </label>
+            <label htmlFor="edit-prod-categoria"> Categoria </label>
             <select
+              id="edit-prod-categoria"
               value={categoriaId}
               onChange={(e) => setCategoriaId(e.target.value)}
             >
@@ -131,16 +135,18 @@ export default function EditarProductoPage() {
 
         <div className="admin-form-fila">
           <div className="admin-campo">
-            <label>Precio *</label>
+            <label htmlFor="edit-prod-precio">Precio *</label>
             <input
+              id="edit-prod-precio"
               type="number"
               value={precio}
               onChange={(e) => setPrecio(e.target.value)}
             />
           </div>
           <div className="admin-campo">
-            <label>Tamaño (opcional)</label>
+            <label htmlFor="edit-prod-tamano">Tamaño (opcional)</label>
             <input
+              id="edit-prod-tamano"
               type="text"
               value={tamaño}
               onChange={(e) => setTamaño(e.target.value)}
@@ -149,8 +155,9 @@ export default function EditarProductoPage() {
         </div>
 
         <div className="admin-campo">
-          <label>Descripción *</label>
+          <label htmlFor="edit-prod-descripcion">Descripción *</label>
           <textarea
+            id="edit-prod-descripcion"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
             rows={3}
@@ -158,8 +165,9 @@ export default function EditarProductoPage() {
         </div>
 
         <div className="admin-campo">
-          <label>Ingredientes *</label>
+          <label htmlFor="edit-prod-ingredientes">Ingredientes *</label>
           <textarea
+            id="edit-prod-ingredientes"
             value={ingredientes}
             onChange={(e) => setIngredientes(e.target.value)}
             rows={3}
@@ -167,8 +175,9 @@ export default function EditarProductoPage() {
         </div>
 
         <div className="admin-campo">
-          <label>URL de imagen (opcional)</label>
+          <label htmlFor="edit-prod-imagen">URL de imagen (opcional)</label>
           <input
+            id="edit-prod-imagen"
             type="text"
             value={imagenUrl}
             onChange={(e) => setImagenUrl(e.target.value)}

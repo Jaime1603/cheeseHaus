@@ -90,7 +90,7 @@ export default function DetalleProducto() {
       }
     }
 
-    cargarProducto();
+    void cargarProducto();
   }, [id]);
   // El array [id] significa que este efecto se ejecuta
   // cada vez que el id de la URL cambie

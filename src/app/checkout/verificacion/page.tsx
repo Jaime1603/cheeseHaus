@@ -59,52 +59,52 @@ export default function VerificacionPage() {
 
           <div className="checkout-fila">
             <div className="checkout-campo">
-              <label>Nombre</label>
-              <input type="text" placeholder="Ingresa tu nombre" />
+              <label htmlFor="checkout-nombre">Nombre</label>
+              <input id="checkout-nombre" type="text" placeholder="Ingresa tu nombre" />
             </div>
             <div className="checkout-campo">
-              <label>Apellido</label>
-              <input type="text" placeholder="Ingresa tu apellido" />
+              <label htmlFor="checkout-apellido">Apellido</label>
+              <input id="checkout-apellido" type="text" placeholder="Ingresa tu apellido" />
             </div>
           </div>
 
           <div className="checkout-fila">
             <div className="checkout-campo">
-              <label>Telefono</label>
-              <input type="text" placeholder="Ingresa tu telefono" />
+              <label htmlFor="checkout-telefono">Telefono</label>
+              <input id="checkout-telefono" type="text" placeholder="Ingresa tu telefono" />
             </div>
             <div className="checkout-campo">
-              <label>Cedula</label>
-              <input type="text" placeholder="Ingresa tu cedula" />
+              <label htmlFor="checkout-cedula">Cedula</label>
+              <input id="checkout-cedula" type="text" placeholder="Ingresa tu cedula" />
             </div>
           </div>
 
           <div className="checkout-campo">
-            <label>Correo</label>
-            <input type="email" placeholder="Ingresa tu correo electronico" />
+            <label htmlFor="checkout-correo">Correo</label>
+            <input id="checkout-correo" type="email" placeholder="Ingresa tu correo electronico" />
           </div>
 
           <p className="checkout-seccion-titulo">Dirección de Entrega</p>
 
           <div className="checkout-campo">
-            <label>Dirección</label>
-            <input type="text" placeholder="Ingresa tu dirección" />
+            <label htmlFor="checkout-direccion">Dirección</label>
+            <input id="checkout-direccion" type="text" placeholder="Ingresa tu dirección" />
           </div>
 
           <div className="checkout-campo">
-            <label>Barrio y/o lugar de entrega</label>
-            <input type="text" placeholder="Ej: Barrio, casa, edificio, etc." />
+            <label htmlFor="checkout-barrio">Barrio y/o lugar de entrega</label>
+            <input id="checkout-barrio" type="text" placeholder="Ej: Barrio, casa, edificio, etc." />
           </div>
 
           <div className="checkout-fila">
             <div className="checkout-campo">
-              <label>Telefono para entrega</label>
-              <input type="text" placeholder="Ingresa el telefono" />
+              <label htmlFor="checkout-telefono-entrega">Telefono para entrega</label>
+              <input id="checkout-telefono-entrega" type="text" placeholder="Ingresa el telefono" />
             </div>
 
             <div className="checkout-campo">
-              <label>Fecha de entrega</label>
-              <input type="date" />
+              <label htmlFor="checkout-fecha-entrega">Fecha de entrega</label>
+              <input id="checkout-fecha-entrega" type="date" />
             </div>
           </div>
         </div>

@@ -64,8 +64,13 @@ export default function PagoPage() {
             Seleccione el metodo de pago
           </h2>
           <div
+            role="button"
+            tabIndex={0}
             className={`pago-opcion ${metodoPago === "tarjeta" ? "activo" : ""}`}
             onClick={() => setMetodoPago("tarjeta")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setMetodoPago("tarjeta");
+            }}
           >
             <div className="pago-opcion-header">
               <span>Tarjeta debito o credito</span>
@@ -84,26 +89,27 @@ export default function PagoPage() {
             {metodoPago === "tarjeta" && (
               <div className="pago-tarjeta-campos">
                 <div className="checkout-campo">
-                  <label>Numero de la tarjeta</label>
-                  <input type="text" placeholder="0000 0000 0000 0000" />
+                  <label htmlFor="tarjeta-numero">Numero de la tarjeta</label>
+                  <input id="tarjeta-numero" type="text" placeholder="0000 0000 0000 0000" />
                 </div>
 
                 <div className="checkout-campo">
-                  <label>Propietario de la tarjeta</label>
+                  <label htmlFor="tarjeta-propietario">Propietario de la tarjeta</label>
                   <input
+                    id="tarjeta-propietario"
                     type="text"
                     placeholder="Ingrese el nombre del propietario"
                   />
                 </div>
                 <div className="pago-fila">
                   <div className="checkout-campo">
-                    <label>Fecha de expiración</label>
-                    <input type="date" />
+                    <label htmlFor="tarjeta-expiracion">Fecha de expiración</label>
+                    <input id="tarjeta-expiracion" type="date" />
                   </div>
 
                   <div className="checkout-campo">
-                    <label>CCV</label>
-                    <input type="text" placeholder="123" />
+                    <label htmlFor="tarjeta-ccv">CCV</label>
+                    <input id="tarjeta-ccv" type="text" placeholder="123" />
                   </div>
                 </div>
               </div>
@@ -111,8 +117,13 @@ export default function PagoPage() {
           </div>
 
           <div
+            role="button"
+            tabIndex={0}
             className={`pago-opcion ${metodoPago === "pse" ? "activo" : ""}`}
             onClick={() => setMetodoPago("pse")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setMetodoPago("pse");
+            }}
           >
             <div className="pago-opcion-header">
               <span>Pago PSE</span>
@@ -129,10 +140,15 @@ export default function PagoPage() {
           </div>
 
           <div
+            role="button"
+            tabIndex={0}
             className={`pago-opcion ${
               metodoPago === "contraentrega" ? "activo" : ""
             }`}
             onClick={() => setMetodoPago("contraentrega")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") setMetodoPago("contraentrega");
+            }}
           >
             <div className="pago-opcion-header">
               <span>Pago Contra Entrega</span>
