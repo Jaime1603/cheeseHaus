@@ -24,7 +24,7 @@ describe("ProductosDestacados", () => {
   test("no renderiza nada si la API devuelve lista vacía", async () => {
     global.fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue([]),
-    } as any);
+    } as unknown as Response);
 
     const { container } = render(<ProductosDestacados />);
     await waitFor(() => {
@@ -35,7 +35,7 @@ describe("ProductosDestacados", () => {
   test("renderiza los productos destacados cuando la API responde con datos", async () => {
     global.fetch = jest.fn().mockResolvedValue({
       json: jest.fn().mockResolvedValue(mockProductos),
-    } as any);
+    } as unknown as Response);
 
     render(<ProductosDestacados />);
 
@@ -48,11 +48,14 @@ describe("ProductosDestacados", () => {
   });
 
   test("maneja el error de fetch de forma segura y no crashea", async () => {
+    const spyError = jest.spyOn(console, "error").mockImplementation(() => {});
     global.fetch = jest.fn().mockRejectedValue(new Error("Error de red"));
 
     const { container } = render(<ProductosDestacados />);
     await waitFor(() => {
       expect(container.firstChild).toBeNull();
     });
+    expect(spyError).toHaveBeenCalled();
+    spyError.mockRestore();
   });
 });

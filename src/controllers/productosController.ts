@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
   // Con filtro: productos de una categoría
   const resultado = await productoService.getByCategory(
-    parseInt(categoriaParam),
+    Number.parseInt(categoriaParam, 10),
   );
 
   if (!resultado.exito) {
@@ -74,7 +74,7 @@ export async function getById(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const id = parseInt((await params).id);
+    const id = Number.parseInt((await params).id, 10);
 
     const resultado = await productoService.getById(id);
 
@@ -140,7 +140,7 @@ export async function getByCategory(req: Request) {
     }
 
     const resultado = await productoService.getByCategory(
-      parseInt(id_categoria),
+      Number.parseInt(id_categoria, 10),
     );
 
     if (!resultado.exito) {
@@ -171,7 +171,7 @@ export async function PUT(
       return NextResponse.json({ error: "No Autorizado" }, { status: 401 });
     }
 
-    const id = parseInt((await params).id);
+    const id = Number.parseInt((await params).id, 10);
     const body = await req.json();
 
     const resultado = await productoService.update(id, body);
@@ -205,7 +205,7 @@ export async function DELETE(
       return NextResponse.json({ error: "No Autorizado" }, { status: 401 });
     }
 
-    const id = parseInt((await params).id);
+    const id = Number.parseInt((await params).id, 10);
     const resultado = await productoService.delete(id);
 
     if (!resultado.exito) {

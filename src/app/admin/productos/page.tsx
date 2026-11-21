@@ -19,7 +19,7 @@ export default function ProductosAdminPage() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    cargarProductos();
+    void cargarProductos();
   }, []);
 
   async function cargarProductos() {
@@ -38,7 +38,7 @@ export default function ProductosAdminPage() {
     });
 
     if (res.ok) {
-      cargarProductos();
+      void cargarProductos();
     }
   }
 
@@ -50,7 +50,7 @@ export default function ProductosAdminPage() {
     });
 
     if (res.ok) {
-      cargarProductos();
+      void cargarProductos();
     }
   }
 

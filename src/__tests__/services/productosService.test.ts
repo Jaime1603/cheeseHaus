@@ -122,6 +122,15 @@ describe("create", () => {
         if (!resultado.exito) expect(resultado.codigo).toBe(400);
     });
 
+    test("retorna error 400 si el precio no es un número válido (ej: 'abc')", async () => {
+        const resultado = await productoService.create({ ...bodyValido, precio: "abc" as unknown as number });
+        expect(resultado.exito).toBe(false);
+        if (!resultado.exito) {
+            expect(resultado.codigo).toBe(400);
+            expect(resultado.error).toBe("El precio es obligatorio y debe ser un numero mayor a 0");
+        }
+    });
+
     test("retorna error 400 si los ingredientes están vacíos", async () => {
         const resultado = await productoService.create({ ...bodyValido, ingredientes: "" });
         expect(resultado.exito).toBe(false);

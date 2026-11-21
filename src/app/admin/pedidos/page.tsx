@@ -23,7 +23,8 @@ export default function PedidosAdminPage() {
       .then((data) => {
         setPedidos(data);
         setCargando(false);
-      });
+      })
+      .catch((error) => console.error("Error al cargar pedidos", error));
   }, []);
 
   function colorEstado(estado: string) {

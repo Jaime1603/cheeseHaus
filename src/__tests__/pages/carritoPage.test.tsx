@@ -54,30 +54,42 @@ describe("Carrito Page", () => {
   test("avanza y retrocede en el carrusel de productos relacionados", () => {
     render(<Carrito />);
 
-    const flechas = screen.getAllByRole("button");
     const flechaRetroceder = screen.getByText("←");
     const flechaAvanzar = screen.getByText("→");
 
     // Inicialmente no se puede retroceder
+    expect(flechaRetroceder).toHaveClass("desactivado");
     fireEvent.click(flechaRetroceder);
+    expect(flechaRetroceder).toHaveClass("desactivado");
 
     // Avanzar carrusel
     fireEvent.click(flechaAvanzar);
     // Ahora sí se puede retroceder
+    expect(flechaRetroceder).not.toHaveClass("desactivado");
     fireEvent.click(flechaRetroceder);
+    expect(flechaRetroceder).toHaveClass("desactivado");
   });
 
   test("maneja el evento de resize para cambiar cantidad de visibles", () => {
     render(<Carrito />);
 
+    const track = document.querySelector(".carrito-carrusel-track");
+    expect(track).toBeInTheDocument();
+
     act(() => {
       window.innerWidth = 400;
       window.dispatchEvent(new Event("resize"));
     });
+    expect(track).toHaveStyle(
+      "transform: translateX(calc(-0 * (100% / 2 + 0.5rem)))"
+    );
 
     act(() => {
       window.innerWidth = 1024;
       window.dispatchEvent(new Event("resize"));
     });
+    expect(track).toHaveStyle(
+      "transform: translateX(calc(-0 * (100% / 3 + 0.5rem)))"
+    );
   });
 });

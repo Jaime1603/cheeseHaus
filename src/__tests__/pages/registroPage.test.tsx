@@ -34,7 +34,7 @@ describe("RegistroPage", () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: jest.fn().mockResolvedValue({ id_cliente: 1, email: "nuevo@correo.com" }),
-    } as any);
+    } as unknown as Response);
 
     render(<RegistroPage />);
 
@@ -55,7 +55,7 @@ describe("RegistroPage", () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
       json: jest.fn().mockResolvedValue({ error: "El email ya está registrado" }),
-    } as any);
+    } as unknown as Response);
 
     render(<RegistroPage />);
 

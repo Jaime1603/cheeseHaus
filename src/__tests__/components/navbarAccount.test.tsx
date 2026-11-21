@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import NavbarAccount from "@/components/layout/navbarAccount";
+import { signOut } from "next-auth/react";
 
 jest.mock("next-auth/react", () => ({ signOut: jest.fn() }));
 
@@ -84,7 +85,6 @@ test("muestra el link Regresar al panel al admin y lo cierra al hacer clic", () 
 });
 
 test("llama a signOut al hacer clic en Cerrar sesión", () => {
-  const { signOut } = require("next-auth/react");
   render(<NavbarAccount userName="Ana" isAdmin={false} />);
 
   fireEvent.click(screen.getByRole("button", { name: /hola, ana/i }));
