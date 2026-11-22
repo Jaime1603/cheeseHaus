@@ -1,3 +1,4 @@
+import { connection } from "next/server"
 import "./dashboard.css"
 import { prisma } from "@/lib/prisma"
 // Importamos Prisma directamente porque esta es
@@ -26,6 +27,7 @@ async function obtenerEstadisticas() {
 export default async function AdminPage() {
   // async porque necesitamos esperar los datos de la BD
   // antes de renderizar la página
+  await connection()
 
   const { totalProductos, totalCategorias, totalPedidos } = await obtenerEstadisticas()
 

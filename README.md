@@ -58,6 +58,25 @@ cp .env.example .env
 
 Las variables incluyen la conexión a la base de datos, configuración de NextAuth, proveedores de autenticación y claves de Wompi.
 
+Para habilitar el acceso social, configura `GOOGLE_CLIENT_ID`,
+`GOOGLE_CLIENT_SECRET`, `FACEBOOK_CLIENT_ID` y `FACEBOOK_CLIENT_SECRET` en `.env`.
+Registra en cada proveedor la URL de retorno
+`http://localhost:3000/api/auth/callback/google` o
+`http://localhost:3000/api/auth/callback/facebook`, respectivamente. En producción,
+usa el dominio de despliegue. Los usuarios sociales se guardan como clientes de
+CheeseHaus y las sesiones conservan la estrategia JWT.
+
+Aplica las migraciones de Prisma antes de iniciar la aplicación:
+
+```bash
+npx prisma generate
+npx prisma migrate deploy
+```
+
+La recuperación de contraseña informa explícitamente que el envío de correo está
+simulado hasta configurar un proveedor de correo. El formulario de contacto prepara
+el mensaje y permite completarlo mediante el WhatsApp de CheeseHaus.
+
 ### 4. Inicia el entorno de desarrollo
 
 ```bash

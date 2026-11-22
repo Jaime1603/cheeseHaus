@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-    testDir: "./e2e",
+    testDir: "./E2E",
     timeout: 60_000, // la primera visita en `next dev` tarda en compilar
     expect: { timeout: 10_000 },
     reporter: [["list"], ["html", { open: "never" }]],

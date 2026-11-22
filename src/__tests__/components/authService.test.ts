@@ -41,6 +41,24 @@ test("Rechaza si el campo no es texto", async () => {
     expect(resultado).toBeNull();
 
 });
+test("normaliza el correo antes de consultar la cuenta", async () => {
+    (findCredentialByEmail as jest.Mock).mockResolvedValue(null);
+
+    await authenticateCredentials(" ANA@CORREO.COM ", "clave123");
+
+    expect(findCredentialByEmail).toHaveBeenCalledWith("ana@correo.com");
+});
+test("rechaza una cuenta OAuth que no tiene contraseña", async () => {
+    (findCredentialByEmail as jest.Mock).mockResolvedValue({
+        activo: true,
+        password_hash: null,
+    });
+
+    const resultado = await authenticateCredentials("ana@correo.com", "clave123");
+
+    expect(resultado).toBeNull();
+    expect(bcrypt.compare).not.toHaveBeenCalled();
+});
 test("rechaza si la contraseña es incorrecta", async () => {
     (findCredentialByEmail as jest.Mock).mockResolvedValue({
         activo: true,

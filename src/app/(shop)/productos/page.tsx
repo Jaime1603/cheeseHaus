@@ -1,22 +1,16 @@
-// LISTA DE PRODUCTOS
-
 import Link from "next/link";
+import { connection } from "next/server";
+import { productoService } from "@/services/productosService";
+import ProductoGrid from "@/components/productos/productoGrid";
 import "./productos.css";
-import ProductoCard from "@/components/productos/productoCard";
-
-async function getProductos() {
-  const res = await fetch("http:localhost:3000/api/productos", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return [];
-  }
-  return res.json();
-}
 
 export default async function ProductosPage() {
-  const productos = await getProductos();
+  await connection();
+  const resultado = await productoService.getActivos();
+  if (!resultado.exito) {
+    throw new Error(resultado.error);
+  }
+  const productos = resultado.datos;
 
   return (
     <div className="productos-page">
@@ -50,44 +44,13 @@ export default async function ProductosPage() {
         <Link href="/productos">Productos</Link>
       </div>
 
-      {/* barra de ordenamiento */}
-      <div className="productos-toolbar">
-        <select className="productos-orden">
-          <option value="Relevancia">Ordenar por: Relevancia</option>
-          <option value="Precio-asc">Precio: Menor a Mayor</option>
-          <option value="Precio-desc">Precio: Mayor a Menor</option>
-          <option value="Nombre">Nombre: A-Z</option>
-        </select>
-      </div>
-
       <div className="productos-container">
         {productos.length === 0 ? (
           <div className="productos-vacio">
             <p> No hay productos disponibles</p>
           </div>
         ) : (
-          <div className="productos-grid">
-            {productos.map(
-              (producto: {
-                id_producto: number;
-                nombre_producto: string;
-                precio: number;
-                imagen_url: string | null;
-              }) => (
-                <ProductoCard
-                  key={producto.id_producto}
-                  id={producto.id_producto}
-                  nombre={producto.nombre_producto}
-                  precio={producto.precio}
-                  imagen={
-                    producto.imagen_url ||
-                    "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=400"
-                  }
-                  // Si no tiene imagen usamos una por defecto
-                />
-              ),
-            )}
-          </div>
+          <ProductoGrid productos={productos} />
         )}
       </div>
     </div>

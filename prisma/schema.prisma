@@ -44,7 +44,7 @@ model Credencial {
   id_usuario      Int       @id @default(autoincrement())
   id_cliente      Int       @unique
   email           String    @unique @db.VarChar(100)
-  password_hash   String    @db.VarChar(200)
+  password_hash   String?   @db.VarChar(200)
   activo          Boolean   @default(true)
   fecha_registro  DateTime  @default(now())
   ultimo_acceso   DateTime?

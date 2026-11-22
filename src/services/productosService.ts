@@ -5,6 +5,17 @@ type RespuestaService<T> =
   | { exito: true; datos: T }
   | { exito: false; error: string; codigo: number };
 
+export type ProductoConCategoria = Prisma.ProductoGetPayload<{
+  include: {
+    categoria: {
+      select: {
+        id_categoria: true;
+        nombre_categoria: true;
+      };
+    };
+  };
+}>;
+
 export const productoService = {
   async getAllProductos() {
     const productos = await productoRepository.getAllProductos();
@@ -12,7 +23,7 @@ export const productoService = {
   },
 
   // activos para el catalogo publico
-  async getActivos(): Promise<RespuestaService<any>> {
+  async getActivos(): Promise<RespuestaService<ProductoConCategoria[]>> {
     const productos = await productoRepository.getActivos();
     return { exito: true, datos: productos } as const;
   },
