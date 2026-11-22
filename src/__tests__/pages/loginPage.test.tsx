@@ -10,6 +10,7 @@ jest.mock("next-auth/react", () => ({
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
+  useSearchParams: jest.fn().mockReturnValue(new URLSearchParams()),
 }));
 
 describe("LoginPage", () => {
@@ -43,7 +44,9 @@ describe("LoginPage", () => {
     fireEvent.click(boton);
 
     await waitFor(() => {
-      expect(screen.getByText("Email y contraseña son obligatorios")).toBeInTheDocument();
+      expect(
+        screen.getByText("El correo electrónico y la contraseña son obligatorios"),
+      ).toBeInTheDocument();
     });
     expect(mockPush).not.toHaveBeenCalled();
   });

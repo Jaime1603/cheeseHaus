@@ -6,6 +6,14 @@
   margin-bottom: 1rem;
 }
 
+.auth-success {
+  color: #315a35;
+  border: 1px solid #6f9a73;
+  border-radius: 5px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+}
+
 .auth-loading {
   color: #3c763d;
   border: 0.5px solid green;
@@ -145,6 +153,13 @@
 
 .auth-boton-principal:hover {
   background-color: var(--color-brown-light);
+}
+
+.auth-boton-principal:disabled,
+.auth-boton-principal-registro:disabled,
+.auth-boton-redes:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .auth-boton-principal-registro {

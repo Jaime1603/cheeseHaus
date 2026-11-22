@@ -6,6 +6,11 @@ jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+jest.mock("@/components/auth/socialAuthButtons", () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
 describe("RegistroPage", () => {
   const mockPush = jest.fn();
   const mockRefresh = jest.fn();
@@ -78,7 +83,9 @@ describe("RegistroPage", () => {
     render(<RegistroPage />);
 
     fireEvent.change(screen.getByPlaceholderText("Nombres"), { target: { value: "Carlos" } });
+    fireEvent.change(screen.getByPlaceholderText("Apellidos"), { target: { value: "Gómez" } });
     fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "carlos@correo.com" } });
+    fireEvent.change(screen.getByPlaceholderText("Contraseña"), { target: { value: "Clave123*" } });
     fireEvent.click(screen.getByRole("button", { name: "Registrarme" }));
 
     await waitFor(() => {

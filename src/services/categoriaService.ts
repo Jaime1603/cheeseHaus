@@ -1,4 +1,5 @@
 import { categoriaRepository } from "@/repositories/categoriaRepository";
+import type { Categoria } from "@prisma/client";
 
 type respuestaService<T> = 
 | { exito: true; datos: T[] }
@@ -8,7 +9,7 @@ type respuestaService<T> =
 export const categoriaService = {
 
 
-    async getAllCategories(): Promise<respuestaService<unknown>> {
+    async getAllCategories(): Promise<respuestaService<Categoria>> {
         const categorias = await categoriaRepository.getAllCategories()
         return {exito: true , datos: categorias} as const  
     },
