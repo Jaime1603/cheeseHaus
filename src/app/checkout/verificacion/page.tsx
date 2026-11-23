@@ -80,6 +80,68 @@ export default function VerificacionPage() {
             </p>
           ) : (
             <>
+              <p className="checkout-seccion-titulo">Información de contacto</p>
+              <div className="checkout-fila">
+                <div className="checkout-campo">
+                  <label htmlFor="contacto-nombre">Nombre</label>
+                  <input
+                    id="contacto-nombre"
+                    name="nombre_contacto"
+                    type="text"
+                    autoComplete="given-name"
+                    required
+                    maxLength={50}
+                  />
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="contacto-apellido">Apellido</label>
+                  <input
+                    id="contacto-apellido"
+                    name="apellido_contacto"
+                    type="text"
+                    autoComplete="family-name"
+                    required
+                    maxLength={50}
+                  />
+                </div>
+              </div>
+              <div className="checkout-fila">
+                <div className="checkout-campo">
+                  <label htmlFor="contacto-telefono">Teléfono</label>
+                  <input
+                    id="contacto-telefono"
+                    name="telefono_contacto"
+                    type="tel"
+                    autoComplete="tel"
+                    required
+                    maxLength={10}
+                    pattern="[0-9]{7,10}"
+                    title="Ingresa entre 7 y 10 dígitos."
+                  />
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="contacto-cedula">Cédula</label>
+                  <input
+                    id="contacto-cedula"
+                    name="cedula_contacto"
+                    type="text"
+                    required
+                    maxLength={50}
+                  />
+                </div>
+              </div>
+              <div className="checkout-campo">
+                <label htmlFor="contacto-correo">Correo electrónico</label>
+                <input
+                  id="contacto-correo"
+                  name="correo_contacto"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  maxLength={100}
+                />
+              </div>
+
               <p className="checkout-seccion-titulo">Dirección de entrega</p>
               <div className="checkout-campo">
                 <label htmlFor="direccion">Dirección</label>

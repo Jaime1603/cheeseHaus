@@ -14,10 +14,21 @@ import "./pago.css";
 
 type MetodoPago = "Tarjeta" | "PSE" | "Contra entrega";
 
+const logosPorMetodo: Record<MetodoPago, { src: string; alt: string }[]> = {
+  Tarjeta: [
+    { src: "/mastercard.svg", alt: "Mastercard" },
+    { src: "/visa.svg", alt: "Visa" },
+  ],
+  PSE: [{ src: "/pse.png", alt: "PSE" }],
+  "Contra entrega": [{ src: "/contraentrega.png", alt: "Pago contra entrega" }],
+};
+
 export default function PagoPage() {
   const router = useRouter();
   const items = useCarrito();
   const datosEntrega = useDatosEntrega();
+  const hoy = new Date();
+  const mesActual = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}`;
   const [metodoPago, setMetodoPago] = useState<MetodoPago>("Contra entrega");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
@@ -131,18 +142,92 @@ export default function PagoPage() {
               key={metodo}
             >
               <span>{metodo}</span>
-              <input
-                type="radio"
-                name="metodo"
-                value={metodo}
-                checked={metodoPago === metodo}
-                onChange={() => setMetodoPago(metodo)}
-              />
+              <div className="pago-opcion-acciones">
+                <input
+                  type="radio"
+                  name="metodo"
+                  value={metodo}
+                  checked={metodoPago === metodo}
+                  onChange={() => setMetodoPago(metodo)}
+                />
+                <div className="pago-logos" aria-hidden="true">
+                  {logosPorMetodo[metodo].map((logo) => (
+                    <img key={logo.src} src={logo.src} alt={logo.alt} />
+                  ))}
+                </div>
+              </div>
             </label>
           ))}
+          {metodoPago === "Tarjeta" && (
+            <section className="pago-tarjeta-campos" aria-label="Datos simulados de tarjeta">
+              <h2 className="checkout-seccion-titulo">Datos de tarjeta</h2>
+              <p role="note">
+                Simulación: usa datos ficticios. No se realizará ningún cobro ni
+                se guardarán o enviarán los datos de la tarjeta.
+              </p>
+              <div className="checkout-campo">
+                <label htmlFor="titular-tarjeta">Nombre del titular</label>
+                <input
+                  id="titular-tarjeta"
+                  name="titularTarjeta"
+                  type="text"
+                  autoComplete="off"
+                  required
+                  minLength={2}
+                  maxLength={100}
+                  placeholder="Como aparece en la tarjeta"
+                />
+              </div>
+              <div className="checkout-campo">
+                <label htmlFor="numero-tarjeta">Número de tarjeta</label>
+                <input
+                  id="numero-tarjeta"
+                  name="numeroTarjeta"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  required
+                  minLength={13}
+                  maxLength={19}
+                  pattern="[0-9]{13,19}"
+                  title="Ingresa entre 13 y 19 dígitos, sin espacios."
+                  placeholder="13 a 19 dígitos"
+                />
+              </div>
+              <div className="pago-fila">
+                <div className="checkout-campo">
+                  <label htmlFor="vencimiento-tarjeta">Vencimiento</label>
+                  <input
+                    id="vencimiento-tarjeta"
+                    name="vencimientoTarjeta"
+                    type="month"
+                    autoComplete="off"
+                    min={mesActual}
+                    required
+                  />
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="codigo-tarjeta">CVV / CVC</label>
+                  <input
+                    id="codigo-tarjeta"
+                    name="codigoTarjeta"
+                    type="password"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    required
+                    minLength={3}
+                    maxLength={4}
+                    pattern="[0-9]{3,4}"
+                    title="Ingresa 3 o 4 dígitos."
+                    placeholder="3 o 4 dígitos"
+                  />
+                </div>
+              </div>
+            </section>
+          )}
           <p role="note">
-            El pago en línea aún no está integrado. El pedido se guardará con
-            estado pendiente y no se realizará ningún cobro.
+            El pago es una simulación. El pedido se guardará con estado pendiente
+            y no se realizará ningún cobro.
           </p>
 
           <div className="pago-resumen-acciones">
