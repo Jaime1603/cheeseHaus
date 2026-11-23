@@ -6,11 +6,7 @@ const formatoMoneda = new Intl.NumberFormat("es-CO", {
   maximumFractionDigits: 0,
 });
 
-export default function OrderSummary({
-  items,
-}: {
-  items: ItemCarrito[];
-}) {
+export default function OrderSummary({ items }: { items: ItemCarrito[] }) {
   const subtotal = items.reduce(
     (total, item) => total + item.precio * item.cantidad,
     0,

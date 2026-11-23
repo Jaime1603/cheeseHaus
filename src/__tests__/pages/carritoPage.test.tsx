@@ -32,6 +32,28 @@ describe("Carrito Page", () => {
     );
   });
 
+  test("conserva items sin tamaño y permite cambiar su cantidad", () => {
+    localStorage.setItem(
+      "cheesehaus-carrito",
+      JSON.stringify([
+        {
+          id_producto: 2,
+          nombre_producto: "Brownie",
+          precio: 12000,
+          cantidad: 1,
+          tamaño: "",
+          imagen_url: "/brownie.png",
+        },
+      ]),
+    );
+
+    render(<Carrito />);
+
+    expect(screen.getByText("—")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("+"));
+    expect(screen.getByText("2")).toBeInTheDocument();
+  });
+
   test("aumenta y disminuye la cantidad de un item", () => {
     render(<Carrito />);
 

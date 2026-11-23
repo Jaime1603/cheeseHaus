@@ -22,7 +22,7 @@ const logosPorMetodo: Record<MetodoPago, { src: string; alt: string }[]> = {
 
 export default function PagoPage() {
   const router = useRouter();
-  const items = useCarrito();
+  const { items } = useCarrito();
   const datosEntrega = useDatosEntrega();
   const hoy = new Date();
   const fechaActual = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`;

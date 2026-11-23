@@ -14,16 +14,18 @@ beforeEach(() => {
     push: mockPush,
     back: jest.fn(),
   });
-  (useCarrito as jest.Mock).mockReturnValue([
-    {
-      id_producto: 9,
-      nombre_producto: "Cheesecake",
-      precio: 25000,
-      cantidad: 1,
-      tamaño: "8 porciones",
-      imagen_url: "/cheesecake.png",
-    },
-  ]);
+  (useCarrito as jest.Mock).mockReturnValue({
+    items: [
+      {
+        id_producto: 9,
+        nombre_producto: "Cheesecake",
+        precio: 25000,
+        cantidad: 1,
+        tamaño: "8 porciones",
+        imagen_url: "/cheesecake.png",
+      },
+    ],
+  });
 });
 
 test("adds required contact fields and keeps the delivery fields", () => {

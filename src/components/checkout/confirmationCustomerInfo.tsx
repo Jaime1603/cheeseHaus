@@ -13,7 +13,9 @@ export function ConfirmationContactCard() {
       <h2 className="confirmacion-tarjeta-titulo">Tu información</h2>
       {contacto ? (
         <div className="confirmacion-tarjeta-info">
-          <p>Nombre: {contacto.nombre} {contacto.apellido}</p>
+          <p>
+            Nombre: {contacto.nombre} {contacto.apellido}
+          </p>
           <p>Cédula: {contacto.cedula}</p>
           <p>Teléfono: {contacto.telefono}</p>
           <p>Correo: {contacto.correo}</p>

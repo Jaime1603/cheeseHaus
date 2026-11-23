@@ -38,7 +38,7 @@ const datosEntrega = {
 beforeEach(() => {
   jest.clearAllMocks();
   (useRouter as jest.Mock).mockReturnValue({ replace: mockReplace, back: jest.fn() });
-  (useCarrito as jest.Mock).mockReturnValue(items);
+  (useCarrito as jest.Mock).mockReturnValue({ items });
   (useDatosEntrega as jest.Mock).mockReturnValue(datosEntrega);
 });
 

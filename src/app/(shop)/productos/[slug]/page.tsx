@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ProductoCard from "@/components/productos/productoCard";
 import { guardarCarrito, leerCarrito } from "@/lib/carrito";
+import { useCarrito } from "@/hooks/useCarrito";
 import "./detalle.css";
 import Link from "next/link";
 
@@ -47,6 +48,9 @@ export default function DetalleProducto() {
   const [tamaño, setTamaño] = useState("");
   const [posicion, setPosicion] = useState(0);
   const [mensajeCarrito, setMensajeCarrito] = useState("");
+  const { agregarItem } = useCarrito();
+
+  const [agregado, setAgregado] = useState(false);
 
   const [visibles, setVisibles] = useState(0);
 
@@ -186,6 +190,25 @@ export default function DetalleProducto() {
     );
   }
 
+  function handleAgregar() {
+    if (!producto) return;
+
+    agregarItem({
+      id_producto: producto.id_producto,
+      nombre_producto: producto.nombre_producto,
+      precio: producto.precio,
+      imagen_url:
+        producto.imagen_url ||
+        "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=400",
+      tamaño,
+      cantidad,
+    });
+
+    setAgregado(true);
+    setTimeout(() => setAgregado(false), 2000);
+    // Mostramos "Añadido" y a los 2 segundos volvemos al texto normal.
+  }
+
   // ── Renderizado del producto ──
   const tamaños = producto.tamaño
     ? producto.tamaño.split(",").map((t) => t.trim())
@@ -261,12 +284,8 @@ export default function DetalleProducto() {
             </div>
           </div>
 
-          <button
-            className="detalle-boton-carrito"
-            type="button"
-            onClick={agregarAlCarrito}
-          >
-            Añadir al Carrito
+          <button className="detalle-boton-carrito" onClick={handleAgregar}>
+            {agregado ? "✓ Añadido al carrito" : "Añadir al carrito"}
           </button>
           {mensajeCarrito && <p role="status">{mensajeCarrito}</p>}
         </div>

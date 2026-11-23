@@ -10,7 +10,7 @@ import "./verificacion.css";
 
 export default function VerificacionPage() {
   const router = useRouter();
-  const items = useCarrito();
+  const { items } = useCarrito();
   const [error, setError] = useState("");
 
   function continuar(event: FormEvent<HTMLFormElement>) {
@@ -24,11 +24,11 @@ export default function VerificacionPage() {
 
     const formData = new FormData(event.currentTarget);
     const datosEntrega = {
-      direccion: formData.get("direccion"),
-      barrio: formData.get("barrio"),
-      ciudad: formData.get("ciudad"),
-      telefono: formData.get("telefono"),
-      fecha_entrega: formData.get("fecha_entrega"),
+      direccion: String(formData.get("direccion") ?? ""),
+      barrio: String(formData.get("barrio") ?? ""),
+      ciudad: String(formData.get("ciudad") ?? ""),
+      telefono: String(formData.get("telefono") ?? ""),
+      fecha_entrega: String(formData.get("fecha_entrega") ?? ""),
       contacto: {
         nombre: String(formData.get("nombre_contacto") ?? ""),
         apellido: String(formData.get("apellido_contacto") ?? ""),
