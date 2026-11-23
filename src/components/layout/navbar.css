@@ -88,6 +88,27 @@
   transform: translateY(-4px);
 }
 
+.navbar-carrito {
+  position: relative;
+}
+
+.navbar-carrito-count {
+  position: absolute;
+  top: -8px;
+  right: -15px;
+  min-width: 18px;
+  height: 20px;
+  padding: 0 6.5px;
+  border-radius: 8px;
+  background-color: var(--color-brown);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbar-account {
   position: relative;
 }
