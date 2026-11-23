@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { isRecord, isValidEmail } from "@/lib/validation";
+import { prisma } from "@/lib/prisma";
+import { createAccountToken, passwordResetTokenType } from "@/lib/accountTokens";
+import { isEmailConfigured, sendPasswordResetEmail } from "@/lib/email";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -27,10 +30,58 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!isEmailConfigured()) {
+    return NextResponse.json(
+      { error: "El servicio de correo no está configurado" },
+      { status: 503 },
+    );
+  }
+
+  const email = emailValue.trim().toLowerCase();
+  let token: string | null = null;
+  let recipientEmail = email;
+  try {
+    const credential = await prisma.credencial.findFirst({
+      where: {
+        email: { equals: email, mode: "insensitive" },
+        activo: true,
+        email_verificado_en: { not: null },
+      },
+      select: { email: true },
+    });
+
+    if (credential) {
+      recipientEmail = credential.email;
+      token = await createAccountToken(
+        credential.email,
+        passwordResetTokenType,
+        60 * 60 * 1000,
+      );
+    }
+  } catch (error) {
+    console.error("Error al preparar recuperación de contraseña", error);
+    return NextResponse.json(
+      { error: "No fue posible procesar la solicitud" },
+      { status: 500 },
+    );
+  }
+
+  if (token) {
+    try {
+      await sendPasswordResetEmail(recipientEmail, token);
+    } catch (error) {
+      console.error("Error al enviar recuperación de contraseña", error);
+      return NextResponse.json(
+        { error: "No fue posible enviar el correo de recuperación" },
+        { status: 503 },
+      );
+    }
+  }
+
   return NextResponse.json(
     {
       message:
-        "Solicitud recibida. Si el correo está registrado, recibirías instrucciones. El envío de correos aún no está configurado en este proyecto.",
+        "Si la cuenta existe y está verificada, recibirás un enlace para restablecer la contraseña.",
     },
     { status: 202 },
   );

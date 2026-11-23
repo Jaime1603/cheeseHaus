@@ -1,21 +1,19 @@
 //Pagina de Registro
 "use client";
 import { useRef, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import SocialAuthButtons from "@/components/auth/socialAuthButtons";
 import { isValidEmail } from "@/lib/validation";
 import "../auth.css";
 
 export default function RegistroPage() {
-  const router = useRouter();
-
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
   const [cargando, setCargando] = useState(false);
   const envioEnCurso = useRef(false);
@@ -27,6 +25,7 @@ export default function RegistroPage() {
     }
 
     setError("");
+    setMensaje("");
 
     if (!nombre.trim() || !apellido.trim() || !email.trim() || !password) {
       setError("Todos los campos son obligatorios");
@@ -65,8 +64,8 @@ export default function RegistroPage() {
         return;
       }
 
-      router.push("/login");
-      router.refresh();
+      setMensaje(data.message);
+      setPassword("");
     } catch (error) {
       console.error("Error al registrar usuario", error);
       setError("Error de conexión");
@@ -85,6 +84,11 @@ export default function RegistroPage() {
           {error && (
             <div className="auth-error" role="alert">
               {error}
+            </div>
+          )}
+          {mensaje && (
+            <div className="auth-success" role="status">
+              {mensaje}
             </div>
           )}
 

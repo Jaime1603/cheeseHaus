@@ -25,7 +25,12 @@ export async function authenticateCredentials(
   }
 
   const credential = await findCredentialByEmail(email);
-  if (!credential || !credential.activo || !credential.password_hash) {
+  if (
+    !credential ||
+    !credential.activo ||
+    !credential.email_verificado_en ||
+    !credential.password_hash
+  ) {
     return null;
   }
 

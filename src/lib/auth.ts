@@ -58,6 +58,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return false;
         }
 
+        if (!credential.email_verificado_en) {
+          await prisma.credencial.update({
+            where: { id_usuario: credential.id_usuario },
+            data: { email_verificado_en: new Date() },
+          });
+        }
+
         user.id = credential.cliente.id_cliente.toString();
         user.rol = credential.rol;
         user.email = credential.email;
@@ -80,6 +87,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               email,
               password_hash: null,
               activo: true,
+              email_verificado_en: new Date(),
             },
           },
         },

@@ -3,6 +3,8 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { isRecord, isValidEmail } from "@/lib/validation";
+import { createAccountToken, verificationTokenType } from "@/lib/accountTokens";
+import { isEmailConfigured, sendVerificationEmail } from "@/lib/email";
 
 export async function POST(req: Request) {
   let body: unknown;
@@ -68,42 +70,54 @@ export async function POST(req: Request) {
     );
   }
 
+  let token: string;
   try {
     const credencialExistente = await prisma.credencial.findFirst({
       where: { email: { equals: email, mode: "insensitive" } },
+      select: {
+        email: true,
+        email_verificado_en: true,
+      },
     });
 
-    if (credencialExistente) {
+    if (credencialExistente?.email_verificado_en) {
       return NextResponse.json(
         { error: "Ya existe una cuenta con ese correo electrónico" },
         { status: 409 },
       );
     }
 
-    const passwordHash = await bcrypt.hash(password, 12);
-    const nuevoCliente = await prisma.cliente.create({
-      data: {
-        nombre: nombre.trim(),
-        apellido: apellido.trim(),
-        email,
-        telefono_cliente: "",
-        cedula: "",
-        credenciales: {
-          create: {
-            email,
-            password_hash: passwordHash,
-            activo: true,
+    if (!isEmailConfigured()) {
+      return NextResponse.json(
+        { error: "El servicio de correo no está configurado" },
+        { status: 503 },
+      );
+    }
+
+    if (!credencialExistente) {
+      const passwordHash = await bcrypt.hash(password, 12);
+      await prisma.cliente.create({
+        data: {
+          nombre: nombre.trim(),
+          apellido: apellido.trim(),
+          email,
+          telefono_cliente: "",
+          cedula: "",
+          credenciales: {
+            create: {
+              email,
+              password_hash: passwordHash,
+              activo: true,
+            },
           },
         },
-      },
-    });
+      });
+    }
 
-    return NextResponse.json(
-      {
-        message: "Usuario creado exitosamente",
-        clienteId: nuevoCliente.id_cliente,
-      },
-      { status: 201 },
+    token = await createAccountToken(
+      email,
+      verificationTokenType,
+      24 * 60 * 60 * 1000,
     );
   } catch (error) {
     if (
@@ -118,8 +132,26 @@ export async function POST(req: Request) {
 
     console.error("Error al registrar usuario", error);
     return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { error: "No fue posible procesar el registro" },
       { status: 500 },
     );
   }
+
+  try {
+    await sendVerificationEmail(email, token);
+  } catch (error) {
+    console.error("Error al enviar el correo de verificación", error);
+    return NextResponse.json(
+      { error: "No fue posible enviar el correo de verificación" },
+      { status: 503 },
+    );
+  }
+
+  return NextResponse.json(
+    {
+      message:
+        "Te enviamos un enlace de verificación. Confirma tu correo para activar la cuenta.",
+    },
+    { status: 202 },
+  );
 }

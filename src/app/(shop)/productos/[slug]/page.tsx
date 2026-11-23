@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ProductoCard from "@/components/productos/productoCard";
+import { guardarCarrito, leerCarrito } from "@/lib/carrito";
 import "./detalle.css";
 import Link from "next/link";
 
@@ -28,8 +29,6 @@ interface ProductoRelacionado {
   imagen_url: string;
 }
 
-const visibles = 3;
-
 export default function DetalleProducto() {
   const params = useParams();
 
@@ -47,6 +46,7 @@ export default function DetalleProducto() {
   const [cantidad, setCantidad] = useState(1);
   const [tamaño, setTamaño] = useState("");
   const [posicion, setPosicion] = useState(0);
+  const [mensajeCarrito, setMensajeCarrito] = useState("");
 
   const [visibles, setVisibles] = useState(0);
 
@@ -83,7 +83,7 @@ export default function DetalleProducto() {
             // Excluimos el producto actual de los relacionados
           ),
         );
-      } catch (error) {
+      } catch {
         setError("Error al cargar el producto");
       } finally {
         setCargando(false);
@@ -122,6 +122,47 @@ export default function DetalleProducto() {
 
   function retroceder() {
     if (puedeRetroceder) setPosicion(posicion - 1);
+  }
+
+  function agregarAlCarrito() {
+    if (!producto) {
+      return;
+    }
+
+    try {
+      const carrito = leerCarrito();
+      const existente = carrito.find(
+        (item) =>
+          item.id_producto === producto.id_producto && item.tamaño === tamaño,
+      );
+
+      if (existente) {
+        guardarCarrito(
+          carrito.map((item) =>
+            item.id_producto === existente.id_producto &&
+            item.tamaño === existente.tamaño
+              ? { ...item, cantidad: item.cantidad + cantidad }
+              : item,
+          ),
+        );
+      } else {
+        guardarCarrito([
+          ...carrito,
+          {
+            id_producto: producto.id_producto,
+            nombre_producto: producto.nombre_producto,
+            precio: producto.precio,
+            cantidad,
+            tamaño,
+            imagen_url: producto.imagen_url,
+          },
+        ]);
+      }
+
+      setMensajeCarrito("Producto agregado al carrito.");
+    } catch {
+      setMensajeCarrito("No se pudo guardar el producto en el carrito.");
+    }
   }
 
   if (cargando) {
@@ -213,14 +254,21 @@ export default function DetalleProducto() {
               <span className="detalle-cantidad-valor">{cantidad}</span>
               <button
                 className="detalle-cantidad-btn"
-                onClick={() => setCantidad(cantidad + 1)}
+                onClick={() => setCantidad(Math.min(50, cantidad + 1))}
               >
                 +
               </button>
             </div>
           </div>
 
-          <button className="detalle-boton-carrito">Añadir al Carrito</button>
+          <button
+            className="detalle-boton-carrito"
+            type="button"
+            onClick={agregarAlCarrito}
+          >
+            Añadir al Carrito
+          </button>
+          {mensajeCarrito && <p role="status">{mensajeCarrito}</p>}
         </div>
       </div>
 

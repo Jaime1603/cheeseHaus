@@ -9,6 +9,19 @@ const formatoMoneda = new Intl.NumberFormat("es-CO", {
   maximumFractionDigits: 0,
 });
 
+function etiquetaEstado(estado: string) {
+  switch (estado) {
+    case "Pendiente":
+      return "Pendiente por recibir";
+    case "Pagado":
+      return "En preparación";
+    case "Enviado":
+      return "En camino";
+    default:
+      return estado;
+  }
+}
+
 export default async function MisPedidosPage() {
   const session = await auth();
   if (!session?.user?.id) {
@@ -28,6 +41,9 @@ export default async function MisPedidosPage() {
       fecha_pedido: true,
       estado: true,
       total: true,
+      direccion: {
+        select: { fecha_entrega: true },
+      },
       detalles: {
         select: {
           id_detalle: true,
@@ -70,7 +86,9 @@ export default async function MisPedidosPage() {
                     })}
                   </p>
                 </div>
-                <span className="cuenta-pedido-estado">{pedido.estado}</span>
+                <span className="cuenta-pedido-estado">
+                  {etiquetaEstado(pedido.estado)}
+                </span>
               </header>
 
               <ul className="cuenta-pedido-productos">
@@ -81,6 +99,15 @@ export default async function MisPedidosPage() {
                   </li>
                 ))}
               </ul>
+
+              {pedido.direccion.fecha_entrega && (
+                <p className="cuenta-pedido-fecha">
+                  Entrega solicitada:{" "}
+                  {pedido.direccion.fecha_entrega.toLocaleDateString("es-CO", {
+                    timeZone: "UTC",
+                  })}
+                </p>
+              )}
 
               <p className="cuenta-pedido-total">
                 <span>Total</span>

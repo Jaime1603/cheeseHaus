@@ -1,165 +1,148 @@
 "use client";
 
-import "./verificacion.css";
+import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-const pedido = {
-  items: [
-    {
-      id: 1,
-      nombre: "Red Velvet",
-      precio: 30000,
-      cantidad: 1,
-      tamaño: "6x",
-      imagen: "/redvelvet.png",
-    },
-  ],
-  subTotal: 30000,
-  envio: 5000,
-  total: 35000,
-};
+import OrderSummary from "@/components/checkout/orderSummary";
+import { guardarDatosEntrega } from "@/lib/carrito";
+import { useCarrito } from "@/hooks/useCarrito";
+import "./verificacion.css";
 
 export default function VerificacionPage() {
+  const router = useRouter();
+  const items = useCarrito();
+  const [error, setError] = useState("");
+
+  function continuar(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+
+    if (items.length === 0) {
+      setError("Agrega productos al carrito antes de continuar.");
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+    const datosEntrega = {
+      direccion: formData.get("direccion"),
+      barrio: formData.get("barrio"),
+      ciudad: formData.get("ciudad"),
+      telefono: formData.get("telefono"),
+      fecha_entrega: formData.get("fecha_entrega"),
+    };
+
+    try {
+      guardarDatosEntrega(JSON.stringify(datosEntrega));
+      router.push("/checkout/pago");
+    } catch (storageError) {
+      console.error("No se pudo guardar la información de entrega", storageError);
+      setError("No fue posible guardar los datos. Inténtalo de nuevo.");
+    }
+  }
+
+  const fechaMinima = new Date().toISOString().slice(0, 10);
+
   return (
     <div className="checkout-page">
       <div className="checkout-header">
-        <Link href="/" className="checkout-logo">
-          CheeseHaus
-        </Link>
-
+        <Link href="/" className="checkout-logo">CheeseHaus</Link>
         <div className="checkout-stepper">
           <div className="checkout-step completado">
             <div className="checkout-step-numero">✓</div>
-            <span className="checkout-step-label"> Carrito </span>
+            <span className="checkout-step-label">Carrito</span>
           </div>
-
-          <div className="checkout-step-linea"></div>
-
+          <div className="checkout-step-linea" />
           <div className="checkout-step activo">
             <div className="checkout-step-numero">2</div>
-            <span className="checkout-step-label"> Verificación </span>
+            <span className="checkout-step-label">Verificación</span>
           </div>
-
-          <div className="checkout-step-linea"></div>
-
+          <div className="checkout-step-linea" />
           <div className="checkout-step inactivo">
             <div className="checkout-step-numero">3</div>
-            <span className="checkout-step-label"> Confirmación </span>
+            <span className="checkout-step-label">Confirmación</span>
           </div>
         </div>
       </div>
-
-      <div className="checkout-separador-titulo"></div>
+      <div className="checkout-separador-titulo" />
 
       <div className="checkout-container">
-        <div className="checkout-contenido">
-          <h1 className="checkout-titulo">Verificación</h1>
+        <form
+          className="checkout-contenido"
+          id="checkout-details"
+          onSubmit={continuar}
+        >
+          <h1 className="checkout-titulo">Información de entrega</h1>
+          {error && <p className="checkout-error" role="alert">{error}</p>}
 
-          <p className="checkout-seccion-titulo">Información de contacto</p>
-
-          <div className="checkout-fila">
-            <div className="checkout-campo">
-              <label>Nombre</label>
-              <input type="text" placeholder="Ingresa tu nombre" />
-            </div>
-            <div className="checkout-campo">
-              <label>Apellido</label>
-              <input type="text" placeholder="Ingresa tu apellido" />
-            </div>
-          </div>
-
-          <div className="checkout-fila">
-            <div className="checkout-campo">
-              <label>Telefono</label>
-              <input type="text" placeholder="Ingresa tu telefono" />
-            </div>
-            <div className="checkout-campo">
-              <label>Cedula</label>
-              <input type="text" placeholder="Ingresa tu cedula" />
-            </div>
-          </div>
-
-          <div className="checkout-campo">
-            <label>Correo</label>
-            <input type="email" placeholder="Ingresa tu correo electronico" />
-          </div>
-
-          <p className="checkout-seccion-titulo">Dirección de Entrega</p>
-
-          <div className="checkout-campo">
-            <label>Dirección</label>
-            <input type="text" placeholder="Ingresa tu dirección" />
-          </div>
-
-          <div className="checkout-campo">
-            <label>Barrio y/o lugar de entrega</label>
-            <input type="text" placeholder="Ej: Barrio, casa, edificio, etc." />
-          </div>
-
-          <div className="checkout-fila">
-            <div className="checkout-campo">
-              <label>Telefono para entrega</label>
-              <input type="text" placeholder="Ingresa el telefono" />
-            </div>
-
-            <div className="checkout-campo">
-              <label>Fecha de entrega</label>
-              <input type="date" />
-            </div>
-          </div>
-        </div>
-
-        <div className="checkout-resumen">
-          <div className="checkout-resumen-inner">
-            {pedido.items.map((item) => (
-              <div className="checkout-resumen-item" key={item.id}>
-                <div className="checkout-resumen-imagen">
-                  <img src={item.imagen} alt={item.nombre} />
-                </div>
-                <div className="checkout-resumen-info">
-                  <span className="checkout-resumen-nombre">{item.nombre}</span>
-                  <span className="checkout-resumen-cantidad">
-                    {item.tamaño}
-                  </span>
-                </div>
-                <span className="checkout-resumen-precio">
-                  ${item.precio.toLocaleString("es-CO")}
-                </span>
+          {items.length === 0 ? (
+            <p>
+              Tu carrito está vacío. <Link href="/productos">Ver productos</Link>
+            </p>
+          ) : (
+            <>
+              <p className="checkout-seccion-titulo">Dirección de entrega</p>
+              <div className="checkout-campo">
+                <label htmlFor="direccion">Dirección</label>
+                <input id="direccion" name="direccion" required maxLength={100} />
               </div>
-            ))}
+              <div className="checkout-fila">
+                <div className="checkout-campo">
+                  <label htmlFor="barrio">Barrio</label>
+                  <input id="barrio" name="barrio" required maxLength={100} />
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="ciudad">Ciudad</label>
+                  <input id="ciudad" name="ciudad" defaultValue="Cali" maxLength={100} />
+                </div>
+              </div>
+              <div className="checkout-fila">
+                <div className="checkout-campo">
+                  <label htmlFor="telefono">Teléfono de entrega</label>
+                  <input
+                    id="telefono"
+                    name="telefono"
+                    type="tel"
+                    required
+                    maxLength={10}
+                    pattern="[0-9]{7,10}"
+                  />
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="fecha_entrega">Fecha de entrega</label>
+                  <input
+                    id="fecha_entrega"
+                    name="fecha_entrega"
+                    type="date"
+                    min={fechaMinima}
+                    required
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </form>
 
-            <div className="checkout-resumen-fila">
-              <span>Subtotal</span>
-              <span>${pedido.subTotal.toLocaleString("es-CO")}</span>
-            </div>
-
-            <div className="checkout-resumen-fila">
-              <span>Envio</span>
-              <span>${pedido.envio.toLocaleString("es-CO")}</span>
-            </div>
-
-            <div className="checkout-resumen-separador" />
-
-            <div className="checkout-resumen-fila">
-              <span className="checkout-resumen-total">Total</span>
-              <span className="checkout-resumen-total">
-                ${pedido.total.toLocaleString("es-CO")}
-              </span>
-            </div>
-
-            <div className="checkout-resumen-acciones">
+        <aside className="checkout-resumen">
+          <OrderSummary items={items} />
+          <div className="checkout-resumen-acciones">
+            <button
+              className="boton-atras"
+              type="button"
+              onClick={() => router.back()}
+            >
+              ← Atrás
+            </button>
+            {items.length > 0 && (
               <button
-                className="boton-atras"
-                onClick={() => window.history.back()}
+                className="pagar"
+                type="submit"
+                form="checkout-details"
               >
-                ← Atras
+                Continuar
               </button>
-              <Link href="/checkout/pago" className="pagar">
-                Pagar
-              </Link>
-            </div>
+            )}
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   );

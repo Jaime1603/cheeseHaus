@@ -11,6 +11,25 @@ import "../auth.css";
 
 function OAuthCallbackError() {
   const searchParams = useSearchParams();
+  const verificationStatus = searchParams.get("verificacion");
+
+  if (verificationStatus === "exitosa") {
+    return (
+      <div className="auth-success" role="status">
+        Correo verificado. Ya puedes iniciar sesión.
+      </div>
+    );
+  }
+
+  if (verificationStatus === "fallida") {
+    return (
+      <div className="auth-error" role="alert">
+        El enlace de verificación no es válido o ya venció. Regístrate de nuevo
+        para recibir otro enlace.
+      </div>
+    );
+  }
+
   if (!searchParams.get("error")) {
     return null;
   }
