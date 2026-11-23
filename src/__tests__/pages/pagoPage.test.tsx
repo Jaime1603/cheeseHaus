@@ -46,16 +46,38 @@ function chooseCard() {
   fireEvent.click(screen.getByRole("radio", { name: "Tarjeta" }));
 }
 
-test("shows required card fields only when the card method is selected", () => {
+test("shows the card simulation by default and hides it for other payment methods", () => {
   render(<PagoPage />);
 
-  expect(screen.queryByLabelText("Nombre del titular")).not.toBeInTheDocument();
+  expect(screen.getByRole("radio", { name: "Tarjeta" })).toBeChecked();
+  expect(screen.getByLabelText("Propietario de la tarjeta")).toBeRequired();
+  expect(screen.getByLabelText("Número de la tarjeta")).toBeRequired();
+  expect(screen.getByLabelText("Fecha de expiración")).toBeRequired();
+  expect(screen.getByLabelText("CCV")).toBeRequired();
+  const simulacion = screen.getByText(/usa datos ficticios/i);
+  const numeroTarjeta = screen.getByLabelText("Número de la tarjeta");
+  expect(simulacion.compareDocumentPosition(numeroTarjeta) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+
+  for (const radio of screen.getAllByRole("radio")) {
+    expect(radio).toHaveClass("pago-metodo-radio");
+  }
+
+  for (const metodo of ["PSE", "Contra entrega"]) {
+    const radio = screen.getByRole("radio", { name: metodo });
+    const acciones = radio.closest(".pago-opcion-acciones");
+    expect(acciones?.firstElementChild).toHaveClass("pago-logos");
+    expect(acciones?.lastElementChild).toBe(radio);
+  }
+
+  fireEvent.click(screen.getByRole("radio", { name: "PSE" }));
+  expect(screen.queryByLabelText("Propietario de la tarjeta")).not.toBeInTheDocument();
+
   chooseCard();
 
-  expect(screen.getByLabelText("Nombre del titular")).toBeRequired();
-  expect(screen.getByLabelText("Número de tarjeta")).toBeRequired();
-  expect(screen.getByLabelText("Vencimiento")).toBeRequired();
-  expect(screen.getByLabelText("CVV / CVC")).toBeRequired();
+  expect(screen.getByLabelText("Propietario de la tarjeta")).toBeRequired();
+  expect(screen.getByLabelText("Número de la tarjeta")).toBeRequired();
+  expect(screen.getByLabelText("Fecha de expiración")).toBeRequired();
+  expect(screen.getByLabelText("CCV")).toBeRequired();
   expect(screen.getByText(/usa datos ficticios/i)).toBeInTheDocument();
 });
 
@@ -63,8 +85,8 @@ test("validates the card number and security code formats", () => {
   render(<PagoPage />);
   chooseCard();
 
-  const number = screen.getByLabelText("Número de tarjeta") as HTMLInputElement;
-  const securityCode = screen.getByLabelText("CVV / CVC") as HTMLInputElement;
+  const number = screen.getByLabelText("Número de la tarjeta") as HTMLInputElement;
+  const securityCode = screen.getByLabelText("CCV") as HTMLInputElement;
   fireEvent.change(number, { target: { value: "1234" } });
   fireEvent.change(securityCode, { target: { value: "12" } });
 
@@ -85,20 +107,20 @@ test("submits only the order data, never simulated card details", async () => {
 
   render(<PagoPage />);
   chooseCard();
-  fireEvent.change(screen.getByLabelText("Nombre del titular"), {
+  fireEvent.change(screen.getByLabelText("Propietario de la tarjeta"), {
     target: { value: "Usuario Ficticio" },
   });
-  fireEvent.change(screen.getByLabelText("Número de tarjeta"), {
+  fireEvent.change(screen.getByLabelText("Número de la tarjeta"), {
     target: { value: "1234567890123456" },
   });
-  fireEvent.change(screen.getByLabelText("Vencimiento"), {
-    target: { value: "2099-12" },
+  fireEvent.change(screen.getByLabelText("Fecha de expiración"), {
+    target: { value: "2099-12-30" },
   });
-  fireEvent.change(screen.getByLabelText("CVV / CVC"), {
+  fireEvent.change(screen.getByLabelText("CCV"), {
     target: { value: "123" },
   });
 
-  const form = screen.getByRole("button", { name: "Confirmar pedido" }).closest("form");
+  const form = screen.getByRole("button", { name: "Confirmar pago" }).closest("form");
   expect(form).not.toBeNull();
   fireEvent.submit(form!);
 

@@ -25,8 +25,8 @@ export default function PagoPage() {
   const items = useCarrito();
   const datosEntrega = useDatosEntrega();
   const hoy = new Date();
-  const mesActual = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}`;
-  const [metodoPago, setMetodoPago] = useState<MetodoPago>("Contra entrega");
+  const fechaActual = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`;
+  const [metodoPago, setMetodoPago] = useState<MetodoPago>("Tarjeta");
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState("");
 
@@ -125,100 +125,130 @@ export default function PagoPage() {
         <form className="pago-contenido" onSubmit={confirmarPedido}>
           <h1 className="checkout-titulo">Método de pago</h1>
           <p className="checkout-seccion-titulo">
-            Selecciona el método que usarás al recibir el pedido
+            Selecciona el método de pago
           </p>
           {error && <p className="checkout-error" role="alert">{error}</p>}
 
-          {(["Tarjeta", "PSE", "Contra entrega"] as const).map((metodo) => (
+          <section
+            className={`pago-opcion pago-opcion-tarjeta ${metodoPago === "Tarjeta" ? "activo" : ""}`}
+            aria-label="Pago con tarjeta"
+          >
+            <div className="pago-opcion-header">
+              <label className="pago-opcion-titulo" htmlFor="metodo-tarjeta">
+                Tarjeta débito o crédito
+              </label>
+              <div className="pago-logos" aria-hidden="true">
+                {logosPorMetodo.Tarjeta.map((logo) => (
+                  <img key={logo.src} src={logo.src} alt="" />
+                ))}
+              </div>
+              <input
+                id="metodo-tarjeta"
+                className="pago-metodo-radio"
+                type="radio"
+                name="metodo"
+                value="Tarjeta"
+                aria-label="Tarjeta"
+                checked={metodoPago === "Tarjeta"}
+                onChange={() => setMetodoPago("Tarjeta")}
+              />
+            </div>
+
+            {metodoPago === "Tarjeta" && (
+              <div
+                className="pago-tarjeta-campos"
+                aria-label="Datos simulados de tarjeta"
+              >
+                <p className="pago-simulacion-nota" role="note">
+                  Simulación, usa datos ficticios, no se realizará ningún cobro
+                  ni se guardarán o enviarán los datos de la tarjeta.
+                </p>
+                <div className="checkout-campo">
+                  <label htmlFor="numero-tarjeta">Número de la tarjeta</label>
+                  <input
+                    id="numero-tarjeta"
+                    name="numeroTarjeta"
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    required
+                    minLength={13}
+                    maxLength={23}
+                    pattern="[0-9]{4} ?[0-9]{4} ?[0-9]{4} ?[0-9]{1,7}"
+                    title="Ingresa entre 13 y 19 dígitos, con o sin espacios."
+                    placeholder="0000 0000 0000 0000"
+                  />
+                </div>
+                <div className="checkout-campo">
+                  <label htmlFor="titular-tarjeta">Propietario de la tarjeta</label>
+                  <input
+                    id="titular-tarjeta"
+                    name="titularTarjeta"
+                    type="text"
+                    autoComplete="off"
+                    required
+                    minLength={2}
+                    maxLength={100}
+                    placeholder="Ingrese el nombre del propietario"
+                  />
+                </div>
+                <div className="pago-fila">
+                  <div className="checkout-campo">
+                    <label htmlFor="vencimiento-tarjeta">Fecha de expiración</label>
+                    <input
+                      id="vencimiento-tarjeta"
+                      name="vencimientoTarjeta"
+                      type="date"
+                      autoComplete="off"
+                      min={fechaActual}
+                      required
+                    />
+                  </div>
+                  <div className="checkout-campo">
+                    <label htmlFor="codigo-tarjeta">CCV</label>
+                    <input
+                      id="codigo-tarjeta"
+                      name="codigoTarjeta"
+                      type="password"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      required
+                      minLength={3}
+                      maxLength={4}
+                      pattern="[0-9]{3,4}"
+                      title="Ingresa 3 o 4 dígitos."
+                      placeholder="123"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {(["PSE", "Contra entrega"] as const).map((metodo) => (
             <label
               className={`pago-opcion ${metodoPago === metodo ? "activo" : ""}`}
               key={metodo}
             >
               <span>{metodo}</span>
               <div className="pago-opcion-acciones">
+                <div className="pago-logos" aria-hidden="true">
+                  {logosPorMetodo[metodo].map((logo) => (
+                    <img key={logo.src} src={logo.src} alt={logo.alt} />
+                  ))}
+                </div>
                 <input
+                  className="pago-metodo-radio"
                   type="radio"
                   name="metodo"
                   value={metodo}
                   checked={metodoPago === metodo}
                   onChange={() => setMetodoPago(metodo)}
                 />
-                <div className="pago-logos" aria-hidden="true">
-                  {logosPorMetodo[metodo].map((logo) => (
-                    <img key={logo.src} src={logo.src} alt={logo.alt} />
-                  ))}
-                </div>
               </div>
             </label>
           ))}
-          {metodoPago === "Tarjeta" && (
-            <section className="pago-tarjeta-campos" aria-label="Datos simulados de tarjeta">
-              <h2 className="checkout-seccion-titulo">Datos de tarjeta</h2>
-              <p role="note">
-                Simulación: usa datos ficticios. No se realizará ningún cobro ni
-                se guardarán o enviarán los datos de la tarjeta.
-              </p>
-              <div className="checkout-campo">
-                <label htmlFor="titular-tarjeta">Nombre del titular</label>
-                <input
-                  id="titular-tarjeta"
-                  name="titularTarjeta"
-                  type="text"
-                  autoComplete="off"
-                  required
-                  minLength={2}
-                  maxLength={100}
-                  placeholder="Como aparece en la tarjeta"
-                />
-              </div>
-              <div className="checkout-campo">
-                <label htmlFor="numero-tarjeta">Número de tarjeta</label>
-                <input
-                  id="numero-tarjeta"
-                  name="numeroTarjeta"
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="off"
-                  required
-                  minLength={13}
-                  maxLength={19}
-                  pattern="[0-9]{13,19}"
-                  title="Ingresa entre 13 y 19 dígitos, sin espacios."
-                  placeholder="13 a 19 dígitos"
-                />
-              </div>
-              <div className="pago-fila">
-                <div className="checkout-campo">
-                  <label htmlFor="vencimiento-tarjeta">Vencimiento</label>
-                  <input
-                    id="vencimiento-tarjeta"
-                    name="vencimientoTarjeta"
-                    type="month"
-                    autoComplete="off"
-                    min={mesActual}
-                    required
-                  />
-                </div>
-                <div className="checkout-campo">
-                  <label htmlFor="codigo-tarjeta">CVV / CVC</label>
-                  <input
-                    id="codigo-tarjeta"
-                    name="codigoTarjeta"
-                    type="password"
-                    inputMode="numeric"
-                    autoComplete="off"
-                    required
-                    minLength={3}
-                    maxLength={4}
-                    pattern="[0-9]{3,4}"
-                    title="Ingresa 3 o 4 dígitos."
-                    placeholder="3 o 4 dígitos"
-                  />
-                </div>
-              </div>
-            </section>
-          )}
-          <p role="note">
+          <p className="pago-simulacion-nota" role="note">
             El pago es una simulación. El pedido se guardará con estado pendiente
             y no se realizará ningún cobro.
           </p>
@@ -236,7 +266,7 @@ export default function PagoPage() {
               type="submit"
               disabled={enviando || !datosEntrega || items.length === 0}
             >
-              {enviando ? "Guardando pedido..." : "Confirmar pedido"}
+              {enviando ? "Guardando pedido..." : "Confirmar pago"}
             </button>
           </div>
         </form>
