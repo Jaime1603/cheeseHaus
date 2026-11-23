@@ -1,4 +1,9 @@
 /** @jest-environment node */
+jest.mock("@/lib/email", () => ({
+  isEmailConfigured: jest.fn().mockReturnValue(false),
+  sendPasswordResetEmail: jest.fn(),
+}));
+
 import { POST } from "@/app/api/auth/recuperar-contrasena/route";
 
 function createRequest(email: unknown) {

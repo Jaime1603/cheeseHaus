@@ -29,6 +29,13 @@ export default function VerificacionPage() {
       ciudad: formData.get("ciudad"),
       telefono: formData.get("telefono"),
       fecha_entrega: formData.get("fecha_entrega"),
+      contacto: {
+        nombre: String(formData.get("nombre_contacto") ?? ""),
+        apellido: String(formData.get("apellido_contacto") ?? ""),
+        telefono: String(formData.get("telefono_contacto") ?? ""),
+        cedula: String(formData.get("cedula_contacto") ?? ""),
+        correo: String(formData.get("correo_contacto") ?? ""),
+      },
     };
 
     try {

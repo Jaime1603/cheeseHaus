@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 jest.mock("next/navigation", () => ({ useRouter: jest.fn() }));
 jest.mock("@/hooks/useCarrito", () => ({ useCarrito: jest.fn() }));
 
+const mockPush = jest.fn();
+
 beforeEach(() => {
   jest.clearAllMocks();
   (useRouter as jest.Mock).mockReturnValue({
-    push: jest.fn(),
+    push: mockPush,
     back: jest.fn(),
   });
   (useCarrito as jest.Mock).mockReturnValue([
@@ -71,4 +73,38 @@ test("requires valid contact and delivery details before continuing", () => {
   }
 
   expect(form.checkValidity()).toBe(true);
+});
+
+test("saves the entered contact details for the confirmation page", () => {
+  render(<VerificacionPage />);
+
+  const values: Record<string, string> = {
+    "contacto-nombre": "Juan",
+    "contacto-apellido": "Velasco",
+    "contacto-telefono": "3001234567",
+    "contacto-cedula": "1234567890",
+    "contacto-correo": "juan@example.com",
+    direccion: "Calle 1 #2-3",
+    barrio: "Centro",
+    telefono: "3001234567",
+    fecha_entrega: "2099-12-30",
+  };
+  for (const [id, value] of Object.entries(values)) {
+    fireEvent.change(document.getElementById(id) as HTMLInputElement, {
+      target: { value },
+    });
+  }
+
+  fireEvent.submit(document.getElementById("checkout-details") as HTMLFormElement);
+
+  expect(mockPush).toHaveBeenCalledWith("/checkout/pago");
+  expect(JSON.parse(sessionStorage.getItem("cheesehaus-entrega") ?? "{}")).toMatchObject({
+    contacto: {
+      nombre: "Juan",
+      apellido: "Velasco",
+      telefono: "3001234567",
+      cedula: "1234567890",
+      correo: "juan@example.com",
+    },
+  });
 });

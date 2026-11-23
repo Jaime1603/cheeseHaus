@@ -19,6 +19,10 @@ describe("Footer", () => {
     expect(screen.getByText("Politicas de privacidad")).toBeInTheDocument();
     expect(screen.getByText("Terminos y Condiciones")).toBeInTheDocument();
     expect(screen.getByText("atencion_cliente@CheeseHaus.com")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Contactanos" })).toHaveAttribute(
+      "href",
+      "/contacto",
+    );
   });
 
   test("renderiza los enlaces de redes sociales con sus imágenes correspondientes", () => {

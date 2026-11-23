@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="footer-nav">
           <Link href="#"> Productos</Link>
           <Link href="#"> Quienes Somos</Link>
-          <Link href="#"> Contactanos</Link>
+          <Link href="/contacto"> Contactanos</Link>
         </div>
 
         {/* Columna 3 */}

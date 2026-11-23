@@ -2,6 +2,10 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import {
+  ConfirmationActions,
+  ConfirmationContactCard,
+} from "@/components/checkout/confirmationCustomerInfo";
 import "./confirmacion.css";
 import "../verificacion/verificacion.css";
 
@@ -53,7 +57,7 @@ export default async function ConfirmacionPage({
       </div>
       <div className="checkout-separador-titulo" />
       <header className="confirmacion-header">
-        <h1 className="confirmacion-info-titulo">Pedido guardado</h1>
+        <h1 className="confirmacion-info-titulo">¡Gracias por tu compra!</h1>
         <p className="confirmacion-info-orden">
           Pedido #{pedido.id_pedido} ·{" "}
           {pedido.fecha_pedido.toLocaleDateString("es-CO", {
@@ -63,7 +67,7 @@ export default async function ConfirmacionPage({
             timeZone: "UTC",
           })}
         </p>
-        <p role="status">
+        <p className="confirmacion-info-estado" role="status">
           Estado:{" "}
           {pedido.estado === "Pendiente"
             ? "Pendiente por recibir"
@@ -73,6 +77,7 @@ export default async function ConfirmacionPage({
 
       <main className="confirmacion-container">
         <section className="confirmacion-info-grid">
+          <ConfirmationContactCard />
           <article className="confirmacion-tarjeta">
             <h2 className="confirmacion-tarjeta-titulo">Entrega</h2>
             <div className="confirmacion-tarjeta-info">
@@ -129,14 +134,7 @@ export default async function ConfirmacionPage({
           </section>
         </section>
       </main>
-      <div className="confirmacion-acciones">
-        <Link href="/mis-pedidos" className="boton-atras-confirmacion">
-          Ver mis pedidos
-        </Link>
-        <Link href="/productos" className="boton-continuar-comprando">
-          Continuar comprando
-        </Link>
-      </div>
+      <ConfirmationActions />
     </div>
   );
 }

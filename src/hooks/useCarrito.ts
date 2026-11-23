@@ -16,6 +16,15 @@ export interface DatosEntrega {
   ciudad: string;
   telefono: string;
   fecha_entrega: string;
+  contacto: DatosContacto | null;
+}
+
+export interface DatosContacto {
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  cedula: string;
+  correo: string;
 }
 
 export function useCarrito() {
@@ -49,12 +58,30 @@ export function useDatosEntrega() {
         typeof value.telefono === "string" &&
         typeof value.fecha_entrega === "string"
       ) {
+        const contacto = value.contacto;
+        const datosContacto =
+          isRecord(contacto) &&
+          typeof contacto.nombre === "string" &&
+          typeof contacto.apellido === "string" &&
+          typeof contacto.telefono === "string" &&
+          typeof contacto.cedula === "string" &&
+          typeof contacto.correo === "string"
+            ? {
+                nombre: contacto.nombre,
+                apellido: contacto.apellido,
+                telefono: contacto.telefono,
+                cedula: contacto.cedula,
+                correo: contacto.correo,
+              }
+            : null;
+
         return {
           direccion: value.direccion,
           barrio: value.barrio,
           ciudad: value.ciudad,
           telefono: value.telefono,
           fecha_entrega: value.fecha_entrega,
+          contacto: datosContacto,
         };
       }
 

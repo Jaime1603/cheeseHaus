@@ -4,10 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import OrderSummary from "@/components/checkout/orderSummary";
-import {
-  guardarCarrito,
-  limpiarDatosEntrega,
-} from "@/lib/carrito";
+import { guardarCarrito } from "@/lib/carrito";
 import { useCarrito, useDatosEntrega } from "@/hooks/useCarrito";
 import "../verificacion/verificacion.css";
 import "./pago.css";
@@ -48,7 +45,11 @@ export default function PagoPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...datosEntrega,
+          direccion: datosEntrega.direccion,
+          barrio: datosEntrega.barrio,
+          ciudad: datosEntrega.ciudad,
+          telefono: datosEntrega.telefono,
+          fecha_entrega: datosEntrega.fecha_entrega,
           metodoPago,
           items: items.map((item) => ({
             id_producto: item.id_producto,
@@ -87,14 +88,6 @@ export default function PagoPage() {
         guardarCarrito([]);
       } catch (storageError) {
         console.error("No se pudo vaciar el carrito después del pedido", storageError);
-      }
-      try {
-        limpiarDatosEntrega();
-      } catch (storageError) {
-        console.error(
-          "No se pudieron limpiar los datos de entrega después del pedido",
-          storageError,
-        );
       }
       router.replace(`/checkout/confirmacion?pedido=${pedidoId}`);
     } catch (requestError) {

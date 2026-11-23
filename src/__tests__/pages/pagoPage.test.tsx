@@ -26,6 +26,13 @@ const datosEntrega = {
   ciudad: "Cali",
   telefono: "3001234567",
   fecha_entrega: "2099-12-30",
+  contacto: {
+    nombre: "Juan",
+    apellido: "Velasco",
+    telefono: "3001234567",
+    cedula: "1234567890",
+    correo: "juan@example.com",
+  },
 };
 
 beforeEach(() => {
@@ -100,7 +107,11 @@ test("submits only the order data, never simulated card details", async () => {
   const body = JSON.parse(request.body);
 
   expect(body).toEqual({
-    ...datosEntrega,
+    direccion: datosEntrega.direccion,
+    barrio: datosEntrega.barrio,
+    ciudad: datosEntrega.ciudad,
+    telefono: datosEntrega.telefono,
+    fecha_entrega: datosEntrega.fecha_entrega,
     metodoPago: "Tarjeta",
     items: [{ id_producto: 9, cantidad: 1, tamaño: "8 porciones" }],
   });
