@@ -35,10 +35,12 @@ describe("RegistroPage", () => {
     expect(screen.getByRole("link", { name: "Inicia Sesión" })).toHaveAttribute("href", "/login");
   });
 
-  test("registra al usuario exitosamente y redirige a '/login'", async () => {
+  test("solicita verificación por correo sin iniciar sesión automáticamente", async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
-      json: jest.fn().mockResolvedValue({ id_cliente: 1, email: "nuevo@correo.com" }),
+      json: jest.fn().mockResolvedValue({
+        message: "Revisa tu correo para confirmar tu cuenta.",
+      }),
     } as unknown as Response);
 
     render(<RegistroPage />);
@@ -50,10 +52,11 @@ describe("RegistroPage", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Registrarme" }));
 
-    await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/login");
-      expect(mockRefresh).toHaveBeenCalled();
-    });
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "Revisa tu correo para confirmar tu cuenta.",
+    );
+    expect(mockPush).not.toHaveBeenCalled();
+    expect(mockRefresh).not.toHaveBeenCalled();
   });
 
   test("muestra mensaje de error si la API responde con fallo", async () => {

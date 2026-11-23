@@ -8,10 +8,25 @@
   border-radius: 0.8rem;
   padding: 1.2rem;
   margin-top: 1.5rem;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
   background-color: transparent;
   transition: all 0.5s ease-out;
+}
+
+.pago-opcion input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--color-brown);
+}
+
+.pago-opcion span {
+  color: var(--color-navy);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  text-transform: uppercase;
 }
 
 .pago-opcion:hover {

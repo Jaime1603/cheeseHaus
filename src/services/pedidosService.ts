@@ -1,5 +1,6 @@
 import { pedidosRepository } from "../repositories/pedidosRepository";
 import { productoRepository } from "../repositories/productosRepository";
+import { isRecord } from "@/lib/validation";
 
 type RespuestaService<T> =
   | { exito: true; datos: T }
@@ -12,6 +13,7 @@ const estados_validos = [
   "Entregado",
   "Cancelado",
 ];
+const metodosPagoValidos = ["Tarjeta", "PSE", "Contra entrega"];
 export const pedidosService = {
   async getPedidos() {
     const pedidos = await pedidosRepository.getPedidos();
@@ -117,56 +119,78 @@ export const pedidosService = {
 
   async create(body: {
     id_cliente: number;
-    direccion: string;
-    barrio: string;
-    ciudad?: string;
-    telefono: string;
-    fecha_entrega: string;
-    metodoPago: string;
-    items: {
-      id_producto: number;
-      cantidad: number;
-      tamaño: string;
-      precio_unitario: number;
-    }[];
+    direccion: unknown;
+    barrio: unknown;
+    ciudad: unknown;
+    telefono: unknown;
+    fecha_entrega: unknown;
+    metodoPago: unknown;
+    items: unknown;
   }) {
-    if (!body.id_cliente || Number.isNaN(Number(body.id_cliente))) {
+    if (!Number.isInteger(body.id_cliente) || body.id_cliente < 1) {
       return { exito: false, error: "Cliente invalido", codigo: 400 } as const;
     }
 
-    if (!body.direccion || body.direccion.trim() === "") {
+    if (typeof body.direccion !== "string" || !body.direccion.trim()) {
       return {
         exito: false,
         error: "La dirección es obligatoria",
         codigo: 400,
       } as const;
     }
+    if (body.direccion.trim().length > 100) {
+      return {
+        exito: false,
+        error: "La dirección debe tener máximo 100 caracteres",
+        codigo: 400,
+      } as const;
+    }
 
-    if (!body.barrio || body.barrio.trim() === "") {
+    if (typeof body.barrio !== "string" || !body.barrio.trim()) {
       return {
         exito: false,
         error: "El barrio es obligatorio",
         codigo: 400,
       } as const;
     }
-
-    if (!body.telefono || body.telefono.trim() === "") {
+    if (body.barrio.trim().length > 100) {
       return {
         exito: false,
-        error: "El teléfono es obligatorio",
+        error: "El barrio debe tener máximo 100 caracteres",
         codigo: 400,
       } as const;
     }
 
-    if (!body.fecha_entrega) {
+    if (
+      typeof body.telefono !== "string" ||
+      !/^\d{7,10}$/.test(body.telefono.trim())
+    ) {
       return {
         exito: false,
-        error: "La fecha de entrega es obligatoria",
+        error: "El teléfono debe tener entre 7 y 10 dígitos",
         codigo: 400,
       } as const;
     }
 
-    if (!body.items || body.items.length === 0) {
+    const fechaEntrega =
+      typeof body.fecha_entrega === "string" &&
+      /^\d{4}-\d{2}-\d{2}$/.test(body.fecha_entrega)
+        ? new Date(`${body.fecha_entrega}T12:00:00`)
+        : null;
+    if (
+      !fechaEntrega ||
+      Number.isNaN(fechaEntrega.getTime()) ||
+      fechaEntrega.toISOString().slice(0, 10) !== body.fecha_entrega ||
+      body.fecha_entrega < new Date().toISOString().slice(0, 10)
+    ) {
+      return {
+        exito: false,
+        error: "La fecha de entrega no es válida",
+        codigo: 400,
+      } as const;
+    }
+
+    if (!Array.isArray(body.items) || body.items.length === 0) {
       return {
         exito: false,
         error: "El pedido debe tener al menos un producto",
@@ -174,79 +198,94 @@ export const pedidosService = {
       } as const;
     }
 
-    if (!body.metodoPago) {
+    if (
+      typeof body.metodoPago !== "string" ||
+      !metodosPagoValidos.includes(body.metodoPago) ||
+      body.metodoPago.length > 50
+    ) {
       return {
         exito: false,
-        error: "El método de pago es obligatorio",
+        error: "El método de pago no es válido",
         codigo: 400,
       } as const;
     }
 
+    const detalles: {
+      id_producto: number;
+      cantidad: number;
+      tamaño: string | null;
+      precio_unitario: number;
+    }[] = [];
+
     for (const item of body.items) {
-      if (!Number.isInteger(item.id_producto) || item.id_producto <= 0) {
+      if (
+        !isRecord(item) ||
+        !Number.isInteger(item.id_producto) ||
+        Number(item.id_producto) <= 0 ||
+        !Number.isInteger(item.cantidad) ||
+        Number(item.cantidad) <= 0 ||
+        Number(item.cantidad) > 50 ||
+        (item.tamaño !== undefined && typeof item.tamaño !== "string")
+      ) {
         return {
           exito: false,
-          error: "ID de producto invalido",
+          error: "Los productos o sus cantidades no son válidos",
           codigo: 400,
         } as const;
       }
 
-      const producto = await productoRepository.getById(item.id_producto);
-      if (!producto) {
+      const producto = await productoRepository.getById(
+        Number(item.id_producto),
+      );
+      if (!producto || !producto.activo) {
         return {
           exito: false,
-          error: `El producto con ID ${item.id_producto} no existe`,
+          error: `El producto con ID ${String(item.id_producto)} no está disponible`,
           codigo: 404,
         } as const;
       }
+
+      const tamaño =
+        typeof item.tamaño === "string" ? item.tamaño.trim() : "";
+      const tamañosDisponibles =
+        producto.tamaño?.split(",").map((value) => value.trim()) ?? [];
+      if (tamañosDisponibles.length > 0 && !tamañosDisponibles.includes(tamaño)) {
+        return {
+          exito: false,
+          error: `Selecciona un tamaño válido para ${producto.nombre_producto}`,
+          codigo: 400,
+        } as const;
+      }
+
+      detalles.push({
+        id_producto: producto.id_producto,
+        cantidad: Number(item.cantidad),
+        tamaño: tamaño || null,
+        precio_unitario: producto.precio,
+      });
     }
 
-    const metodo = await pedidosRepository.getMetodoPago(body.metodoPago);
-
-    if (!metodo) {
-      return {
-        exito: false,
-        error: "Metodo de pago no encontrado",
-        codigo: 404,
-      } as const;
-    }
-
-    // ── Calcular totales ──
-    const subtotal = body.items.reduce(
+    const subtotal = detalles.reduce(
       (acc, item) => acc + item.precio_unitario * item.cantidad,
       0,
-      // reduce acumula el total de todos los items
     );
     const valor_envio = 5000;
-    // Costo fijo de envío
     const total = subtotal + valor_envio;
-
-    const direccion = await pedidosRepository.createDireccion({
+    const pedido = await pedidosRepository.createCheckoutOrder({
       id_cliente: body.id_cliente,
       direccion: body.direccion.trim(),
       barrio: body.barrio.trim(),
-      ciudad: body.ciudad?.trim() || "Cali",
+      ciudad:
+        typeof body.ciudad === "string" && body.ciudad.trim()
+          ? body.ciudad.trim().slice(0, 100)
+          : "Cali",
       telefono: body.telefono.trim(),
-      fecha_entrega: new Date(body.fecha_entrega),
-    });
-
-    const pedido = await pedidosRepository.create({
-      id_cliente: body.id_cliente,
-      id_direccion: direccion.id_direccion,
+      fecha_entrega: fechaEntrega,
+      metodo_pago: body.metodoPago,
       subtotal,
       valor_envio,
       total,
-      estado: "Pendiente",
-      detalles: body.items,
-    });
-
-    // ── Crear el pago asociado ──
-    await pedidosRepository.createPago({
-      id_pedido: pedido.id_pedido,
-      id_metodo_pago: metodo.id_metodo_pago,
-      estado: "Pendiente",
-      fecha_pago: new Date(),
-      referencia: `PED-${pedido.id_pedido}`,
+      detalles,
     });
 
     return { exito: true, datos: pedido } as const;

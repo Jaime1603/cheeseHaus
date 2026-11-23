@@ -56,7 +56,8 @@ Crea un archivo `.env` a partir de `.env.example` y completa los valores necesar
 cp .env.example .env
 ```
 
-Las variables incluyen la conexión a la base de datos, configuración de NextAuth, proveedores de autenticación y claves de Wompi.
+Las variables incluyen la conexión a la base de datos, configuración de NextAuth,
+proveedores de autenticación, servidor SMTP y claves de Wompi.
 
 Para habilitar el acceso social, configura `GOOGLE_CLIENT_ID`,
 `GOOGLE_CLIENT_SECRET`, `FACEBOOK_CLIENT_ID` y `FACEBOOK_CLIENT_SECRET` en `.env`.
@@ -73,9 +74,16 @@ npx prisma generate
 npx prisma migrate deploy
 ```
 
-La recuperación de contraseña informa explícitamente que el envío de correo está
-simulado hasta configurar un proveedor de correo. El formulario de contacto prepara
-el mensaje y permite completarlo mediante el WhatsApp de CheeseHaus.
+Configura `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` y `EMAIL_FROM`
+para enviar verificaciones de registro y enlaces de recuperación. Los enlaces
+expiran después de 24 horas (verificación) o 1 hora (recuperación). Sin SMTP,
+estas solicitudes muestran un error en lugar de simular un envío exitoso.
+
+Los clientes deben verificar su correo antes de iniciar sesión. La recuperación
+permite cambiar la contraseña desde un enlace de un solo uso. El checkout guarda
+los pedidos con estado pendiente asociados a la sesión iniciada; no procesa
+pagos reales. El formulario de contacto prepara el mensaje y permite completarlo
+mediante el WhatsApp de CheeseHaus.
 
 ### 4. Inicia el entorno de desarrollo
 

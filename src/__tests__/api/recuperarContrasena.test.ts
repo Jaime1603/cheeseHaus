@@ -9,12 +9,12 @@ function createRequest(email: unknown) {
   });
 }
 
-test("simula la solicitud sin revelar si el correo está registrado", async () => {
+test("informa cuando el servicio de correo no está configurado", async () => {
   const response = await POST(createRequest("no-registrado@correo.com"));
   const data = await response.json();
 
-  expect(response.status).toBe(202);
-  expect(data.message).toContain("El envío de correos aún no está configurado");
+  expect(response.status).toBe(503);
+  expect(data.error).toContain("El servicio de correo no está configurado");
 });
 
 test("rechaza un correo inválido", async () => {

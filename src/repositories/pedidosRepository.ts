@@ -118,6 +118,85 @@ export const pedidosRepository = {
     });
   },
 
+  async createCheckoutOrder(datos: {
+    id_cliente: number;
+    direccion: string;
+    barrio: string;
+    ciudad: string;
+    telefono: string;
+    fecha_entrega: Date;
+    metodo_pago: string;
+    subtotal: number;
+    valor_envio: number;
+    total: number;
+    detalles: {
+      id_producto: number;
+      cantidad: number;
+      tamaño: string | null;
+      precio_unitario: number;
+    }[];
+  }) {
+    return prisma.$transaction(async (transaction) => {
+      const direccion = await transaction.direccion.create({
+        data: {
+          id_cliente: datos.id_cliente,
+          direccion: datos.direccion,
+          barrio: datos.barrio,
+          ciudad: datos.ciudad,
+          telefono: datos.telefono,
+          fecha_entrega: datos.fecha_entrega,
+        },
+      });
+
+      const metodo = await transaction.metodoPago.findFirst({
+        where: {
+          nombre_metodo: {
+            equals: datos.metodo_pago,
+            mode: "insensitive",
+          },
+        },
+      });
+      const metodoPago =
+        metodo ??
+        (await transaction.metodoPago.create({
+          data: { nombre_metodo: datos.metodo_pago },
+        }));
+
+      const pedido = await transaction.pedido.create({
+        data: {
+          id_cliente: datos.id_cliente,
+          id_direccion: direccion.id_direccion,
+          subtotal: datos.subtotal,
+          valor_envio: datos.valor_envio,
+          total: datos.total,
+          estado: "Pendiente",
+          detalles: { create: datos.detalles },
+        },
+        include: {
+          detalles: {
+            include: {
+              producto: {
+                select: { nombre_producto: true, imagen_url: true },
+              },
+            },
+          },
+        },
+      });
+
+      await transaction.pago.create({
+        data: {
+          id_pedido: pedido.id_pedido,
+          id_metodo_pago: metodoPago.id_metodo_pago,
+          estado: "Pendiente",
+          fecha_pago: new Date(),
+          referencia: `PED-${pedido.id_pedido}`,
+        },
+      });
+
+      return pedido;
+    });
+  },
+
   async updateEstado(id: number, estado: string) {
     return await prisma.pedido.update({
       where: { id_pedido: id },

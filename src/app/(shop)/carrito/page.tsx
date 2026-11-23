@@ -4,17 +4,8 @@ import "./carrito.css";
 import ProductoCard from "@/components/productos/productoCard";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-const itemsIniciales = [
-  {
-    id: 1,
-    nombre: "Red Velvet",
-    precio: 30000,
-    cantidad: 1,
-    tamaño: "6 porciones",
-    imagen: "/redvelvet.png",
-  },
-];
+import { guardarCarrito } from "@/lib/carrito";
+import { useCarrito } from "@/hooks/useCarrito";
 
 const relacionados = [
   {
@@ -58,26 +49,37 @@ const relacionados = [
   },
 ];
 
-const visibles = 3;
 const costo_envio = 5000;
 
 export default function Carrito() {
-  const [items, setItems] = useState(itemsIniciales);
-
+  const items = useCarrito();
   const [posicion, setPosicion] = useState(0);
+  const [errorCarrito, setErrorCarrito] = useState("");
 
-  function cambiarCantidad(id: number, delta: number) {
-    setItems(
-      items.map((item) =>
-        item.id === id
-          ? { ...item, cantidad: Math.max(1, item.cantidad + delta) }
-          : item,
-      ),
+  function cambiarCantidad(id: number, tamaño: string, delta: number) {
+    const actualizados = items.map((item) =>
+      item.id_producto === id && item.tamaño === tamaño
+        ? { ...item, cantidad: Math.min(50, Math.max(1, item.cantidad + delta)) }
+        : item,
     );
+    try {
+      guardarCarrito(actualizados);
+      setErrorCarrito("");
+    } catch {
+      setErrorCarrito("No se pudo actualizar el carrito.");
+    }
   }
 
-  function eliminarItem(id: number) {
-    setItems(items.filter((item) => item.id !== id));
+  function eliminarItem(id: number, tamaño: string) {
+    const actualizados = items.filter(
+      (item) => item.id_producto !== id || item.tamaño !== tamaño,
+    );
+    try {
+      guardarCarrito(actualizados);
+      setErrorCarrito("");
+    } catch {
+      setErrorCarrito("No se pudo actualizar el carrito.");
+    }
   }
 
   const subTotal = items.reduce(
@@ -105,7 +107,7 @@ export default function Carrito() {
     };
   }, []);
 
-  const total = subTotal + costo_envio;
+  const total = subTotal + (items.length > 0 ? costo_envio : 0);
 
   const puedeRetroceder = posicion > 0;
 
@@ -136,6 +138,7 @@ export default function Carrito() {
             <span>Precio</span>
           </div>
 
+          {errorCarrito && <p role="alert">{errorCarrito}</p>}
           {items.length === 0 ? (
             // Si el carrito está vacío mostramos un mensaje
             <div className="carrito-vacio">
@@ -147,15 +150,20 @@ export default function Carrito() {
           ) : (
             // Si hay items los mostramos
             items.map((item) => (
-              <div key={item.id} className="carrito-item">
+              <div
+                key={`${item.id_producto}-${item.tamaño}`}
+                className="carrito-item"
+              >
                 {/* Imagen y nombre */}
                 <div className="carrito-item-producto">
                   <img
-                    src={item.imagen}
-                    alt={item.nombre}
+                    src={item.imagen_url}
+                    alt={item.nombre_producto}
                     className="carrito-item-imagen"
                   />
-                  <span className="carrito-item-nombre">{item.nombre}</span>
+                  <span className="carrito-item-nombre">
+                    {item.nombre_producto}
+                  </span>
                 </div>
 
                 {/* Tamaño */}
@@ -165,14 +173,18 @@ export default function Carrito() {
                 <div className="carrito-item-cantidad">
                   <button
                     className="carrito-cantidad-btn"
-                    onClick={() => cambiarCantidad(item.id, -1)}
+                    onClick={() =>
+                      cambiarCantidad(item.id_producto, item.tamaño, -1)
+                    }
                   >
                     -
                   </button>
                   <span>{item.cantidad}</span>
                   <button
                     className="carrito-cantidad-btn"
-                    onClick={() => cambiarCantidad(item.id, 1)}
+                    onClick={() =>
+                      cambiarCantidad(item.id_producto, item.tamaño, 1)
+                    }
                   >
                     +
                   </button>
@@ -186,7 +198,7 @@ export default function Carrito() {
                   </span>
                   <button
                     className="carrito-item-eliminar"
-                    onClick={() => eliminarItem(item.id)}
+                    onClick={() => eliminarItem(item.id_producto, item.tamaño)}
                   >
                     ×
                   </button>
@@ -217,12 +229,18 @@ export default function Carrito() {
             <span>$ {total.toLocaleString("es-CO")}</span>
           </div>
 
-          <Link
-            href="/checkout/verificacion"
-            className="carrito-boton-verificar"
-          >
-            Verificar
-          </Link>
+          {items.length > 0 ? (
+            <Link
+              href="/checkout/verificacion"
+              className="carrito-boton-verificar"
+            >
+              Verificar
+            </Link>
+          ) : (
+            <span className="carrito-boton-verificar" aria-disabled="true">
+              Verificar
+            </span>
+          )}
         </div>
       </div>
 

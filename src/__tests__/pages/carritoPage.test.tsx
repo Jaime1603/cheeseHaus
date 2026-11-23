@@ -4,6 +4,19 @@ import Carrito from "@/app/(shop)/carrito/page";
 describe("Carrito Page", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    localStorage.setItem(
+      "cheesehaus-carrito",
+      JSON.stringify([
+        {
+          id_producto: 1,
+          nombre_producto: "Red Velvet",
+          precio: 25000,
+          cantidad: 1,
+          tamaño: "6 porciones",
+          imagen_url: "/redvelvet.png",
+        },
+      ]),
+    );
   });
 
   test("renderiza los items iniciales del carrito y el resumen", () => {

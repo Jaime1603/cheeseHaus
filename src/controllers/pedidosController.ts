@@ -2,6 +2,7 @@ import { pedidosService } from "../services/pedidosService";
 import { auth } from "@/lib/auth";
 
 import { NextResponse } from "next/server";
+import { isRecord } from "@/lib/validation";
 
 async function verificarAdmin() {
   const session = await auth();
@@ -130,10 +131,40 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = await req.json();
+    const clienteId = Number(session.user.id);
+    if (!Number.isInteger(clienteId) || clienteId < 1) {
+      return NextResponse.json(
+        { error: "La sesión no tiene un cliente válido" },
+        { status: 401 },
+      );
+    }
+
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        { error: "El cuerpo de la solicitud no es válido" },
+        { status: 400 },
+      );
+    }
+
+    if (!isRecord(body)) {
+      return NextResponse.json(
+        { error: "El cuerpo de la solicitud no es válido" },
+        { status: 400 },
+      );
+    }
+
     const resultado = await pedidosService.create({
-      ...body,
-      id_cliente: Number.parseInt(session.user.id, 10),
+      id_cliente: clienteId,
+      direccion: body.direccion,
+      barrio: body.barrio,
+      ciudad: body.ciudad,
+      telefono: body.telefono,
+      fecha_entrega: body.fecha_entrega,
+      metodoPago: body.metodoPago,
+      items: body.items,
     });
 
     if (!resultado.exito) {
