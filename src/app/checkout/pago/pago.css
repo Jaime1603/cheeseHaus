@@ -8,10 +8,27 @@
   border-radius: 0.8rem;
   padding: 1.2rem;
   margin-top: 1.5rem;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   cursor: pointer;
   background-color: transparent;
   transition: all 0.5s ease-out;
+}
+
+.pago-opcion-acciones {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.pago-opcion > span,
+.pago-opcion-titulo {
+  color: var(--color-navy);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  text-transform: uppercase;
 }
 
 .pago-opcion:hover {
@@ -33,7 +50,21 @@
   font-size: 0.9rem;
 }
 
-.pago-opcion-header span {
+.pago-opcion-tarjeta {
+  display: block;
+  cursor: default;
+}
+
+.pago-opcion-tarjeta .pago-opcion-header {
+  gap: 1rem;
+}
+
+.pago-opcion-tarjeta .pago-opcion-titulo {
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.pago-opcion-header .pago-opcion-titulo {
   color: var(--color-navy);
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -68,7 +99,7 @@
   object-fit: contain;
 }
 
-.pago-opcion-header input[type="radio"] {
+.pago-metodo-radio {
   appearance: none;
   -webkit-appearance: none;
   width: 26px;
@@ -84,11 +115,11 @@
   flex-shrink: 0;
 }
 
-.pago-opcion-header input[type="radio"]:checked {
+.pago-metodo-radio:checked {
   border-color: var(--color-brown);
 }
 
-.pago-opcion-header input[type="radio"]::before {
+.pago-metodo-radio::before {
   content: "";
   width: 14px;
   height: 14px;
@@ -98,8 +129,13 @@
   background-color: var(--color-brown);
 }
 
-.pago-opcion-header input[type="radio"]:checked::before {
+.pago-metodo-radio:checked::before {
   transform: scale(1);
+}
+
+.pago-metodo-radio:focus-visible {
+  outline: 2px solid var(--color-brown);
+  outline-offset: 3px;
 }
 
 .pago-tarjeta-campos {
@@ -108,6 +144,14 @@
   border-top: 1px solid #c4b9a8;
   animation: despliegueSuave 0.4s ease-out forwards;
 }
+
+.pago-simulacion-nota {
+  color: var(--color-navy);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0.5rem 0 1.25rem;
+}
+
 .pago-resumen-acciones {
   display: flex;
   justify-content: space-between;
@@ -213,7 +257,7 @@
     font-size: 1.2rem;
   }
 
-  .pago-opcion-header span {
+  .pago-opcion-header .pago-opcion-titulo {
     font-size: 1rem;
     text-transform: uppercase;
   }

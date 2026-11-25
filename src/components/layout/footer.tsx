@@ -13,22 +13,22 @@ export default function Footer() {
 
         {/* Columna 2 */}
         <div className="footer-nav">
-          <Link href="#"> Productos</Link>
-          <Link href="#"> Quienes Somos</Link>
-          <Link href="#"> Contactanos</Link>
+          <Link href="/productos"> Productos</Link>
+          <Link href="/quienes-somos"> Quienes Somos</Link>
+          <Link href="/contacto"> Contactanos</Link>
         </div>
 
         {/* Columna 3 */}
         <div className="footer-legal ">
-          <Link href="#">Terminos de envio</Link>
-          <Link href="#">Politicas de privacidad</Link>
-          <Link href="#">Terminos y Condiciones</Link>
+          <Link href="/terminos-envio">Términos de envío</Link>
+          <Link href="/politicas-privacidad">Política de privacidad</Link>
+          <Link href="/terminos-condiciones">Términos y condiciones</Link>
         </div>
 
         {/* Columna 4 */}
         <div className="footer-contact">
           <span>Cali, Colombia</span>
-          <span>Lun-Sab 9am - 6pm</span>
+          <span>Lun-Vie 8am - 4pm</span>
           <span>3128076425</span>
           <span>atencion_cliente@CheeseHaus.com</span>
         </div>
@@ -47,7 +47,11 @@ export default function Footer() {
           >
             <img src="/whatsapp.svg" alt="link de whatsapp" />
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.instagram.com/cheesehaus.co/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src="/instagram.svg" alt="link de instagram" />
           </a>
           <a href="#" target="_blank" rel="noopener noreferrer">

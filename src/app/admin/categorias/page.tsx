@@ -18,7 +18,7 @@ export default function CategoriasPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    cargarCategorias();
+    void cargarCategorias();
   }, []);
 
   async function cargarCategorias() {
@@ -42,7 +42,7 @@ export default function CategoriasPage() {
     });
 
     if (res.ok) {
-      cargarCategorias();
+      void cargarCategorias();
       setNombre("");
       setDescripcion("");
     } else {
@@ -59,7 +59,7 @@ export default function CategoriasPage() {
       method: "DELETE",
     });
 
-    if (res.ok) cargarCategorias();
+    if (res.ok) void cargarCategorias();
   }
 
   async function handleEditar(id: number) {
@@ -76,7 +76,7 @@ export default function CategoriasPage() {
     });
 
     if (res.ok) {
-      cargarCategorias();
+      void cargarCategorias();
       setNombre("");
       setDescripcion("");
       setEditandoId(null);
@@ -95,15 +95,16 @@ export default function CategoriasPage() {
       <h1 className="admin-titulo"> Categorias</h1>
       <p className="admin-subtitulo"> Gestiona las categorias de productos </p>
 
-      <div className="admin-form-card">
+      <div className="admin-form-card admin-categorias-form-card">
         <h2 className="admin-form-titulo">
           {editandoId ? "Editar categoria" : "Nueva categoria"}
         </h2>
         {error && <p className="admin-error">{error}</p>}
-        <div className="admin-form-fila">
+        <div className="admin-form-fila admin-categorias-form-fila">
           <div className="admin-campo">
-            <label> Nombre </label>
+            <label htmlFor="nombre_categoria"> Nombre </label>
             <input
+              id="nombre_categoria"
               type="text"
               placeholder="ej: Tortas, cheesecake"
               value={nombre}
@@ -111,8 +112,9 @@ export default function CategoriasPage() {
             />
           </div>
           <div className="admin-campo">
-            <label> Descripcion (Opcional)</label>
+            <label htmlFor="descripcion_categoria"> Descripcion (Opcional)</label>
             <input
+              id="descripcion_categoria"
               type="text"
               placeholder="Descripcion breve"
               value={descripcion}
@@ -149,8 +151,8 @@ export default function CategoriasPage() {
         </div>
       </div>
 
-      <div className="admin-tabla-card">
-        <table className="admin-tabla">
+      <div className="admin-tabla-card admin-categorias-tabla-card">
+        <table className="admin-tabla admin-categorias-tabla">
           <thead>
             <tr>
               <th> ID </th>
@@ -162,23 +164,23 @@ export default function CategoriasPage() {
           <tbody>
             {categorias.map((categoria) => (
               <tr key={categoria.id_categoria}>
-                <td>{categoria.id_categoria}</td>
-                <td>{categoria.nombre_categoria}</td>
-                <td>{categoria.descripcion}</td>
-                <td>
+                <td data-label="ID">{categoria.id_categoria}</td>
+                <td data-label="Nombre">{categoria.nombre_categoria}</td>
+                <td data-label="Descripción">{categoria.descripcion}</td>
+                <td className="admin-tabla-acciones" data-label="Acciones">
                   <div className="admin-acciones">
-                  <button
-                    className="admin-boton-editar"
-                    onClick={() => activarEdicion(categoria)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="admin-boton-eliminar"
-                    onClick={() => handleEliminar(categoria.id_categoria)}
-                  >
-                    Eliminar
-                  </button>
+                    <button
+                      className="admin-boton-editar"
+                      onClick={() => activarEdicion(categoria)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="admin-boton-eliminar"
+                      onClick={() => handleEliminar(categoria.id_categoria)}
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 </td>
               </tr>

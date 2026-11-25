@@ -1,0 +1,97 @@
+.legal-page {
+  min-height: 60vh;
+  padding: clamp(2.5rem, 6vw, 5.5rem) 1.25rem;
+  background: var(--color-cream);
+  color: var(--color-text);
+}
+.legal-page__inner {
+  width: min(100%, 900px);
+  margin: 0 auto;
+}
+.legal-page__header {
+  max-width: 760px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+.legal-page__eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--color-brown-light);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.legal-page__header h1 {
+  margin: 0;
+  color: var(--color-brown);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+.legal-page__intro {
+  max-width: 680px;
+  margin: 1rem auto 0;
+  color: var(--color-text-light);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.legal-page__notice {
+  margin: 0 auto 2rem;
+  padding: 1rem 1.25rem;
+  border-left: 4px solid #a7602e;
+  border-radius: 0.25rem;
+  background: #f4e4d6;
+  line-height: 1.65;
+}
+.legal-page__sections {
+  display: grid;
+  gap: 1.5rem;
+}
+.legal-page__section {
+  padding: 1.5rem clamp(1rem, 3vw, 2rem);
+  border: 1px solid rgb(61 35 20 / 12%);
+  border-radius: 0.5rem;
+  background: #fffaf6;
+}
+.legal-page__section h2 {
+  margin: 0 0 0.75rem;
+  color: var(--color-brown);
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 600;
+}
+.legal-page__section p,
+.legal-page__section li,
+.legal-page__contact {
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+.legal-page__section p + p {
+  margin-top: 0.65rem;
+}
+.legal-page__section ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.35rem;
+}
+.legal-page__section li + li {
+  margin-top: 0.35rem;
+}
+.legal-page__contact {
+  margin: 2rem 0 0;
+  text-align: center;
+}
+.legal-page a {
+  color: #754123;
+  text-underline-offset: 0.18em;
+  overflow-wrap: anywhere;
+}
+.legal-page a:focus-visible {
+  outline: 3px solid #a7602e;
+  outline-offset: 3px;
+}
+@media (max-width: 480px) {
+  .legal-page__section {
+    padding: 1.2rem 1rem;
+  }
+}

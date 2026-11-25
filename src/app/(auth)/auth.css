@@ -6,6 +6,15 @@
   margin-bottom: 1rem;
 }
 
+.auth-success {
+  color: #315a35;
+  border: 1px solid #6f9a73;
+  border-radius: 5px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
 .auth-loading {
   color: #3c763d;
   border: 0.5px solid green;
@@ -70,6 +79,10 @@
   font-weight: 400;
   color: var(--color-navy);
 }
+.auth-texto{
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+}
 
 .auth-fila {
   display: flex;
@@ -81,6 +94,7 @@
   flex-direction: column;
   padding-top: 0.5rem;
   margin-bottom: 1.5rem;
+  
 }
 
 .auth-campo input {
@@ -88,7 +102,7 @@
   border: none;
   border-bottom: 1px solid #c4b9a8;
   border-radius: 5px;
-  font-size: 0.8rem;
+  font-size: 1rem;
   background-color: transparent;
   outline: none;
   transition: border-color 0.2s ease;
@@ -139,12 +153,20 @@
   border-radius: 5px;
   margin: 1rem;
   border: none;
+  text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .auth-boton-principal:hover {
   background-color: var(--color-brown-light);
+}
+
+.auth-boton-principal:disabled,
+.auth-boton-principal-registro:disabled,
+.auth-boton-redes:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .auth-boton-principal-registro {
@@ -231,7 +253,7 @@
 
   .auth-campo input {
     padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 
   .auth-fila {

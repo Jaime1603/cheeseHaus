@@ -1,154 +1,140 @@
-"use client";
-
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import {
+  ConfirmationActions,
+  ConfirmationContactCard,
+} from "@/components/checkout/confirmationCustomerInfo";
 import "./confirmacion.css";
 import "../verificacion/verificacion.css";
 
-const pedido = {
-  numeroOrden: "14526523",
-  fecha: "18 dic 2027",
-  metodoPago: "Transferencia bancaria",
-  cliente: {
-    nombre: "Jaime Gil Londono",
-    correo: "gil.jaime03@hotmail.com",
-    cedula: "1110040007",
-    telefono: "3173142915",
-  },
-  entrega: {
-    direccion: "Calle 66 #1a-50",
-    barrio: "Villa del Sol",
-    telefono: "312 807 6425",
-    fecha_entrega: "18/12/2027",
-  },
-  items: [
-    {
-      id: 1,
-      nombre: "Red Velvet",
-      precio: 30000,
-      cantidad: 1,
-      tamaño: "6x",
-      imagen: "/redvelvet.png",
-    },
-  ],
-  subTotal: 30000,
-  envio: 5000,
-  total: 35000,
-};
+const formatoMoneda = new Intl.NumberFormat("es-CO", {
+  style: "currency",
+  currency: "COP",
+  maximumFractionDigits: 0,
+});
 
-export default function ConfirmacionPage() {
+export default async function ConfirmacionPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ pedido?: string }>;
+}) {
+  const session = await auth();
+  const clienteId = Number(session?.user?.id);
+  if (!Number.isInteger(clienteId) || clienteId < 1) {
+    redirect("/login");
+  }
+
+  const { pedido: pedidoParam } = await searchParams;
+  const pedidoId = Number(pedidoParam);
+  if (!Number.isInteger(pedidoId) || pedidoId < 1) {
+    redirect("/mis-pedidos");
+  }
+
+  const pedido = await prisma.pedido.findFirst({
+    where: { id_pedido: pedidoId, id_cliente: clienteId },
+    include: {
+      direccion: true,
+      detalles: {
+        include: {
+          producto: {
+            select: { nombre_producto: true, imagen_url: true },
+          },
+        },
+      },
+      pagos: { include: { metodo_pago: true } },
+    },
+  });
+  if (!pedido) {
+    redirect("/mis-pedidos");
+  }
+
   return (
     <div className="confirmacion-page">
       <div className="checkout-header">
-        <Link href="/" className="checkout-logo">
-          CheeseHaus
-        </Link>
-
-        <div className="checkout-stepper">
-          <div className="checkout-step completado">
-            <div className="checkout-step-numero">✓</div>
-            <span className="checkout-step-label"> Carrito </span>
-          </div>
-
-          <div className="checkout-step-linea"></div>
-
-          <div className="checkout-step completado">
-            <div className="checkout-step-numero">✓</div>
-            <span className="checkout-step-label"> Verificación </span>
-          </div>
-
-          <div className="checkout-step-linea"></div>
-
-          <div className="checkout-step completado">
-            <div className="checkout-step-numero">✓</div>
-            <span className="checkout-step-label"> Confirmación </span>
-          </div>
-        </div>
+        <Link href="/" className="checkout-logo">CheeseHaus</Link>
       </div>
-
-      <div className="checkout-separador-titulo"></div>
-
-      <div className="confirmacion-header">
-        <h2 className="confirmacion-info-titulo">Pedido Confirmado</h2>
-        <div className="confirmacion-check">✓</div>
+      <div className="checkout-separador-titulo" />
+      <header className="confirmacion-header">
         <h1 className="confirmacion-info-titulo">¡Gracias por tu compra!</h1>
         <p className="confirmacion-info-orden">
-          Orden N.o {pedido.numeroOrden} • {pedido.fecha}
+          Pedido #{pedido.id_pedido} ·{" "}
+          {pedido.fecha_pedido.toLocaleDateString("es-CO", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            timeZone: "UTC",
+          })}
         </p>
-      </div>
+        <p className="confirmacion-info-estado" role="status">
+          Estado:{" "}
+          {pedido.estado === "Pendiente"
+            ? "Pendiente por recibir"
+            : pedido.estado}
+        </p>
+      </header>
 
-      <div className="confirmacion-container">
-        <div className="confirmacion-info-grid">
-          <div className="confirmacion-tarjeta">
-            <span className="confirmacion-tarjeta-titulo">Tu Informacion</span>
+      <main className="confirmacion-container">
+        <section className="confirmacion-info-grid">
+          <ConfirmationContactCard />
+          <article className="confirmacion-tarjeta">
+            <h2 className="confirmacion-tarjeta-titulo">Entrega</h2>
             <div className="confirmacion-tarjeta-info">
-              <p>{pedido.cliente.nombre}</p>
-              <p>{pedido.cliente.correo}</p>
-              <p>{pedido.cliente.cedula}</p>
-              <p>{pedido.cliente.telefono}</p>
+              <p>{pedido.direccion.direccion}</p>
+              <p>{pedido.direccion.barrio}, {pedido.direccion.ciudad}</p>
+              <p>{pedido.direccion.telefono}</p>
+              {pedido.direccion.fecha_entrega && (
+                <p>
+                  Fecha solicitada:{" "}
+                  {pedido.direccion.fecha_entrega.toLocaleDateString("es-CO", {
+                    timeZone: "UTC",
+                  })}
+                </p>
+              )}
             </div>
-          </div>
-
-          <div className="confirmacion-tarjeta">
-            <span className="confirmacion-tarjeta-titulo">Entrega</span>
-            <div className="confirmacion-tarjeta-info">
-              <p>{pedido.entrega.direccion}</p>
-              <p>{pedido.entrega.barrio}</p>
-              <p>{pedido.entrega.telefono}</p>
-              <p>{pedido.entrega.fecha_entrega}</p>
-            </div>
-          </div>
-
-          <div className="confirmacion-metodo-pago">
-            <span className="confirmacion-tarjeta-titulo">Metodo de Pago</span>
-            <p>{pedido.metodoPago}</p>
-          </div>
-
-          <div className="confirmacion-productos">
-            {pedido.items.map((item) => (
-              <div key={item.id} className="confirmacion-item">
+          </article>
+          <article className="confirmacion-metodo-pago">
+            <h2 className="confirmacion-tarjeta-titulo">Método seleccionado</h2>
+            <p>{pedido.pagos[0]?.metodo_pago.nombre_metodo ?? "No especificado"}</p>
+            <p>El pago no se procesó en línea.</p>
+          </article>
+          <section className="confirmacion-productos">
+            {pedido.detalles.map((detalle) => (
+              <div className="confirmacion-item" key={detalle.id_detalle}>
                 <img
-                  src={item.imagen}
-                  alt={item.nombre}
+                  src={detalle.producto.imagen_url}
+                  alt={detalle.producto.nombre_producto}
                   className="confirmacion-item-img"
                 />
                 <div className="confirmacion-item-info">
                   <span className="confirmacion-item-nombre">
-                    {item.nombre}
+                    {detalle.producto.nombre_producto}
                   </span>
                   <span className="confirmacion-item-detalle">
-                    {item.tamaño} x {item.cantidad}
+                    {detalle.tamaño || "Tamaño estándar"} × {detalle.cantidad}
                   </span>
                 </div>
                 <span className="confirmacion-item-precio">
-                  ${item.precio.toLocaleString("es-CO")}
+                  {formatoMoneda.format(
+                    detalle.precio_unitario * detalle.cantidad,
+                  )}
                 </span>
               </div>
             ))}
-
             <div className="confirmacion-separador" />
             <div className="confirmacion-fila-resumen">
-              <span>Envio</span>
-              <span>${pedido.envio.toLocaleString("es-CO")}</span>
+              <span>Envío</span>
+              <span>{formatoMoneda.format(pedido.valor_envio)}</span>
             </div>
-            <div className="confirmacion-separador" />
-
             <div className="confirmacion-fila-total">
               <span>Total</span>
-              <span>${pedido.total.toLocaleString("es-CO")}</span>
+              <span>{formatoMoneda.format(pedido.total)}</span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="confirmacion-acciones">
-        <Link href="/" className="boton-atras-confirmacion">
-          ← Volver al inicio
-        </Link>
-
-        <Link href="/productos" className="boton-continuar-comprando">
-          Continuar Comprando
-        </Link>
-      </div>
+          </section>
+        </section>
+      </main>
+      <ConfirmationActions />
     </div>
   );
 }

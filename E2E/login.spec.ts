@@ -9,16 +9,16 @@ import { test, expect } from "@playwright/test";
     And permanece en la página de inicio de sesión
 */
 test("HU-06: login con credenciales incorrectas muestra un error", async ({ page }) => {
-    // Given
-    await page.goto("/login");
-    await expect(page.getByRole("heading", { name: "Iniciar Sesión" })).toBeVisible();
+  // Given
+  await page.goto("/login");
+  await expect(page.getByRole("heading", { name: "Iniciar Sesión" })).toBeVisible();
 
-    // When
-    await page.getByPlaceholder("Email").fill("nadie@correo.com");
-    await page.getByPlaceholder("Password").fill("clave-incorrecta");
-    await page.getByRole("button", { name: "Iniciar Sesión" }).click();
+  // When
+  await page.getByPlaceholder("Email").fill("nadie@correo.com");
+  await page.getByPlaceholder("Password").fill("clave-incorrecta");
+  await page.getByRole("button", { name: "Iniciar Sesión" }).click();
 
-    // Then
-    await expect(page.getByText("Email o contraseña incorrecta")).toBeVisible();
-    await expect(page).toHaveURL(/\/login/);
+  // Then
+  await expect(page.getByText("Email o contraseña incorrecta")).toBeVisible();
+  await expect(page).toHaveURL(/\/login/);
 });

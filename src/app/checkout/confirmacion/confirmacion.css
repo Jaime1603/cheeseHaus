@@ -27,6 +27,10 @@
   opacity: 0.85;
 }
 
+.confirmacion-info-estado {
+  color: var(--color-cream);
+}
+
 .confirmacion-check {
   width: 90px;
   height: 90px;
@@ -242,7 +246,7 @@
 /* Tablets en vertical */
 @media (max-width: 768px) {
   .confirmacion-info-grid {
-    grid-template-columns: 1/1fr;
+    grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 

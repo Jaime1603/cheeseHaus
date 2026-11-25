@@ -3,8 +3,8 @@ import { prisma } from "@/lib/prisma";
 
 
 export function findCredentialByEmail(email: string) {
-  return prisma.credencial.findUnique({
-    where: { email },
+  return prisma.credencial.findFirst({
+    where: { email: { equals: email, mode: "insensitive" } },
     include: {
       cliente: {
         select: {

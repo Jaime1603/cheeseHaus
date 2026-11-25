@@ -23,7 +23,8 @@ export default function PedidosAdminPage() {
       .then((data) => {
         setPedidos(data);
         setCargando(false);
-      });
+      })
+      .catch((error) => console.error("Error al cargar pedidos", error));
   }, []);
 
   function colorEstado(estado: string) {
@@ -51,8 +52,8 @@ export default function PedidosAdminPage() {
        {cargando ? (
         <p className="admin-cargando">Cargando Pedidos...</p>
       ) : (     
-      <div className="admin-tabla-card">
-        <table className="admin-tabla">
+      <div className="admin-tabla-card admin-pedidos-tabla-card">
+        <table className="admin-tabla admin-pedidos-tabla">
           <thead>
             <tr>
               <th> N. Orden </th>
@@ -65,15 +66,17 @@ export default function PedidosAdminPage() {
           <tbody>
             {pedidos.map((pedido) => (
               <tr key={pedido.id_pedido}>
-                <td>#{pedido.id_pedido}</td>
-                <td>
+                <td data-label="N. Orden">#{pedido.id_pedido}</td>
+                <td data-label="Cliente">
                   {pedido.cliente.nombre} {pedido.cliente.apellido}
                 </td>
-                <td>
+                <td data-label="Fecha">
                   {new Date(pedido.fecha_pedido).toLocaleDateString("es-CO")}
                 </td>
-                <td>$ {pedido.total.toLocaleString("es-CO")}</td>
-                <td>
+                <td data-label="Total">
+                  $ {pedido.total.toLocaleString("es-CO")}
+                </td>
+                <td data-label="Estado">
                   <span
                     className={`admin-estado ${colorEstado(pedido.estado)}`}
                   >
@@ -85,7 +88,7 @@ export default function PedidosAdminPage() {
 
             {pedidos.length === 0 && (
               <tr>
-                <td colSpan={6} className="admin-tabla-vacia">
+                <td colSpan={5} className="admin-tabla-vacia">
                   No hay pedidos creados.
                 </td>
               </tr>

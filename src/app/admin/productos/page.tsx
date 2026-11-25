@@ -19,7 +19,7 @@ export default function ProductosAdminPage() {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    cargarProductos();
+    void cargarProductos();
   }, []);
 
   async function cargarProductos() {
@@ -38,7 +38,7 @@ export default function ProductosAdminPage() {
     });
 
     if (res.ok) {
-      cargarProductos();
+      void cargarProductos();
     }
   }
 
@@ -50,7 +50,7 @@ export default function ProductosAdminPage() {
     });
 
     if (res.ok) {
-      cargarProductos();
+      void cargarProductos();
     }
   }
 
@@ -72,8 +72,8 @@ export default function ProductosAdminPage() {
       {cargando ? (
         <p className="admin-cargando">Cargando productos... </p>
       ) : (
-        <div className="admin-tabla-card">
-          <table className="admin-tabla">
+        <div className="admin-tabla-card admin-productos-tabla-card">
+          <table className="admin-tabla admin-productos-tabla">
             <thead>
               <tr>
                 <th> ID </th>
@@ -88,18 +88,22 @@ export default function ProductosAdminPage() {
             <tbody>
               {productos.map((producto) => (
                 <tr key={producto.id_producto}>
-                  <td>{producto.id_producto}</td>
-                  <td>
+                  <td data-label="ID">{producto.id_producto}</td>
+                  <td data-label="Imagen">
                     <img
                       src={producto.imagen_url}
                       alt={producto.nombre_producto}
                       className="admin-tabla-imagen"
                     />
                   </td>
-                  <td>{producto.nombre_producto}</td>
-                  <td>{producto.categoria.nombre_categoria}</td>
-                  <td>{producto.precio.toLocaleString("es-CO")}</td>
-                  <td>
+                  <td data-label="Nombre">{producto.nombre_producto}</td>
+                  <td data-label="Categoría">
+                    {producto.categoria.nombre_categoria}
+                  </td>
+                  <td data-label="Precio">
+                    {producto.precio.toLocaleString("es-CO")}
+                  </td>
+                  <td data-label="Estado">
                     <button
                       className={`admin-toggle ${producto.activo ? "activo" : "inactivo"}`}
                       onClick={() =>
@@ -109,7 +113,7 @@ export default function ProductosAdminPage() {
                       {producto.activo ? "Activo" : "Inactivo"}
                     </button>
                   </td>
-                  <td className="admin-tabla-acciones">
+                  <td className="admin-tabla-acciones" data-label="Acciones">
                     <div className="admin-acciones">
                       <Link
                         href={`/admin/productos/${producto.id_producto}`}
@@ -129,7 +133,7 @@ export default function ProductosAdminPage() {
               ))}
               {productos.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="admin-tabla-vacia">
+                  <td colSpan={7} className="admin-tabla-vacia">
                     No hay productos creados.
                   </td>
                 </tr>

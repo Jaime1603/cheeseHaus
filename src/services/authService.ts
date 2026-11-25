@@ -19,13 +19,18 @@ export async function authenticateCredentials(
     return null;
   }
 
-  const email = emailValue.trim();
+  const email = emailValue.trim().toLowerCase();
   if (!email || !passwordValue) {
     return null;
   }
 
   const credential = await findCredentialByEmail(email);
-  if (!credential || !credential.activo) {
+  if (
+    !credential ||
+    !credential.activo ||
+    !credential.email_verificado_en ||
+    !credential.password_hash
+  ) {
     return null;
   }
 

@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "CheeseHaus | Repostería Artesanal",
   description: "Repostería artesanal hecha con amor en Cali, Colombia",
+  icons: {
+    icon: "/cheeseHaus%20Logo.jpg",
+  },
 };
 
 export default function RootLayout({

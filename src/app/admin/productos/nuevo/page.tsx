@@ -28,7 +28,8 @@ export default function NuevoProductoPage() {
   useEffect(() => {
     fetch("/api/admin/categorias")
       .then((res) => res.json())
-      .then((data) => setCategorias(data));
+      .then((data) => setCategorias(data))
+      .catch((error) => console.error("Error al cargar categorías", error));
   }, []);
 
   async function handleCrear() {
@@ -54,11 +55,11 @@ export default function NuevoProductoPage() {
       body: JSON.stringify({
         nombre_producto: nombre,
         descripcion,
-        precio: parseFloat(precio),
+        precio: Number.parseFloat(precio),
         ingredientes,
         imagen_url: imagenUrl || null,
         tamaño: tamaño || null,
-        id_categoria: parseInt(categoriaId),
+        id_categoria: Number.parseInt(categoriaId, 10),
         activo,
       }),
     });
@@ -88,13 +89,14 @@ export default function NuevoProductoPage() {
         </Link>
       </div>
 
-      <div className="admin-form-card">
+      <div className="admin-form-card admin-producto-form-card">
         <h2 className="admin-form-titulo"> Crear producto </h2>
         {error && <p className="admin-error">{error}</p>}
         <div className="admin-form-fila">
           <div className="admin-campo">
-            <label> Nombre del producto </label>
+            <label htmlFor="prod-nombre"> Nombre del producto </label>
             <input
+              id="prod-nombre"
               type="text"
               placeholder="ej: Torta de chocolate"
               value={nombre}
@@ -102,8 +104,9 @@ export default function NuevoProductoPage() {
             />
           </div>
           <div className="admin-campo">
-            <label> Categoria </label>
+            <label htmlFor="prod-categoria"> Categoria </label>
             <select
+              id="prod-categoria"
               value={categoriaId}
               onChange={(e) => setCategoriaId(e.target.value)}
             >
@@ -122,8 +125,9 @@ export default function NuevoProductoPage() {
 
         <div className="admin-form-fila">
           <div className="admin-campo">
-            <label> Precio </label>
+            <label htmlFor="prod-precio"> Precio </label>
             <input
+              id="prod-precio"
               type="number"
               placeholder="Ej: 25000"
               value={precio}
@@ -131,8 +135,9 @@ export default function NuevoProductoPage() {
             />
           </div>
           <div className="admin-campo">
-            <label> Tamaño (Opcional) </label>
+            <label htmlFor="prod-tamano"> Tamaño (Opcional) </label>
             <input
+              id="prod-tamano"
               type="text"
               placeholder="ej: 12 porciones"
               value={tamaño}
@@ -142,8 +147,9 @@ export default function NuevoProductoPage() {
         </div>
 
         <div className="admin-campo">
-          <label> Descripcion </label>
+          <label htmlFor="prod-descripcion"> Descripcion </label>
           <textarea
+            id="prod-descripcion"
             placeholder="Descripcion del producto"
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
@@ -152,8 +158,9 @@ export default function NuevoProductoPage() {
         </div>
 
         <div className="admin-campo">
-          <label> Ingredientes </label>
+          <label htmlFor="prod-ingredientes"> Ingredientes </label>
           <textarea
+            id="prod-ingredientes"
             placeholder="Ej: Harina, azucar, huevos, etc"
             value={ingredientes}
             onChange={(e) => setIngredientes(e.target.value)}
@@ -162,8 +169,9 @@ export default function NuevoProductoPage() {
         </div>
 
         <div className="admin-campo">
-          <label> URL de imagen (Opcional)</label>
+          <label htmlFor="prod-imagen"> URL de imagen (Opcional)</label>
           <input
+            id="prod-imagen"
             type="text"
             placeholder="ej: https://ejemplo.com/imagen.jpg"
             value={imagenUrl}

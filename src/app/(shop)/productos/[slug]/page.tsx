@@ -5,6 +5,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ProductoCard from "@/components/productos/productoCard";
+import { guardarCarrito, leerCarrito } from "@/lib/carrito";
+import { useCarrito } from "@/hooks/useCarrito";
 import "./detalle.css";
 import Link from "next/link";
 
@@ -28,8 +30,6 @@ interface ProductoRelacionado {
   imagen_url: string;
 }
 
-const visibles = 3;
-
 export default function DetalleProducto() {
   const params = useParams();
 
@@ -47,6 +47,10 @@ export default function DetalleProducto() {
   const [cantidad, setCantidad] = useState(1);
   const [tamaño, setTamaño] = useState("");
   const [posicion, setPosicion] = useState(0);
+  const [mensajeCarrito, setMensajeCarrito] = useState("");
+  const { agregarItem } = useCarrito();
+
+  const [agregado, setAgregado] = useState(false);
 
   const [visibles, setVisibles] = useState(0);
 
@@ -83,14 +87,14 @@ export default function DetalleProducto() {
             // Excluimos el producto actual de los relacionados
           ),
         );
-      } catch (error) {
+      } catch {
         setError("Error al cargar el producto");
       } finally {
         setCargando(false);
       }
     }
 
-    cargarProducto();
+    void cargarProducto();
   }, [id]);
   // El array [id] significa que este efecto se ejecuta
   // cada vez que el id de la URL cambie
@@ -124,6 +128,47 @@ export default function DetalleProducto() {
     if (puedeRetroceder) setPosicion(posicion - 1);
   }
 
+  function agregarAlCarrito() {
+    if (!producto) {
+      return;
+    }
+
+    try {
+      const carrito = leerCarrito();
+      const existente = carrito.find(
+        (item) =>
+          item.id_producto === producto.id_producto && item.tamaño === tamaño,
+      );
+
+      if (existente) {
+        guardarCarrito(
+          carrito.map((item) =>
+            item.id_producto === existente.id_producto &&
+            item.tamaño === existente.tamaño
+              ? { ...item, cantidad: item.cantidad + cantidad }
+              : item,
+          ),
+        );
+      } else {
+        guardarCarrito([
+          ...carrito,
+          {
+            id_producto: producto.id_producto,
+            nombre_producto: producto.nombre_producto,
+            precio: producto.precio,
+            cantidad,
+            tamaño,
+            imagen_url: producto.imagen_url,
+          },
+        ]);
+      }
+
+      setMensajeCarrito("Producto agregado al carrito.");
+    } catch {
+      setMensajeCarrito("No se pudo guardar el producto en el carrito.");
+    }
+  }
+
   if (cargando) {
     return (
       <div className="detalle-page">
@@ -143,6 +188,25 @@ export default function DetalleProducto() {
         </div>
       </div>
     );
+  }
+
+  function handleAgregar() {
+    if (!producto) return;
+
+    agregarItem({
+      id_producto: producto.id_producto,
+      nombre_producto: producto.nombre_producto,
+      precio: producto.precio,
+      imagen_url:
+        producto.imagen_url ||
+        "https://images.unsplash.com/photo-1586788680434-30d324b2d46f?w=400",
+      tamaño,
+      cantidad,
+    });
+
+    setAgregado(true);
+    setTimeout(() => setAgregado(false), 2000);
+    // Mostramos "Añadido" y a los 2 segundos volvemos al texto normal.
   }
 
   // ── Renderizado del producto ──
@@ -213,14 +277,17 @@ export default function DetalleProducto() {
               <span className="detalle-cantidad-valor">{cantidad}</span>
               <button
                 className="detalle-cantidad-btn"
-                onClick={() => setCantidad(cantidad + 1)}
+                onClick={() => setCantidad(Math.min(50, cantidad + 1))}
               >
                 +
               </button>
             </div>
           </div>
 
-          <button className="detalle-boton-carrito">Añadir al Carrito</button>
+          <button className="detalle-boton-carrito" onClick={handleAgregar}>
+            {agregado ? "✓ Añadido al carrito" : "Añadir al carrito"}
+          </button>
+          {mensajeCarrito && <p role="status">{mensajeCarrito}</p>}
         </div>
       </div>
 
@@ -252,6 +319,8 @@ export default function DetalleProducto() {
         <h2 className="detalle-relacionados-titulo">
           ¡También podría interesarte!
         </h2>
+
+        <div className="detalle-relacionados-separador" />
 
         <div className="detalle-carrusel">
           {/* Flecha izquierda */}

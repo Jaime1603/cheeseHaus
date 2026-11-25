@@ -5,6 +5,17 @@ type RespuestaService<T> =
   | { exito: true; datos: T }
   | { exito: false; error: string; codigo: number };
 
+export type ProductoConCategoria = Prisma.ProductoGetPayload<{
+  include: {
+    categoria: {
+      select: {
+        id_categoria: true;
+        nombre_categoria: true;
+      };
+    };
+  };
+}>;
+
 export const productoService = {
   async getAllProductos() {
     const productos = await productoRepository.getAllProductos();
@@ -12,14 +23,14 @@ export const productoService = {
   },
 
   // activos para el catalogo publico
-  async getActivos(): Promise<RespuestaService<any>> {
+  async getActivos(): Promise<RespuestaService<ProductoConCategoria[]>> {
     const productos = await productoRepository.getActivos();
     return { exito: true, datos: productos } as const;
   },
 
   // Produtos por categoria
   async getByCategory(id_categoria: number) {
-    if (isNaN(id_categoria)) {
+    if (Number.isNaN(id_categoria)) {
       return {
         exito: false,
         error: "ID de categoria invalido",
@@ -41,7 +52,7 @@ export const productoService = {
 
   //Obtener producto por ID
   async getById(id: number) {
-    if (isNaN(id)) {
+    if (Number.isNaN(id)) {
       return {
         exito: false,
         error: "ID de producto invalido",
@@ -104,7 +115,7 @@ export const productoService = {
       } as const;
     }
 
-    if (!body.precio || isNaN(body.precio) || body.precio <= 0) {
+    if (!body.precio || Number.isNaN(Number(body.precio)) || body.precio <= 0) {
       return {
         exito: false,
         error: "El precio es obligatorio y debe ser un numero mayor a 0",
@@ -120,7 +131,7 @@ export const productoService = {
       } as const;
     }
 
-    if (!body.id_categoria || isNaN(body.id_categoria)) {
+    if (!body.id_categoria || Number.isNaN(Number(body.id_categoria))) {
       return {
         exito: false,
         error:
@@ -187,7 +198,7 @@ export const productoService = {
       activo?: boolean;
     },
   ) {
-    if (isNaN(id)) {
+    if (Number.isNaN(id)) {
       return { exito: false, error: "ID invalido", codigo: 400 } as const;
     }
 
@@ -232,7 +243,7 @@ export const productoService = {
     }
 
     if (body.precio !== undefined) {
-      if (body.precio <= 0 || isNaN(body.precio)) {
+      if (body.precio <= 0 || Number.isNaN(Number(body.precio))) {
         return {
           exito: false,
           error: "El precio debe ser un numero mayor a 0",
@@ -255,7 +266,7 @@ export const productoService = {
 
     if (
       body.id_categoria !== undefined &&
-      (isNaN(body.id_categoria) || body.id_categoria <= 0)
+      (Number.isNaN(Number(body.id_categoria)) || body.id_categoria <= 0)
     ) {
       return {
         exito: false,
@@ -318,7 +329,7 @@ export const productoService = {
 
   //eliminar productos
   async delete(id: number) {
-    if (isNaN(id)) {
+    if (Number.isNaN(id)) {
       return { exito: false, error: "ID invalido", codigo: 400 } as const;
     }
 

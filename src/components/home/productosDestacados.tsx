@@ -18,7 +18,10 @@ export default function ProductosDestacados() {
     fetch("/api/productos")
       .then((res) => res.json())
       .then((data) => setProductos(data.slice(0, 3)))
-      .catch(() => setProductos([]));
+      .catch((error) => {
+        console.error("Error al cargar productos destacados", error);
+        setProductos([]);
+      });
   }, []);
 
   if (productos.length === 0) return null;

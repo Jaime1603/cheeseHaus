@@ -29,7 +29,10 @@ test("Rechaza si hay campos vacios", async () => {
     expect(findCredentialByEmail).not.toHaveBeenCalled();
 });
 test("rechaza si el correo esta inactivo", async () => {
-    (findCredentialByEmail as jest.Mock).mockResolvedValue({ activo: false });
+    (findCredentialByEmail as jest.Mock).mockResolvedValue({
+        activo: false,
+        email_verificado_en: new Date(),
+    });
 
     const resultado = await authenticateCredentials("nadie@correo.com", "clave123");
 
@@ -41,9 +44,41 @@ test("Rechaza si el campo no es texto", async () => {
     expect(resultado).toBeNull();
 
 });
+test("normaliza el correo antes de consultar la cuenta", async () => {
+    (findCredentialByEmail as jest.Mock).mockResolvedValue(null);
+
+    await authenticateCredentials(" ANA@CORREO.COM ", "clave123");
+
+    expect(findCredentialByEmail).toHaveBeenCalledWith("ana@correo.com");
+});
+test("rechaza una cuenta OAuth que no tiene contraseña", async () => {
+    (findCredentialByEmail as jest.Mock).mockResolvedValue({
+        activo: true,
+        email_verificado_en: new Date(),
+        password_hash: null,
+    });
+
+    const resultado = await authenticateCredentials("ana@correo.com", "clave123");
+
+    expect(resultado).toBeNull();
+    expect(bcrypt.compare).not.toHaveBeenCalled();
+});
+test("rechaza una cuenta cuyo correo todavía no está verificado", async () => {
+    (findCredentialByEmail as jest.Mock).mockResolvedValue({
+        activo: true,
+        email_verificado_en: null,
+        password_hash: "hash-guardado",
+    });
+
+    const resultado = await authenticateCredentials("ana@correo.com", "clave123");
+
+    expect(resultado).toBeNull();
+    expect(bcrypt.compare).not.toHaveBeenCalled();
+});
 test("rechaza si la contraseña es incorrecta", async () => {
     (findCredentialByEmail as jest.Mock).mockResolvedValue({
         activo: true,
+        email_verificado_en: new Date(),
         password_hash: "hash-guardado",
     });
     (bcrypt.compare as jest.Mock).mockResolvedValue(false); // "la clave no coincide"
@@ -57,6 +92,7 @@ test("devuelve el usuario con credenciales validas", async () => {
 
         id: 7,
         activo: true,
+        email_verificado_en: new Date(),
         email: "ana@correo.com",
         password_hash: "hash-guardado",
         rol: "Cliente",
