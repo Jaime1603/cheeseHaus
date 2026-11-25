@@ -54,7 +54,11 @@ export default function Footer() {
           >
             <img src="/instagram.svg" alt="link de instagram" />
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.tiktok.com/@cheesehaus.co?_r=1&_t=ZS-9BhvOwjQtjJ"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img src="/tiktok.svg" alt="link de tiktok" />
           </a>
         </div>
