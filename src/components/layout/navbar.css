@@ -30,12 +30,12 @@
 
 .Navbar-container {
   background-color: var(--color-cream);
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem clamp(1.5rem, 2.8vw, 1rem);
+  padding: 1.5rem clamp(6rem, 2.8vw, 4rem);
 }
 
 .Navbar-logo {
@@ -51,7 +51,7 @@
 
 .navbar-links {
   display: flex;
-  gap: clamp(1rem, 3vw, 4rem);
+  gap: clamp(7rem, 4vw, 4.5rem);
   list-style: none;
 }
 
@@ -193,13 +193,6 @@
     margin-right: 0 ;
   }
 
-  .navbar-account-trigger span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-   
-  }
-
   .navbar-account-menu {
     right: -0.5rem;
   }
@@ -242,54 +235,8 @@
 
 @media (min-width: 481px) and (max-width: 768px) {
   .Navbar-container {
-    padding: 1.5rem clamp(1rem, 2vw, 4rem);
-    display: flex;
-    align-items: center;
-  }
-  .Navbar-logo {
-    flex: 1;
-    font-size: 1.2rem;
-  }
-  .navbar-links {
-    display: flex;
-    margin-right: 1.2rem;
-    list-style: none;
-  }
-  .navbar-links a {
-    font-size: 1rem;
-  }
-  .navbar-icons {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-    
-  }
-
-  .navbar-account-trigger {
-    font-size: 0.8rem;
-  }
-}
-
-/* MONITORES GRANDES */
-
-@media (min-width: 1600px) {
-  .Navbar-container {
-    max-width: 1600px;
-    padding: 1.5rem clamp(1.5rem, 2.8vw, 4rem);
-  }
-}
-
-@media (max-width: 1440px) {
-  .navbar-links {
-    gap: clamp(0.75rem, 2vw, 1.5rem);
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .Navbar-container {
     position: relative;
-    gap: 0.5rem;
+    gap: 1rem;
     padding: 1rem clamp(0.5rem, 3vw, 1rem);
   }
 
@@ -316,8 +263,8 @@
     width: min(80vw, 300px);
     height: 100vh;
     flex-direction: column;
-    gap: 1.5rem;
-    padding: 6rem 2rem 2rem;
+    gap: 4rem;
+    padding: 8rem 2rem 2rem;
     background-color: var(--color-cream);
     box-shadow: 6px 0 20px rgba(0, 0, 0, 0.6);
     transform: translateX(-100%);
@@ -340,19 +287,45 @@
     flex: 0 1 auto;
     min-width: 0;
     justify-content: flex-end;
-    gap: clamp(0.5rem, 2vw, 1rem);
+    gap: clamp(2rem, 2vw, 2rem);
     margin-left: auto;
+    margin-right: clamp(1rem, 3vw, 2rem);
     transform: none;
   }
+  
 
   .navbar-account-trigger {
     max-width: min(155px, 30vw);
     font-size: 0.8rem;
   }
 
+}
+
+@media (max-width: 768px) {
+  .navbar-account,
+  .navbar-account-trigger {
+    min-width: 0;
+  }
+
   .navbar-account-trigger span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.15;
+  }
+
+  .navbar-account-trigger > svg {
+    flex-shrink: 0;
   }
 }
+
+
+/* MONITORES GRANDES */
+
+@media (max-width: 1440px) and (min-width: 1600px) {
+  .Navbar-container {
+    max-width: 1600px;
+    padding: 1.5rem clamp(2rem, 2.8vw, 1rem);
+  }
+}
+
