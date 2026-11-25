@@ -76,7 +76,9 @@ export default function RestablecerContrasenaForm({
           )}
 
           {mensaje ? (
-            <Link href="/login">Iniciar sesión</Link>
+            <Link href="/login" className="auth-boton-principal">
+              Iniciar sesión
+            </Link>
           ) : (
             <form onSubmit={handleSubmit} noValidate>
               <div className="auth-campo">
