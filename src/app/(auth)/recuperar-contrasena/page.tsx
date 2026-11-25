@@ -50,7 +50,7 @@ export default function RecuperarContrasenaPage() {
       <div className="auth-overlay">
         <div className="auth-card">
           <h1 className="auth-titulo">Recuperar contraseña</h1>
-          <p>Ingresa el correo asociado a tu cuenta.</p>
+          <p className="auth-texto">Ingresa el correo asociado a tu cuenta.</p>
 
           {error && (
             <div className="auth-error" role="alert">

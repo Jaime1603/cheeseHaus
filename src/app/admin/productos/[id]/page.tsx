@@ -100,7 +100,7 @@ export default function EditarProductoPage() {
         
       </div>
 
-      <div className="admin-form-card">
+      <div className="admin-form-card admin-producto-form-card">
         {error && <p className="admin-error"> {error}</p>}
         <div className="admin-form-fila">
           <div className="admin-campo">

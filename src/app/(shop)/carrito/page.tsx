@@ -166,6 +166,8 @@ export default function CarritoPage() {
             También podría interesarte
           </h2>
 
+          <div className="carrito-separador" />
+
           <div className="carrito-carrusel">
             <button
               className={`carrito-flecha ${!puedeRetroceder ? "desactivado" : ""}`}

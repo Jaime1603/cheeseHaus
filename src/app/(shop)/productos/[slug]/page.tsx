@@ -320,6 +320,8 @@ export default function DetalleProducto() {
           ¡También podría interesarte!
         </h2>
 
+        <div className="detalle-relacionados-separador" />
+
         <div className="detalle-carrusel">
           {/* Flecha izquierda */}
           <button

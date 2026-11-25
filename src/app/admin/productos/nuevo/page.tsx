@@ -89,7 +89,7 @@ export default function NuevoProductoPage() {
         </Link>
       </div>
 
-      <div className="admin-form-card">
+      <div className="admin-form-card admin-producto-form-card">
         <h2 className="admin-form-titulo"> Crear producto </h2>
         {error && <p className="admin-error">{error}</p>}
         <div className="admin-form-fila">

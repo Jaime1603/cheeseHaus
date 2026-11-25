@@ -42,7 +42,10 @@ export default function VerificacionPage() {
       guardarDatosEntrega(JSON.stringify(datosEntrega));
       router.push("/checkout/pago");
     } catch (storageError) {
-      console.error("No se pudo guardar la información de entrega", storageError);
+      console.error(
+        "No se pudo guardar la información de entrega",
+        storageError,
+      );
       setError("No fue posible guardar los datos. Inténtalo de nuevo.");
     }
   }
@@ -52,7 +55,9 @@ export default function VerificacionPage() {
   return (
     <div className="checkout-page">
       <div className="checkout-header">
-        <Link href="/" className="checkout-logo">CheeseHaus</Link>
+        <Link href="/" className="checkout-logo">
+          CheeseHaus
+        </Link>
         <div className="checkout-stepper">
           <div className="checkout-step completado">
             <div className="checkout-step-numero">✓</div>
@@ -79,11 +84,16 @@ export default function VerificacionPage() {
           onSubmit={continuar}
         >
           <h1 className="checkout-titulo">Información de entrega</h1>
-          {error && <p className="checkout-error" role="alert">{error}</p>}
+          {error && (
+            <p className="checkout-error" role="alert">
+              {error}
+            </p>
+          )}
 
           {items.length === 0 ? (
             <p>
-              Tu carrito está vacío. <Link href="/productos">Ver productos</Link>
+              Tu carrito está vacío.{" "}
+              <Link href="/productos">Ver productos</Link>
             </p>
           ) : (
             <>
@@ -152,7 +162,12 @@ export default function VerificacionPage() {
               <p className="checkout-seccion-titulo">Dirección de entrega</p>
               <div className="checkout-campo">
                 <label htmlFor="direccion">Dirección</label>
-                <input id="direccion" name="direccion" required maxLength={100} />
+                <input
+                  id="direccion"
+                  name="direccion"
+                  required
+                  maxLength={100}
+                />
               </div>
               <div className="checkout-fila">
                 <div className="checkout-campo">
@@ -161,7 +176,12 @@ export default function VerificacionPage() {
                 </div>
                 <div className="checkout-campo">
                   <label htmlFor="ciudad">Ciudad</label>
-                  <input id="ciudad" name="ciudad" defaultValue="Cali" maxLength={100} />
+                  <input
+                    id="ciudad"
+                    name="ciudad"
+                    defaultValue="Cali"
+                    maxLength={100}
+                  />
                 </div>
               </div>
               <div className="checkout-fila">
@@ -202,11 +222,7 @@ export default function VerificacionPage() {
               ← Atrás
             </button>
             {items.length > 0 && (
-              <button
-                className="pagar"
-                type="submit"
-                form="checkout-details"
-              >
+              <button className="pagar" type="submit" form="checkout-details">
                 Continuar
               </button>
             )}

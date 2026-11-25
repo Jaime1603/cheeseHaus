@@ -120,11 +120,15 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .admin-tabla {
   width: 100%;
+  min-width: 700px;
   border-collapse: collapse;
   /* Elimina el espacio entre celdas */
 }
@@ -308,4 +312,409 @@
 .admin-tabla .estado-cancelado {
   background-color: #f8d7da;
   color: #721c24;
+}
+
+@media (max-width: 768px) {
+  .admin-page-header {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .admin-tabla th,
+  .admin-tabla td {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .admin-acciones {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .admin-titulo {
+    font-size: 2rem;
+  }
+
+  .admin-subtitulo {
+    margin-bottom: 0;
+  }
+
+  .admin-page-header .admin-boton-principal {
+    width: 100%;
+    text-align: center;
+  }
+
+  .admin-tabla th,
+  .admin-tabla td {
+    padding: 0.65rem 0.7rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-productos-tabla-card {
+    overflow: visible;
+  }
+
+  .admin-productos-tabla {
+    display: block;
+    min-width: 0;
+  }
+
+  .admin-productos-tabla thead {
+    display: none;
+  }
+
+  .admin-productos-tabla tbody {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .admin-productos-tabla tbody tr {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "id nombre nombre"
+      "imagen categoria categoria"
+      "imagen precio estado"
+      "acciones acciones acciones";
+    align-items: center;
+    gap: 0.45rem 0.65rem;
+    padding: 0.85rem;
+    border: 1px solid #f0ebe3;
+    border-radius: 6px;
+    background-color: #ffffff;
+  }
+
+  .admin-productos-tabla tbody td {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0;
+    border-bottom: none;
+    font-size: 0.8rem;
+  }
+
+  .admin-productos-tabla tbody td::before {
+    content: attr(data-label);
+    color: var(--color-text-light);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(1) {
+    grid-area: id;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(2) {
+    grid-area: imagen;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(2)::before {
+    display: none;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(3) {
+    grid-area: nombre;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: 600;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(4) {
+    grid-area: categoria;
+    gap: 0.35rem;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(5) {
+    grid-area: precio;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: nowrap;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(6) {
+    grid-area: estado;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .admin-productos-tabla tbody td:nth-child(7) {
+    grid-area: acciones;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-top: 1px solid #f0ebe3;
+    padding-top: 0.55rem;
+  }
+
+  .admin-productos-tabla .admin-acciones {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .admin-productos-tabla .admin-tabla-vacia {
+    grid-column: 1 / -1;
+    display: block;
+    padding: 1.5rem !important;
+    text-align: center;
+  }
+
+  .admin-productos-tabla .admin-tabla-vacia::before {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-productos-tabla tbody {
+    gap: 0.6rem;
+    padding: 0.6rem;
+  }
+
+  .admin-productos-tabla tbody tr {
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    gap: 0.4rem 0.5rem;
+    padding: 0.7rem;
+  }
+
+  .admin-productos-tabla tbody td {
+    font-size: 0.76rem;
+  }
+
+  .admin-productos-tabla .admin-boton-editar,
+  .admin-productos-tabla .admin-boton-eliminar {
+    flex: 1;
+    padding: 0.45rem 0.35rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-categorias-tabla-card,
+  .admin-pedidos-tabla-card {
+    overflow: visible;
+  }
+
+  .admin-categorias-tabla,
+  .admin-pedidos-tabla {
+    display: block;
+    min-width: 0;
+  }
+
+  .admin-categorias-tabla thead,
+  .admin-pedidos-tabla thead {
+    display: none;
+  }
+
+  .admin-categorias-tabla tbody,
+  .admin-pedidos-tabla tbody {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .admin-categorias-tabla tbody tr,
+  .admin-pedidos-tabla tbody tr {
+    display: grid;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    padding: 0.85rem;
+    border: 1px solid #f0ebe3;
+    border-radius: 6px;
+    background-color: #ffffff;
+  }
+
+  .admin-categorias-tabla tbody tr {
+    grid-template-columns: 52px minmax(0, 0.8fr) minmax(0, 1.2fr);
+    grid-template-areas:
+      "id nombre descripcion"
+      "acciones acciones acciones";
+  }
+
+  .admin-pedidos-tabla tbody tr {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "orden fecha"
+      "cliente cliente"
+      "total estado";
+  }
+
+  .admin-categorias-tabla tbody td,
+  .admin-pedidos-tabla tbody td {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0;
+    border-bottom: none;
+    font-size: 0.8rem;
+  }
+
+  .admin-categorias-tabla tbody td::before,
+  .admin-pedidos-tabla tbody td::before {
+    content: attr(data-label);
+    color: var(--color-text-light);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .admin-categorias-tabla tbody td:nth-child(1) {
+    grid-area: id;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-categorias-tabla tbody td:nth-child(2) {
+    grid-area: nombre;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: 600;
+  }
+
+  .admin-categorias-tabla tbody td:nth-child(3) {
+    grid-area: descripcion;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-categorias-tabla tbody td:nth-child(4) {
+    grid-area: acciones;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-top: 1px solid #f0ebe3;
+    padding-top: 0.55rem;
+  }
+
+  .admin-categorias-tabla .admin-acciones {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .admin-pedidos-tabla tbody td:nth-child(1) {
+    grid-area: orden;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-pedidos-tabla tbody td:nth-child(2) {
+    grid-area: cliente;
+    flex-direction: column;
+    align-items: flex-start;
+    font-weight: 600;
+  }
+
+  .admin-pedidos-tabla tbody td:nth-child(3) {
+    grid-area: fecha;
+    flex-direction: column;
+    align-items: flex-end;
+    white-space: nowrap;
+  }
+
+  .admin-pedidos-tabla tbody td:nth-child(4) {
+    grid-area: total;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: nowrap;
+  }
+
+  .admin-pedidos-tabla tbody td:nth-child(5) {
+    grid-area: estado;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+  }
+
+  .admin-categorias-tabla .admin-boton-editar,
+  .admin-categorias-tabla .admin-boton-eliminar {
+    flex: 1;
+    text-align: center;
+  }
+
+  .admin-categorias-tabla .admin-tabla-vacia,
+  .admin-pedidos-tabla .admin-tabla-vacia {
+    grid-column: 1 / -1;
+    display: block;
+    padding: 1.5rem !important;
+    text-align: center;
+  }
+
+  .admin-categorias-tabla .admin-tabla-vacia::before,
+  .admin-pedidos-tabla .admin-tabla-vacia::before {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-categorias-form-fila {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-categorias-tabla tbody,
+  .admin-pedidos-tabla tbody {
+    gap: 0.6rem;
+    padding: 0.6rem;
+  }
+
+  .admin-categorias-tabla tbody tr,
+  .admin-pedidos-tabla tbody tr {
+    padding: 0.7rem;
+  }
+
+  .admin-categorias-tabla .admin-acciones {
+    gap: 0.5rem;
+  }
+
+  .admin-categorias-tabla .admin-boton-editar,
+  .admin-categorias-tabla .admin-boton-eliminar {
+    padding: 0.45rem 0.35rem;
+  }
+
+  .admin-categorias-form-card {
+    padding: 1rem;
+  }
+
+  .admin-categorias-form-card .admin-form-botones {
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .admin-categorias-form-card .admin-form-botones button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-producto-form-card {
+    padding: 1rem;
+  }
+
+  .admin-producto-form-card .admin-form-fila {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-producto-form-card .admin-campo input,
+  .admin-producto-form-card .admin-campo select,
+  .admin-producto-form-card .admin-campo textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    font-size: 1rem;
+  }
 }

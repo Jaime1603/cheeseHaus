@@ -227,7 +227,7 @@
   position: relative;
   height: 1px;
   background-color: #7e6154;
-  margin: 3rem 10rem auto;
+  margin: 0 10rem 1.5rem;
 }
 
 .carrito-relacionados-titulo {
@@ -235,7 +235,7 @@
   font-size: 2.5rem;
   font-weight: 400;
 
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
@@ -321,7 +321,7 @@
   }
 
   .carrito-separador {
-    margin: 3rem 4rem auto;
+    margin: 0 4rem 1.5rem;
   }
 }
 
@@ -353,7 +353,7 @@
     row-gap: 0.35rem;
     box-sizing: border-box;
     width: 95%;
-    margin: 0 auto;
+    margin: 0.8rem auto;
     padding: 1.5rem;
     border-radius: 15px;
     background-color: var(--color-cream);
@@ -425,7 +425,7 @@
   }
 
   .carrito-separador {
-    margin: 3rem 3rem auto;
+    margin: 0 3rem 1.5rem;
   }
 
   .carrito-relacionados {
@@ -438,7 +438,7 @@
 
   .carrito-carrusel {
     gap: 0.5rem;
-    margin-left: 0.5rem;
+    margin-left: 2rem;
   }
 
   .carrito-carrusel-ventana {

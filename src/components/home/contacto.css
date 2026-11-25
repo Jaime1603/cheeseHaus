@@ -73,13 +73,14 @@
   border: none;
   border-bottom: 1px solid #c4b9a8;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   background-color: transparent;
   outline: none;
   transition: border-color 0.2s ease;
   font-family: var(--font-display);
   resize: none;
 }
+
 
 .contacto-campo input:focus,
 .contacto-campo textarea:focus {
